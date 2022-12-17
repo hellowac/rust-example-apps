@@ -1,0 +1,14 @@
+site_name: 我的rust学习示例APPS
+theme:
+  name: material
+  language: zh
+markdown_extensions:
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences 
+nav:
+  - 'index.md'
+  - 'hello-world.md'
+  - 'hello-cargo.md'
+  - 'guessing-game.md'
