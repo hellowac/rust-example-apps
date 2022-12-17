@@ -402,6 +402,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -583,29 +598,29 @@
 <h2 id="cargo">安装cargo</h2>
 <p>官方自带的<a href="https://kaisery.github.io/trpl-zh-cn/ch01-01-installation.html#installation">安装</a>部分已经安装了Cargo</p>
 <h2 id="_1">查看版本</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$ cargo --version
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>cargo <span class="m">1</span>.66.0 <span class="o">(</span>d65d197ad <span class="m">2022</span>-11-15<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>$ cargo --version
+cargo <span class="m">1</span>.66.0 <span class="o">(</span>d65d197ad <span class="m">2022</span>-11-15<span class="o">)</span>
 </code></pre></div>
 <h2 id="cargo_1">使用cargo创建项目</h2>
 <h3 id="cargo-new">cargo new</h3>
 <p>Cargo 将代码放在 src 目录，同时项目根目录包含一个 Cargo.toml 配置文件。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$ cargo new hello-cargo
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$ <span class="nb">cd</span> hello-cargo
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>$ ls
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>Cargo.toml src
+<div class="highlight"><pre><span></span><code>$ cargo new hello-cargo
+$ <span class="nb">cd</span> hello-cargo
+$ ls
+Cargo.toml src
 </code></pre></div>
 <h4 id="cargotoml">Cargo.toml</h4>
 <p>配置文件， 如下:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 一个片段（section）标题，表明下面的语句用来配置一个包</span><span class="w"></span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">[package]</span><span class="w"></span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello-cargo&quot;</span><span class="w">  </span><span class="c1"># 项目的名称</span><span class="w"></span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span><span class="w">     </span><span class="c1"># 项目的版本</span><span class="w"></span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">edition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2021&quot;</span><span class="w">      </span><span class="c1"># Rust 版本</span><span class="w"></span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html</span><span class="w"></span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># 罗列项目依赖的代码包, 代码包被称为 crates。这个项目并不需要其他的 crate</span><span class="w"></span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">[dependencies]</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="c1"># 一个片段（section）标题，表明下面的语句用来配置一个包</span><span class="w"></span>
+<span class="k">[package]</span><span class="w"></span>
+<span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello-cargo&quot;</span><span class="w">  </span><span class="c1"># 项目的名称</span><span class="w"></span>
+<span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.1.0&quot;</span><span class="w">     </span><span class="c1"># 项目的版本</span><span class="w"></span>
+<span class="n">edition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2021&quot;</span><span class="w">      </span><span class="c1"># Rust 版本</span><span class="w"></span>
+
+<span class="c1"># See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html</span><span class="w"></span>
+
+<span class="c1"># 罗列项目依赖的代码包, 代码包被称为 crates。这个项目并不需要其他的 crate</span><span class="w"></span>
+<span class="k">[dependencies]</span><span class="w"></span>
 </code></pre></div>
 <p><a href="https://toml.io/">TOML</a>格式是 Cargo 配置文件的格式。</p>
 <p><code>edition</code> 的值参考<a href="https://kaisery.github.io/trpl-zh-cn/appendix-05-editions.html">附录E</a></p>
@@ -614,44 +629,44 @@
 <p>项目根目录只存放 <code>README</code>、<code>license</code> 信息、<strong>配置文件</strong>和<strong>其他跟代码无关的文件</strong>。</p>
 <h5 id="srcmainrs">src/main.rs</h5>
 <p>Cargo 为生成的一个 “Hello, world!” 程序</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Hello, world!&quot;</span><span class="p">);</span><span class="w"></span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Hello, world!&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="cargo_2">构建并运行 Cargo 项目</h2>
 <p>通过 Cargo 构建和运行 “Hello, world!” 程序</p>
 <h3 id="cargo-build">cargo build</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 在hello-cargo目录执行</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$ cargo build
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>   Compiling hello_cargo v0.1.0 <span class="o">(</span>file:///projects/hello_cargo<span class="o">)</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">2</span>.85 secs
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>$ ls
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>Cargo.lock Cargo.toml src        target  <span class="c1"># 会创建一个可执行文件 target/debug/hello-cargo, 而不是放在目前目录下。</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># 由于默认的构建方法是调试构建（debug build），Cargo 会将可执行文件放在名为 debug 的目录中。 运行可执行文件:</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>$ ./target/debug/hello-cargo 
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>Hello, world!
+<div class="highlight"><pre><span></span><code><span class="c1"># 在hello-cargo目录执行</span>
+$ cargo build
+   Compiling hello_cargo v0.1.0 <span class="o">(</span>file:///projects/hello_cargo<span class="o">)</span>
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">2</span>.85 secs
+$ ls
+Cargo.lock Cargo.toml src        target  <span class="c1"># 会创建一个可执行文件 target/debug/hello-cargo, 而不是放在目前目录下。</span>
+<span class="c1"># 由于默认的构建方法是调试构建（debug build），Cargo 会将可执行文件放在名为 debug 的目录中。 运行可执行文件:</span>
+$ ./target/debug/hello-cargo 
+Hello, world!
 </code></pre></div>
 <p>首次运行 <code>cargo build</code> 时，也会使 Cargo 在项目根目录创建一个新文件：<code>Cargo.lock</code>。这个文件记录项目依赖的实际版本。这个项目并没有依赖，所以其内容比较少。自己永远也不需要碰这个文件，让 Cargo 处理它就行了。</p>
 <h3 id="cargo-run">cargo run</h3>
 <p>可以使用 cargo run 在一个命令中同时编译并运行生成的可执行文件：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$ cargo run
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.00s
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>     Running <span class="sb">`</span>target/debug/hello-cargo<span class="sb">`</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Hello, world!
+<div class="highlight"><pre><span></span><code>$ cargo run
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.00s
+     Running <span class="sb">`</span>target/debug/hello-cargo<span class="sb">`</span>
+Hello, world!
 </code></pre></div>
 <p>Cargo 发现文件并没有被改变，所以它并没有重新编译，而是直接运行了可执行文件。</p>
 <p>如果修改了源文件的话，Cargo 会在运行之前重新构建项目，并会出现像这样的输出：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$ cargo run
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>   Compiling hello-cargo v0.1.0 <span class="o">(</span>file:///projects/hello_cargo<span class="o">)</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.33 secs
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>     Running <span class="sb">`</span>target/debug/hello_cargo<span class="sb">`</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>Hello, world!
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling hello-cargo v0.1.0 <span class="o">(</span>file:///projects/hello_cargo<span class="o">)</span>
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.33 secs
+     Running <span class="sb">`</span>target/debug/hello_cargo<span class="sb">`</span>
+Hello, world!
 </code></pre></div>
 <h3 id="cargo-check">cargo check</h3>
 <p>该命令快速检查代码确保其可以编译，但并不产生可执行文件:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$ cargo check
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>   Checking hello_cargo v0.1.0 <span class="o">(</span>file:///projects/hello_cargo<span class="o">)</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.32 secs
+<div class="highlight"><pre><span></span><code>$ cargo check
+   Checking hello_cargo v0.1.0 <span class="o">(</span>file:///projects/hello_cargo<span class="o">)</span>
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.32 secs
 </code></pre></div>
 <blockquote>
 <p><strong>为什么你会不需要可执行文件呢？</strong></p>
@@ -676,9 +691,9 @@
 一旦程序壮大到由多个文件组成，亦或者是需要其他的依赖，让 Cargo 协调构建过程就会简单得多。</p>
 <p>即便 hello_cargo 项目十分简单，它现在也使用了很多在你之后的 Rust 生涯将会用到的实用工具。
 其实，要在任何已存在的项目上工作时，可以使用如下命令通过 Git 检出代码，移动到该项目目录并构建：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git clone example.org/someproject
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span> someproject
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>cargo build
+<div class="highlight"><pre><span></span><code>git clone example.org/someproject
+<span class="nb">cd</span> someproject
+cargo build
 </code></pre></div>
 <p>关于更多 Cargo 的信息，请查阅<a href="https://doc.rust-lang.org/cargo/">其文档</a>。</p>
 
