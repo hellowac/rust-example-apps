@@ -3,12 +3,13 @@ theme:
   name: material
   language: zh
 markdown_extensions:
-  - pymdownx.inlinehilite
-  - pymdownx.highlight:
-      anchor_linenums: true
+  - pymdownx.inlinehilite   # 单行高亮, 参考: https://squidfunk.github.io/mkdocs-material/reference/code-blocks/#highlighting-specific-lines
+  - pymdownx.critic         # 支持部分字段格式化，参考：https://squidfunk.github.io/mkdocs-material/reference/formatting/
+  - pymdownx.highlight      # 支持代码块高亮显示
   - pymdownx.superfences 
 nav:
   - 'index.md'
   - 'hello-world.md'
   - 'hello-cargo.md'
   - 'guessing-game.md'
+  - 'common-programing-concepts.md'
