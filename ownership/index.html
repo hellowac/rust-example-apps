@@ -1,0 +1,1057 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>所有权 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              所有权
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          所有权
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        所有权
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    简介
+  </a>
+  
+    <nav class="md-nav" aria-label="简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    所有权规则
+  </a>
+  
+    <nav class="md-nav" aria-label="所有权规则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    变量作用域
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#string" class="md-nav__link">
+    String 类型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    内存与分配
+  </a>
+  
+    <nav class="md-nav" aria-label="内存与分配">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    数据交互：移动
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    数据交互：克隆
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    拷贝
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    所有权与函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    返回值与作用域
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    引用与借用
+  </a>
+  
+    <nav class="md-nav" aria-label="引用与借用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    可变引用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dangling-references" class="md-nav__link">
+    悬垂引用（Dangling References）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    引用的规则
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slice" class="md-nav__link">
+    Slice类型
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    简介
+  </a>
+  
+    <nav class="md-nav" aria-label="简介">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    所有权规则
+  </a>
+  
+    <nav class="md-nav" aria-label="所有权规则">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    变量作用域
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#string" class="md-nav__link">
+    String 类型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    内存与分配
+  </a>
+  
+    <nav class="md-nav" aria-label="内存与分配">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    数据交互：移动
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    数据交互：克隆
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    拷贝
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    所有权与函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    返回值与作用域
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    引用与借用
+  </a>
+  
+    <nav class="md-nav" aria-label="引用与借用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    可变引用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dangling-references" class="md-nav__link">
+    悬垂引用（Dangling References）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    引用的规则
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#slice" class="md-nav__link">
+    Slice类型
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">所有权</h1>
+<p>Rust 的核心功能（之一）是 所有权（ownership）。</p>
+<p>所有程序都必须管理其运行时使用计算机内存的方式。</p>
+<p>一些语言中具有垃圾回收机制，在程序运行时有规律地寻找不再使用的内存；</p>
+<p>在另一些语言中，程序员必须亲自分配和释放内存。</p>
+<p>Rust 则选择了第三种方式：<ins class="critic">通过所有权系统管理内存，编译器在编译时会根据一系列的规则进行检查。如果违反了任何这些规则，程序都不能编译。在运行时，所有权系统的任何功能都不会减慢程序。</ins></p>
+<h2 id="_2">简介</h2>
+<blockquote>
+<p><strong>栈（Stack）与堆（Heap）</strong></p>
+<p>在很多语言中，你并不需要经常考虑到栈与堆。不过在像 Rust 这样的系统编程语言中，值是位于栈上还是堆上在更大程度上影响了语言的行为以及为何必须做出这样的抉择。</p>
+<p>栈和堆都是代码在运行时可供使用的内存，但是它们的结构不同。<strong>栈以放入值的顺序存储值并以相反顺序取出值</strong>。这也被称作 <ins class="critic">后进先出</ins>（last in, first out）。想象一下一叠盘子：当增加更多盘子时，把它们放在盘子堆的顶部，当需要盘子时，也从顶部拿走。不能从中间也不能从底部增加或拿走盘子！增加数据叫做 <ins class="critic">进栈</ins>（pushing onto the stack），而移出数据叫做 <ins class="critic">出栈</ins>（popping off the stack）。<strong>栈中的所有数据都必须占用已知且固定的大小</strong>。<em>在编译时大小未知或大小可能变化的数据，要改为存储在堆上</em>。 堆是缺乏组织的：当向堆放入数据时，你要请求一定大小的空间。<ins class="critic">内存分配器</ins>（memory allocator）在堆的某处找到一块足够大的空位，把它标记为已使用，并返回一个表示该位置地址的 <ins class="critic">指针</ins>（pointer）。这个过程称作 <ins class="critic">在堆上分配内存</ins>（allocating on the heap），有时简称为 “<strong>分配</strong>”（allocating）。（将数据推入栈中并不被认为是分配）。因为指向放入堆中数据的指针是已知的并且大小是固定的，你可以将该指针存储在栈上，不过当需要实际数据时，必须访问指针。想象一下去餐馆就座吃饭。当进入时，你说明有几个人，餐馆员工会找到一个够大的空桌子并领你们过去。如果有人来迟了，他们也可以通过询问来找到你们坐在哪。</p>
+<p><ins class="critic">入栈比在堆上分配内存要快</ins>，因为（入栈时）分配器无需为存储新数据去搜索内存空间；其位置总是在栈顶。相比之下，<em>在堆上分配内存则需要更多的工作，这是因为分配器必须首先找到一块足够存放数据的内存空间，并接着做一些记录为下一次分配做准备。</em></p>
+<p><ins class="critic">访问堆上的数据比访问栈上的数据慢，因为必须通过指针来访问</ins>。现代处理器在内存中跳转越少就越快（缓存）。继续类比，假设有一个服务员在餐厅里处理多个桌子的点菜。在一个桌子报完所有菜后再移动到下一个桌子是最有效率的。从桌子 A 听一个菜，接着桌子 B 听一个菜，然后再桌子 A，然后再桌子 B 这样的流程会更加缓慢。出于同样原因，处理器在处理的数据彼此较近的时候（比如在栈上）比较远的时候（比如可能在堆上）能更好的工作。</p>
+<p><ins class="critic">当你的代码调用一个函数时，传递给函数的值（包括可能指向堆上数据的指针）和函数的局部变量被压入栈中。当函数结束时，这些值被移出栈。</ins></p>
+<p><ins class="critic">跟踪哪部分代码正在使用堆上的哪些数据，最大限度的减少堆上的重复数据的数量，以及清理堆上不再使用的数据确保不会耗尽空间，这些问题正是所有权系统要处理的</ins>。一旦理解了所有权，你就不需要经常考虑栈和堆了，不过明白了所有权的主要目的就是为了管理堆数据，能够帮助解释为什么所有权要以这种方式工作。</p>
+</blockquote>
+<h3 id="_3">所有权规则</h3>
+<p>首先，让我们看一下所有权的规则.</p>
+<ins class="critic block">
+<ol>
+<li>Rust 中的每一个值都有一个 <strong>所有者</strong>（owner）。</li>
+<li>值在任一时刻有且只有一个所有者。</li>
+<li>当所有者（变量）离开作用域，这个值将被丢弃。</li>
+</ol>
+</ins>
+<h4 id="_4">变量作用域</h4>
+<p>作用域是一个项（item）在程序中有效的范围。假设有这样一个变量：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w">                      </span><span class="c1">// s 在这里无效, 它尚未声明</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="p">;</span><span class="w">   </span><span class="c1">// 从此处起，s 是有效的</span>
+
+<span class="w">    </span><span class="c1">// 使用 s</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;s is {s}&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w">                      </span><span class="c1">// 此作用域已结束，s 不再有效</span>
+</code></pre></div>
+<p>两个重要的时间点：</p>
+<blockquote>
+<ul>
+<li>当 s <strong>进入作用域</strong> 时，它就是有效的。</li>
+<li>这一直持续到它 <strong>离开作用域</strong> 为止。</li>
+</ul>
+</blockquote>
+<h4 id="string">String 类型</h4>
+<p>已经见过字符串字面值，即被硬编码进程序里的字符串值。字符串字面值是很方便的，不过它们并不适合使用文本的每一种场景。原因之一就是<ins class="critic">它们是不可变的</ins>。另一个原因是<ins class="critic">并非所有字符串的值都能在编写代码时就知道</ins>：例如，要是想获取用户输入并存储该怎么办呢？为此，Rust 有第二个字符串类型，String。这个类型管理被分配到堆上的数据，所以能够存储在编译时未知大小的文本。可以使用 <code>from</code> 函数基于字符串字面值来创建 <code>String</code>，如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// 两个冒号 :: 是运算符，允许将特定的 from 函数置于 String 类型的命名空间（namespace）下，而不需要使用类似 string_from 这样的名字。</span>
+</code></pre></div>
+<p><strong>可以</strong> 修改此类字符串 ：</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">s</span><span class="p">.</span><span class="n">push_str</span><span class="p">(</span><span class="s">&quot;, world!&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// push_str() 在字符串后追加字面值</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="c1">// 将打印 `hello, world!`</span>
+
+<span class="c1">// 那么这里有什么区别呢？</span>
+<span class="c1">// 为什么 String 可变而字面值却不行呢？</span>
+<span class="c1">// 区别在于两个类型对内存的处理上。</span>
+</code></pre></div>
+<h4 id="_5">内存与分配</h4>
+<p>就字符串字面值来说，我们在编译时就知道其内容，所以文本被直接硬编码进最终的可执行文件中。这使得字符串字面值快速且高效。
+不过这些特性都只得益于字符串字面值的不可变性。
+不幸的是，我们不能为了每一个在编译时大小未知的文本而将一块内存放入二进制文件中，并且它的大小还可能随着程序运行而改变。</p>
+<p>对于 String 类型，为了支持一个可变，可增长的文本片段，<strong>需要在堆上分配一块在编译时未知大小的内存来存放内容</strong>。这意味着：</p>
+<ul>
+<li>必须在运行时向内存分配器（memory allocator）请求内存。</li>
+<li>需要一个当我们处理完 String 时将内存返回给分配器的方法。</li>
+</ul>
+<p>第一部分由我们完成：当调用 <strong>String::from</strong> 时，它的实现 (implementation) 请求其所需的内存。这在编程语言中是非常通用的。</p>
+<p>然而，第二部分实现起来就各有区别了。在有 <ins class="critic">垃圾回收</ins>（garbage collector，<strong>GC</strong>）的语言中， <strong>GC</strong> 记录并清除不再使用的内存，而我们并不需要关心它。在大部分没有 <strong>GC</strong> 的语言中，识别出不再使用的内存并调用代码显式释放就是我们的责任了，跟请求内存的时候一样。从历史的角度上说正确处理内存回收曾经是一个困难的编程问题。如果忘记回收了会浪费内存。如果过早回收了，将会出现无效变量。如果重复回收，这也是个 bug。我们需要<ins class="critic">精确的为一个 allocate 配对一个 free</ins>。</p>
+<p>Rust 采取了一个不同的策略：<mark class="critic">内存在拥有它的变量离开作用域后就被自动释放</mark>。下面是作用域例子的一个使用 <strong>String</strong> 而不是字符串字面值的版本：</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// 从此处起，s 是有效的</span>
+
+<span class="w">    </span><span class="c1">// 使用 s</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;s is {s}&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w">                               </span><span class="c1">// 此作用域已结束，</span>
+<span class="w">                                </span><span class="c1">// s 不再有效</span>
+</code></pre></div>
+<p>当变量离开作用域，Rust 为我们调用一个特殊的函数。这个函数叫做 <a href="https://doc.rust-lang.org/std/ops/trait.Drop.html#tymethod.drop">drop</a>，Rust 在结尾的 <code>}</code> 处自动调用 <code>drop</code>。</p>
+<h5 id="_6">数据交互：移动</h5>
+<p>多个变量可以采取不同的方式与同一数据进行交互。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">  </span><span class="c1">// 将变量 x 的整数值赋给 y</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<blockquote>
+<p>“将 5 绑定到 x；接着生成一个值 x 的拷贝并绑定到 y”。</p>
+<p>现在有了两个变量，x 和 y，都等于 5。这也正是事实上发生了的，因为整数是有<strong>已知固定大小</strong>的简单值，所以这<strong>两个 5 被放入了栈中</strong>。</p>
+</blockquote>
+<p><strong>String</strong> 版本：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 当我们将 s1 赋值给 s2，String 的数据被复制了，这意味着我们从栈上拷贝了它的指针、长度和容量。</span>
+<span class="w">    </span><span class="c1">// Rust并没有复制指针指向的堆上数据。</span>
+
+<span class="w">    </span><span class="c1">// 如果 Rust 也拷贝了堆上的数据，那么操作 s2 = s1 在堆上数据比较大的时候会对运行时性能造成非常大的影响。</span>
+</code></pre></div>
+<p>过当变量离开作用域后，Rust 自动调用 drop 函数并清理变量的堆内存。不过两个数据指针指向了同一位置。
+这就有了一个问题：当 s2 和 s1 离开作用域，他们都会尝试释放相同的内存。
+这是一个叫做 <ins class="critic">二次释放</ins>（double free）的错误，也是之前提到过的内存安全性 bug 之一。<strong>两次释放</strong>（相同）内存会导致内存污染，它可能会导致潜在的安全漏洞。</p>
+<p><ins class="critic">为了确保内存安全，在 <code>let s2 = s1</code> 之后，Rust 认为 s1 不再有效，因此 Rust 不需要在 s1 离开作用域后清理任何东西。</ins></p>
+<p>在 s2 被创建之后尝试使用 s1 会发生什么；这段代码不能运行：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">;</span><span class="w"></span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}, world!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// 会得到一个错误: value borrowed here after move</span>
+<span class="c1">// 因为 Rust 禁止使用无效的引用。</span>
+</code></pre></div>
+<p>如果在其他语言中听说过术语 <strong>浅拷贝</strong>（shallow copy）和 <strong>深拷贝</strong>（deep copy），那么拷贝指针、长度和容量而不拷贝数据可能听起来像浅拷贝。不过因为 Rust 同时使第一个变量无效了，这个操作被称为 <ins class="critic">移动</ins>（move），而不是浅拷贝。上面的例子可以解读为 s1 被 <ins class="critic">移动</ins> 到了 s2 中。</p>
+<p>这样就解决了二次释放的问题！因为只有 s2 是有效的，当其离开作用域，它就释放了自己的内存。</p>
+<blockquote>
+<p>这里还隐含了一个设计选择：<strong>Rust 永远也不会自动创建数据的 “深拷贝”</strong>。因此，任何 <ins class="critic">自动</ins> 的复制可以被认为对运行时性能影响较小。</p>
+</blockquote>
+<h5 id="_7">数据交互：克隆</h5>
+<p>如果 <strong>确实</strong> 需要深度复制 String 中堆上的数据，而不仅仅是栈上的数据，可以使用一个叫做 clone 的通用函数。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span><span class="w"></span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;s1 = {}, s2 = {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>这段代码能正常运行，这里堆上的数据 <strong>确实</strong> 被复制了。</p>
+<p>当出现 <code>clone</code> 调用时，你知道一些特定的代码被执行而且这些代码可能相当消耗资源。</p>
+<h5 id="_8">拷贝</h5>
+<p>这里还有一个没有提到的小窍门。这些代码使用了整型并且是有效的!</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;x = {}, y = {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>但这段代码似乎与刚刚学到的内容相矛盾：没有调用 clone，不过 x 依然有效且没有被移动到 y 中。</p>
+<p>原因是像整型这样的在编译时已知大小的类型被整个存储在栈上，所以拷贝其实际的值是快速的。这意味着没有理由在创建变量 y 后使 x 无效。换句话说，<strong>这里没有深浅拷贝的区别</strong>，所以这里调用 <code>clone</code> 并不会与通常的浅拷贝有什么不同，我们可以不用管它。</p>
+<p>Rust 有一个叫做 <code>Copy trait</code> 的特殊注解，可以用在类似整型这样的存储在栈上的类型上（<a href="https://kaisery.github.io/trpl-zh-cn/ch10-00-generics.html">第十章</a>将会详细讲解 trait）。如果一个类型实现了 <code>Copy trait</code>，那么一个旧的变量在将其赋值给其他变量后仍然可用。</p>
+<p><ins class="critic">Rust 不允许自身或其任何部分实现了 Drop trait 的类型使用 Copy trait</ins>。如果我们对其值离开作用域时需要特殊处理的类型使用 Copy 注解，将会出现一个编译时错误。要学习如何为你的类型添加 Copy 注解以实现该 trait，请阅读<a href="https://kaisery.github.io/trpl-zh-cn/appendix-03-derivable-traits.html">附录 C 中的 “可派生的 trait”</a>。</p>
+<p>那么哪些类型实现了 <code>Copy</code> trait 呢？可以查看给定类型的文档来确认，不过作为一个通用的规则，任何一组简单标量值的组合都可以实现 Copy，任何不需要分配内存或某种形式资源的类型都可以实现 <code>Copy</code> 。如下是一些 <code>Copy</code> 的类型：</p>
+<ul>
+<li>所有整数类型，比如 u32。</li>
+<li>布尔类型，bool，它的值是 true 和 false。</li>
+<li>所有浮点数类型，比如 f64。</li>
+<li>字符类型，char。</li>
+<li>元组，当且仅当其包含的类型也都实现 Copy 的时候。比如，(i32, i32) 实现了 Copy，但 (i32, String) 就没有。</li>
+</ul>
+<h3 id="_9">所有权与函数</h3>
+<p><strong>将值传递给函数与给变量赋值的原理相似。向函数传递值可能会移动或者复制，就像赋值语句一样。</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// s 进入作用域</span>
+
+<span class="w">    </span><span class="n">takes_ownership</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w">             </span><span class="c1">// s 的值移动到函数里 ...</span>
+<span class="w">                                    </span><span class="c1">// ... 所以到这里不再有效</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w">                      </span><span class="c1">// x 进入作用域</span>
+
+<span class="w">    </span><span class="n">makes_copy</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">                  </span><span class="c1">// x 应该移动函数里，</span>
+<span class="w">                                    </span><span class="c1">// 但 i32 是 Copy 的，</span>
+<span class="w">                                    </span><span class="c1">// 所以在后面可继续使用 x</span>
+
+<span class="p">}</span><span class="w"> </span><span class="c1">// 这里, x 先移出了作用域，然后是 s。但因为 s 的值已被移走，</span>
+<span class="w">  </span><span class="c1">// 没有特殊之处</span>
+
+<span class="k">fn</span> <span class="nf">takes_ownership</span><span class="p">(</span><span class="n">some_string</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// some_string 进入作用域</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">some_string</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// 这里，some_string 移出作用域并调用 `drop` 方法。</span>
+<span class="w">  </span><span class="c1">// 占用的内存被释放</span>
+
+<span class="k">fn</span> <span class="nf">makes_copy</span><span class="p">(</span><span class="n">some_integer</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// some_integer 进入作用域</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">some_integer</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// 这里，some_integer 移出作用域。没有特殊之处</span>
+</code></pre></div>
+<p>当尝试在调用 takes_ownership 后使用 s 时，Rust 会抛出一个编译时错误。这些静态检查使我们免于犯错。</p>
+<p>试试在 main 函数中添加使用 s 和 x 的代码来看看哪里能使用他们，以及所有权规则会在哪里阻止我们这么做。</p>
+<h3 id="_10">返回值与作用域</h3>
+<p>返回值也可以转移所有权。</p>
+<div class="highlight"><pre><span></span><code><span class="n">ffn</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gives_ownership</span><span class="p">();</span><span class="w"> </span><span class="c1">// gives_ownership 将返回值</span>
+<span class="w">                                </span><span class="c1">// 转移给 s1</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// s2 进入作用域</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">takes_and_gives_back</span><span class="p">(</span><span class="n">s2</span><span class="p">);</span><span class="w"> </span><span class="c1">// s2 被移动到</span>
+<span class="w">                                       </span><span class="c1">// takes_and_gives_back 中,</span>
+<span class="w">                                       </span><span class="c1">// 它也将返回值移给 s3</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// 这里, s3 移出作用域并被丢弃。s2 也移出作用域，但已被移走，</span>
+<span class="w">  </span><span class="c1">// 所以什么也不会发生。s1 离开作用域并被丢弃</span>
+
+<span class="k">fn</span> <span class="nf">gives_ownership</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// gives_ownership 会将</span>
+<span class="w">    </span><span class="c1">// 返回值移动给</span>
+<span class="w">    </span><span class="c1">// 调用它的函数</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">some_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;yours&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// some_string 进入作用域.</span>
+
+<span class="w">    </span><span class="n">some_string</span><span class="w"> </span><span class="c1">// 返回 some_string</span>
+<span class="w">                </span><span class="c1">// 并移出给调用的函数</span>
+<span class="w">                </span><span class="c1">//</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// takes_and_gives_back 将传入字符串并返回该值</span>
+<span class="k">fn</span> <span class="nf">takes_and_gives_back</span><span class="p">(</span><span class="n">a_string</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// a_string 进入作用域</span>
+<span class="w">    </span><span class="c1">//</span>
+
+<span class="w">    </span><span class="n">a_string</span><span class="w"> </span><span class="c1">// 返回 a_string 并移出给调用的函数</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>变量的所有权总是遵循相同的模式：<ins class="critic">将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有。</ins></p>
+<p>虽然这样是可以的，但是在每一个函数中都获取所有权并接着返回所有权有些啰嗦。如果我们想要函数使用一个值但不获取所有权该怎么办呢？如果我们还要接着使用它的话，每次都传进去再返回来就有点烦人了，除此之外，我们也可能想返回函数体中产生的一些数据。</p>
+<p>我们可以使用元组来返回多个值，示例：</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculate_length</span><span class="p">(</span><span class="n">s1</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The length of &#39;{}&#39; is {}.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">calculate_length</span><span class="p">(</span><span class="n">s</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="p">(</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="kt">usize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">len</span><span class="p">();</span><span class="w"> </span><span class="c1">// len() 返回字符串的长度</span>
+
+<span class="w">    </span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>但是这未免有些形式主义，而且这种场景应该很常见。幸运的是，Rust 对此提供了一个不用获取所有权就可以使用值的功能，叫做 <strong>引用</strong>（references）。</p>
+<h2 id="_11">引用与借用</h2>
+<p>以提供一个 String 值的引用（reference）。<strong>引用</strong>（reference）像一个指针，因为它是一个地址，我们可以由此访问储存于该地址的属于其他变量的数据。 与指针不同，<ins class="critic">引用确保指向某个特定类型的有效值</ins>。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 传递 &amp;s1 给 calculate_length</span>
+<span class="w">    </span><span class="c1">// 这些 &amp; 符号就是 引用，它们允许你使用值但不获取其所有权。</span>
+<span class="w">    </span><span class="c1">// &amp;s1 语法让我们创建一个 指向 值 s1 的引用，但是并不拥有它。</span>
+<span class="w">    </span><span class="c1">// 因为并不拥有这个值，所以当引用停止使用时，它所指向的值也不会被丢弃。</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculate_length</span><span class="p">(</span><span class="o">&amp;</span><span class="n">s1</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The length of &#39;{}&#39; is {}.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 函数签名使用 &amp; 来表明参数 s 的类型是一个引用。</span>
+<span class="k">fn</span> <span class="nf">calculate_length</span><span class="p">(</span><span class="n">s</span>: <span class="kp">&amp;</span><span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">usize</span> <span class="p">{</span><span class="w">  </span><span class="c1">// s是String的引用</span>
+<span class="w">    </span><span class="n">s</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w">   </span><span class="c1">// 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，</span>
+<span class="w">    </span><span class="c1">// 所以什么也不会发生 (Rust 不会调用drop)</span>
+</code></pre></div>
+<p><strong>当函数使用引用而不是实际值作为参数，无需返回值来交还所有权，因为就不曾拥有所有权。</strong></p>
+<p>将创建一个引用的行为称为 <strong>借用</strong>（borrowing）。正如现实生活中，如果一个人拥有某样东西，你可以从他那里借来。当你使用完毕，必须还回去。</p>
+<p><ins class="critic">正如变量默认是不可变的，引用也一样。（默认）不允许修改<strong>引用</strong>的值。</ins></p>
+<h3 id="_12">可变引用</h3>
+<p>允许我们修改一个借用的值，这就是 <ins class="critic">可变引用</ins>（mutable reference）</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 必须将 s 改为 mut， 声明可变</span>
+
+<span class="w">    </span><span class="n">change</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">);</span><span class="w">     </span><span class="c1">// 传入可变引用</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 声明可变引用</span>
+<span class="k">fn</span> <span class="nf">change</span><span class="p">(</span><span class="n">some_string</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">some_string</span><span class="p">.</span><span class="n">push_str</span><span class="p">(</span><span class="s">&quot;, world&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// 因为可变，所以可以更改。</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>可变引用有一个很大的限制：<ins class="critic">如果你有一个对该变量的可变引用，你就不能再创建对该变量的引用</ins>。这些尝试创建两个 s 的可变引用的代码会失败：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w">    </span><span class="c1">// 有一个了</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w">    </span><span class="c1">// 第二个将会报错。</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}, {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>报错如下:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">ownership</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/ownership)</span>
+<span class="n">error</span><span class="p">[</span><span class="n">E0499</span><span class="p">]</span>: <span class="nc">cannot</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="err">`</span><span class="n">s</span><span class="err">`</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">than</span><span class="w"> </span><span class="n">once</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">time</span><span class="w"></span>
+<span class="w"> </span><span class="o">-</span>-&gt; <span class="nc">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">5</span>:<span class="mi">14</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="mi">4</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">              </span><span class="o">------</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+<span class="mi">5</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">              </span><span class="o">^^^^^^</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+<span class="mi">6</span><span class="w"> </span><span class="o">|</span><span class="w"> </span>
+<span class="mi">7</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}, {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">                        </span><span class="o">--</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">later</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+
+<span class="n">For</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="kr">try</span><span class="w"> </span><span class="err">`</span><span class="n">rustc</span><span class="w"> </span><span class="o">--</span><span class="n">explain</span><span class="w"> </span><span class="n">E0499</span><span class="err">`</span><span class="p">.</span><span class="w"></span>
+<span class="n">error</span>: <span class="nc">could</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="err">`</span><span class="n">ownership</span><span class="err">`</span><span class="w"> </span><span class="n">due</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+</code></pre></div>
+<p>这一限制以一种非常小心谨慎的方式允许可变性，<ins class="critic">防止同一时间对同一数据存在多个可变引用</ins>。新 Rustacean 们经常难以适应这一点，因为大部分语言中变量任何时候都是可变的。这个限制的好处是 Rust 可以在编译时就避免数据竞争。<strong>数据竞争</strong>（data race）类似于竞态条件，它可由这三个行为造成：</p>
+<ul>
+<li><strong>两个或更多指针同时访问同一数据。</strong></li>
+<li><strong>至少有一个指针被用来写入数据。</strong></li>
+<li><strong>没有同步数据访问的机制。</strong></li>
+</ul>
+<p>数据竞争会导致未定义行为，难以在运行时追踪，并且难以诊断和修复；Rust 避免了这种情况的发生，因为它甚至不会编译存在数据竞争的代码！</p>
+<p>一如既往，可以使用大括号来创建一个新的作用域，以允许拥有多个可变引用，只是不能 <strong>同时</strong> 拥有：</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="c1">// r1 在这里离开了作用域，所以我们完全可以创建一个新的引用</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Rust 在同时使用可变与不可变引用时也采用的类似的规则。这些代码会导致一个错误：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// 没问题</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// 没问题</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">r3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// 大问题</span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}, {}, and {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">,</span><span class="w"> </span><span class="n">r3</span><span class="p">);</span><span class="w">  </span><span class="c1">// 使用不可变引用时，同时又使用了可变引用。</span>
+</code></pre></div>
+<p>错误如下：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">ownership</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/ownership)</span>
+<span class="n">error</span><span class="p">[</span><span class="n">E0502</span><span class="p">]</span>: <span class="nc">cannot</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="err">`</span><span class="n">s</span><span class="err">`</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">because</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="n">borrowed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">immutable</span><span class="w"></span>
+<span class="w"> </span><span class="o">-</span>-&gt; <span class="nc">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">6</span>:<span class="mi">14</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="mi">4</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// no problem</span>
+<span class="w">  </span><span class="o">|</span><span class="w">              </span><span class="o">--</span><span class="w"> </span><span class="n">immutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+<span class="mi">5</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// no problem</span>
+<span class="mi">6</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">r3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// BIG PROBLEM</span>
+<span class="w">  </span><span class="o">|</span><span class="w">              </span><span class="o">^^^^^^</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+<span class="mi">7</span><span class="w"> </span><span class="o">|</span><span class="w"> </span>
+<span class="mi">8</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}, {}, and {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">,</span><span class="w"> </span><span class="n">r3</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">                                </span><span class="o">--</span><span class="w"> </span><span class="n">immutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">later</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+
+<span class="n">For</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="kr">try</span><span class="w"> </span><span class="err">`</span><span class="n">rustc</span><span class="w"> </span><span class="o">--</span><span class="n">explain</span><span class="w"> </span><span class="n">E0502</span><span class="err">`</span><span class="p">.</span><span class="w"></span>
+<span class="n">error</span>: <span class="nc">could</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="err">`</span><span class="n">ownership</span><span class="err">`</span><span class="w"> </span><span class="n">due</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+</code></pre></div>
+<p>哇哦！我们 <ins class="critic"><strong>也</strong> 不能在拥有不可变引用的同时拥有可变引用。</ins></p>
+<p>注意<ins class="critic">一个引用的作用域从声明的地方开始一直持续到最后一次使用为止</ins>。例如，因为最后一次使用<strong>不可变引用</strong>（println!)，发生在声明可变引用之前，所以如下代码是可以编译的：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// 没问题</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">r2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// 没问题</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{} and {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r1</span><span class="p">,</span><span class="w"> </span><span class="n">r2</span><span class="p">);</span><span class="w"></span>
+<span class="c1">// 此位置之后 r1 和 r2 不再使用</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">r3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="c1">// 没问题</span>
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">r3</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>不可变引用 r1 和 r2 的作用域在 println! 最后一次使用之后结束，这也是创建可变引用 r3 的地方。它们的作用域<strong>没有重叠</strong>，所以代码是可以编译的。
+编译器在作用域结束之前判断不再使用的引用的能力被称为 <ins class="critic">非词法作用域生命周期</ins>（Non-Lexical Lifetimes，简称 NLL）。你可以在 <a href="https://doc.rust-lang.org/edition-guide/rust-2018/ownership-and-lifetimes/non-lexical-lifetimes.html">The Edition Guide</a> 中阅读更多关于它的信息。</p>
+<h3 id="dangling-references">悬垂引用（Dangling References）</h3>
+<p>所谓<strong>悬垂指针</strong>是其指向的内存可能已经被分配给其它持有者。相比之下，在 Rust 中编译器确保引用永远也不会变成悬垂状态：<ins class="critic">当你拥有一些数据的引用，编译器确保数据不会在其引用之前离开作用域。</ins></p>
+<p>当尝试创建一个悬垂引用时，Rust 会通过一个编译时错误来避免：</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">reference_to_nothing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dangle</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">dangle</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="nb">String</span> <span class="p">{</span><span class="w"> </span><span class="c1">// dangle 返回一个字符串的引用</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// s 是一个新字符串</span>
+
+<span class="w">    </span><span class="o">&amp;</span><span class="n">s</span><span class="w"> </span><span class="c1">// 返回字符串 s 的引用</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// 这里 s 离开作用域并被丢弃。其内存被释放。</span>
+<span class="w">  </span><span class="c1">// 危险！</span>
+</code></pre></div>
+<p>错误:</p>
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling ownership v0.1.0 <span class="o">(</span>file:///projects/ownership<span class="o">)</span>
+error<span class="o">[</span>E0106<span class="o">]</span>: missing lifetime specifier
+ --&gt; src/main.rs:5:16
+  <span class="p">|</span>
+<span class="m">5</span> <span class="p">|</span> fn dangle<span class="o">()</span> -&gt; <span class="p">&amp;</span>String <span class="o">{</span>
+  <span class="p">|</span>                ^ expected named lifetime parameter
+  <span class="p">|</span>
+  <span class="o">=</span> help: this <span class="k">function</span><span class="s1">&#39;s return type contains a borrowed value, but there is no value for it to be borrowed from</span>
+<span class="s1">help: consider using the `&#39;</span>static<span class="sb">`</span> lifetime
+  <span class="p">|</span>
+<span class="m">5</span> <span class="p">|</span> fn dangle<span class="o">()</span> -&gt; <span class="p">&amp;</span><span class="err">&#39;</span>static String <span class="o">{</span>
+  <span class="p">|</span>                ~~~~~~~~
+
+For more information about this error, try <span class="sb">`</span>rustc --explain E0106<span class="sb">`</span>.
+error: could not compile <span class="sb">`</span>ownership<span class="sb">`</span> due to previous error
+</code></pre></div>
+<p>因为 s 是在 dangle 函数内创建的，当 dangle 的代码执行完毕后，s 将被释放。不过我们尝试返回它的引用。这意味着这个引用会指向一个无效的 String，这可不对！Rust 不会允许这么做。</p>
+<p>这里的解决方法是直接返回 String：</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">no_dangle</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">s</span><span class="w">   </span><span class="c1">// 直接返回s</span>
+<span class="w">        </span><span class="c1">// 所有权被移动出去，所以没有值被释放。</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>概括：</p>
+<ul>
+<li><strong>在任意给定时间，要么 只能有一个可变引用，要么 只能有多个不可变引用。</strong></li>
+<li><strong>引用必须总是有效的。</strong></li>
+</ul>
+<h3 id="_13">引用的规则</h3>
+<h2 id="slice">Slice类型</h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../common-programing-concepts/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 常见编程概念" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              常见编程概念
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
