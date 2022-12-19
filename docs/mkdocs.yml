@@ -13,3 +13,5 @@ nav:
   - 'hello-cargo.md'
   - 'guessing-game.md'
   - 'common-programing-concepts.md'
+  - 'struct.md'
+  - 'enumerations.md'
