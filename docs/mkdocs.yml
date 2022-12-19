@@ -13,3 +13,4 @@ nav:
   - 'hello-cargo.md'
   - 'guessing-game.md'
   - 'common-programing-concepts.md'
+  - 'ownership.md'
