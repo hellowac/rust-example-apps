@@ -1,0 +1,1273 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>结构体 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              结构体
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          结构体
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        结构体
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    定义和实例化
+  </a>
+  
+    <nav class="md-nav" aria-label="定义和实例化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    字段初始化简写
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    从其他实例创建实例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    元组结构体
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    类单元结构体
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    示例程序
+  </a>
+  
+    <nav class="md-nav" aria-label="示例程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    元组重构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    结构体重构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait" class="md-nav__link">
+    派生Trait
+  </a>
+  
+    <nav class="md-nav" aria-label="派生Trait">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug" class="md-nav__link">
+    Debug输出结构体
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbg" class="md-nav__link">
+    dbg!宏
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    方法
+  </a>
+  
+    <nav class="md-nav" aria-label="方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    定义方法
+  </a>
+  
+    <nav class="md-nav" aria-label="定义方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    注意
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    参数方法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    关联函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impl" class="md-nav__link">
+    多个 impl 块
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumerations/" class="md-nav__link">
+        枚举
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    定义和实例化
+  </a>
+  
+    <nav class="md-nav" aria-label="定义和实例化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    字段初始化简写
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    从其他实例创建实例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    元组结构体
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    类单元结构体
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    示例程序
+  </a>
+  
+    <nav class="md-nav" aria-label="示例程序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    元组重构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    结构体重构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait" class="md-nav__link">
+    派生Trait
+  </a>
+  
+    <nav class="md-nav" aria-label="派生Trait">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#debug" class="md-nav__link">
+    Debug输出结构体
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dbg" class="md-nav__link">
+    dbg!宏
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    方法
+  </a>
+  
+    <nav class="md-nav" aria-label="方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    定义方法
+  </a>
+  
+    <nav class="md-nav" aria-label="定义方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    注意
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    参数方法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    关联函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#impl" class="md-nav__link">
+    多个 impl 块
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">结构体</h1>
+<p><strong>struct</strong>，或者 <strong>structure</strong>，是一个自定义数据类型，允许你包装和命名多个相关的值，从而形成一个有意义的组合。</p>
+<h2 id="_2">定义和实例化</h2>
+<p>和元组一样，结构体的每一部分可以是不同类型。但不同于元组，<strong>结构体需要命名各部分数据以便能清楚的表明其值的意义</strong>。由于有了这些名字，结构体比元组更灵活：<ins class="critic">不需要依赖顺序来指定或访问实例中的值</ins>。</p>
+<p>定义结构体，需要使用 <strong>struct</strong> 关键字并为整个结构体提供一个名字。结构体的名字需要描述它所组合的数据的意义。接着，在大括号中，定义每一部分数据的名字和类型，称为 <strong>字段</strong>（field）。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">active</span>: <span class="kt">bool</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">username</span>: <span class="nb">String</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">sign_in_count</span>: <span class="kt">u64</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>一旦定义了结构体后，为了使用它，通过为每个字段指定具体值来创建这个结构体的 <strong>实例</strong>。创建一个实例需要以结构体的名字开头，接着在大括号中使用 <strong>key: value</strong> 键-值对的形式提供字段，其中 <strong>key</strong> 是字段的名字，<strong>value</strong> 是需要存储在字段中的数据值。<ins class="critic">实例中字段的顺序<strong>不需要</strong>和它们在结构体中声明的顺序一致。</ins></p>
+<p>为了从结构体中获取某个特定的值，可以使用点号。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 实例化一个结构体，其中字段顺序不需要和定义时的一直。</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">user1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">email</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;someone@example.com&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">username</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;someusername123&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">active</span>: <span class="nc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">sign_in_count</span>: <span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 使用点号获取结构体中的某个特定的值</span>
+<span class="w">    </span><span class="n">user1</span><span class="p">.</span><span class="n">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;anotheremail@example.com&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">注意整个实例必须是可变的；Rust 并<strong>不允许</strong>只将某个字段标记为可变。</ins></p>
+<p>另外需要注意同其他任何表达式一样，可以在函数体的最后一个表达式中构造一个结构体的新实例，来隐式地返回这个实例。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 创建一个结构体的实例并返回，</span>
+<span class="c1">// 有点类似于其他语言中的初始化一个结构体。</span>
+<span class="k">fn</span> <span class="nf">build_user</span><span class="p">(</span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">username</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">email</span>: <span class="nc">email</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">username</span>: <span class="nc">username</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">active</span>: <span class="nc">true</span><span class="p">,</span><span class="w">       </span><span class="c1">// 默认值为true</span>
+<span class="w">        </span><span class="n">sign_in_count</span>: <span class="mi">1</span><span class="p">,</span><span class="w">   </span><span class="c1">// 默认值为1</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_3">字段初始化简写</h3>
+<p>因为示例中的参数名与字段名都完全相同，则可以使用 <strong>字段初始化简写语法</strong>（field init shorthand）来重写 <code>build_user</code>，这样其行为与之前完全相同，不过无需重复 <code>email</code> 和 <code>username</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">build_user</span><span class="p">(</span><span class="n">email</span>: <span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">username</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">email</span><span class="p">,</span><span class="w">          </span><span class="c1">// 字段初始化简写语法</span>
+<span class="w">        </span><span class="n">username</span><span class="p">,</span><span class="w">       </span><span class="c1">// 字段初始化简写语法</span>
+<span class="w">        </span><span class="n">active</span>: <span class="nc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">sign_in_count</span>: <span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_4">从其他实例创建实例</h3>
+<p>使用旧实例的大部分值但改变其部分值来创建一个新的结构体实例通常是很有用的。这可以通过 <strong>结构体更新语法</strong>（struct update syntax）实现。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">user2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">active</span>: <span class="nc">user1</span><span class="p">.</span><span class="n">active</span><span class="p">,</span><span class="w">       </span><span class="c1">// 从另一个结构体的字段值来初始化</span>
+<span class="w">        </span><span class="n">username</span>: <span class="nc">user1</span><span class="p">.</span><span class="n">username</span><span class="p">,</span><span class="w">   </span><span class="c1">// 从另一个结构体的字段值来初始化</span>
+<span class="w">        </span><span class="n">email</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;another@example.com&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">sign_in_count</span>: <span class="nc">user1</span><span class="p">.</span><span class="n">sign_in_count</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>同时，可以使用 <code>..</code> 语法指定了剩余未显式设置值的字段应有与给定实例对应字段相同的值。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">user2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 可以选择以任何顺序为任意字段指定值，而不用考虑结构体定义中字段的顺序。</span>
+<span class="w">        </span><span class="n">email</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;another@example.com&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="o">..</span><span class="n">user1</span><span class="w">     </span><span class="c1">// ..语法指定剩余未显式设置值的字段</span>
+<span class="w">                    </span><span class="c1">// ..user1 必须放在最后，以指定其余的字段应从 user1 的相应字段中获取其值</span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<blockquote>
+<p><strong>注意</strong>
+结构更新语法就像带有 = 的赋值，因为它移动了数据，就像在“<a href="https://kaisery.github.io/trpl-zh-cn/ch04-01-what-is-ownership.html#%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%80%E7%A7%BB%E5%8A%A8">变量与数据交互的方式（一）：移动</a>”部分讲到的一样。
+在这个例子中，在创建 <code>user2</code> 后不能再使用 <code>user1</code>，因为 <code>user1</code> 的 <code>username</code> 字段中的 <code>String</code> 被移到 <code>user2</code> 中。
+如果我们给 <code>user2</code> 的 <code>email</code> 和 <code>username</code> 都赋予新的 <code>String</code> 值，从而只使用 <code>user1</code> 的 <code>active</code> 和 <code>sign_in_count</code> 值，那么 <code>user1</code> 在创建 <code>user2</code> 后仍然有效。
+<code>active</code> 和 <code>sign_in_count</code> 的类型是实现 <code>Copy trait</code> 的类型，所以在“<a href="https://kaisery.github.io/trpl-zh-cn/ch04-01-what-is-ownership.html#%E5%8F%98%E9%87%8F%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BA%A4%E4%BA%92%E7%9A%84%E6%96%B9%E5%BC%8F%E4%BA%8C%E5%85%8B%E9%9A%86">变量与数据交互的方式（二）：克隆</a>” 部分讨论的行为同样适用。</p>
+</blockquote>
+<h3 id="_5">元组结构体</h3>
+<p>定义与<a href="https://kaisery.github.io/trpl-zh-cn/ch03-02-data-types.html#%E5%85%83%E7%BB%84%E7%B1%BB%E5%9E%8B">元组</a>类似的结构体，称为 <strong>元组结构体</strong>（tuple structs）。<ins class="critic">元组结构体有着结构体名称提供的含义，但没有具体的字段名，只有字段的类型。</ins>
+当你想给整个元组取一个名字，并使元组成为与其他元组不同的类型时，元组结构体是很有用的，这时像常规结构体那样为每个字段命名就显得多余和形式化了。</p>
+<p>要定义元组结构体，以 <strong>struct</strong> 关键字和结构体名开头并后跟元组中的类型。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Color</span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">Point</span><span class="p">(</span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">,</span><span class="w"> </span><span class="kt">i32</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">black</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">origin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<blockquote>
+<p><strong>注意</strong></p>
+<p><code>black</code> 和 <code>origin</code> 值的类型不同，因为它们是不同的元组结构体的实例。</p>
+<p><ins class="critic">定义的每一个结构体有其自己的类型，即使结构体中的字段可能有着相同的类型</ins>。</p>
+<p>例如，一个获取 <code>Color</code> 类型参数的函数不能接受 <code>Point</code> 作为参数，即便这两个类型都由三个 i32 值组成。</p>
+<p>在其他方面，元组结构体实例类似于元组，可以将它们解构为单独的部分，也可以使用 <code>.</code> 后跟索引来访问单独的值。</p>
+</blockquote>
+<h3 id="_6">类单元结构体</h3>
+<p>也可以定义一个没有任何字段的结构体！它们被称为 <strong>类单元结构体</strong>（unit-like structs）因为它们类似于 ()，即“<a href="https://kaisery.github.io/trpl-zh-cn/ch03-02-data-types.html#%E5%85%83%E7%BB%84%E7%B1%BB%E5%9E%8B">元组类型</a>”一节中提到的 <code>unit</code> 类型。
+类单元结构体常常在想要在某个类型上实现 <code>trait</code> 但不需要在类型中存储数据的时候发挥作用。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 类单元结构体</span>
+<span class="k">struct</span> <span class="nc">AlwaysEqual</span><span class="p">;</span><span class="w"> </span><span class="c1">// 不需要花括号或圆括号！</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 以类似的方式在 subject 变量中获得 AlwaysEqual 的实例</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AlwaysEqual</span><span class="p">;</span><span class="w">      </span><span class="c1">// 使用定义的名称，不需要任何花括号或圆括号。</span>
+
+<span class="w">    </span><span class="c1">// 想象一下，实现这个类型的行为，即每个实例始终等于每一个其他类型的实例，也许是为了获得一个已知的结果以便进行测试。</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<blockquote>
+<p><strong>结构体数据的所有权</strong></p>
+<p>在示例 <code>User</code> 结构体的定义中，我们使用了自身拥有所有权的 <code>String</code> 类型而不是 <code>&amp;str</code> 字符串 <code>slice</code> 类型。这是一个有意而为之的选择，因为我们想要这个结构体拥有它所有的数据，为此只要整个结构体是有效的话其数据也是有效的。</p>
+<p>可以使结构体存储被其他对象拥有的数据的引用，不过这么做的话需要用上 <strong>生命周期</strong>（lifetimes），这是一个<a href="https://kaisery.github.io/trpl-zh-cn/ch10-00-generics.html">第十章</a>会讨论的 Rust 功能。</p>
+<p>生命周期确保结构体引用的数据有效性跟结构体本身保持一致。如果你尝试在结构体中存储一个引用而不指定生命周期将是无效的，比如这样：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">active</span>: <span class="kt">bool</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">username</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">email</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">sign_in_count</span>: <span class="kt">u64</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">user1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">email</span>: <span class="s">&quot;someone@example.com&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">username</span>: <span class="s">&quot;someusername123&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">active</span>: <span class="nc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">sign_in_count</span>: <span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>编译器会抱怨它需要生命周期标识符：</p>
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling structs v0.1.0 <span class="o">(</span>file:///projects/structs<span class="o">)</span>
+error<span class="o">[</span>E0106<span class="o">]</span>: missing lifetime specifier
+ --&gt; src/main.rs:3:15
+  <span class="p">|</span>
+<span class="m">3</span> <span class="p">|</span>     username: <span class="p">&amp;</span>str,
+  <span class="p">|</span>               ^ expected named lifetime parameter
+  <span class="p">|</span>
+help: consider introducing a named lifetime parameter
+  <span class="p">|</span>
+<span class="m">1</span> ~ struct User&lt;<span class="s1">&#39;a&gt; {</span>
+<span class="s1">2 |     active: bool,</span>
+<span class="s1">3 ~     username: &amp;&#39;</span>a str,
+  <span class="p">|</span>
+
+error<span class="o">[</span>E0106<span class="o">]</span>: missing lifetime specifier
+ --&gt; src/main.rs:4:12
+  <span class="p">|</span>
+<span class="m">4</span> <span class="p">|</span>     email: <span class="p">&amp;</span>str,
+  <span class="p">|</span>            ^ expected named lifetime parameter
+  <span class="p">|</span>
+help: consider introducing a named lifetime parameter
+  <span class="p">|</span>
+<span class="m">1</span> ~ struct User&lt;<span class="s1">&#39;a&gt; {</span>
+<span class="s1">2 |     active: bool,</span>
+<span class="s1">3 |     username: &amp;str,</span>
+<span class="s1">4 ~     email: &amp;&#39;</span>a str,
+  <span class="p">|</span>
+
+For more information about this error, try <span class="sb">`</span>rustc --explain E0106<span class="sb">`</span>.
+error: could not compile <span class="sb">`</span>structs<span class="sb">`</span> due to <span class="m">2</span> previous errors
+</code></pre></div>
+<p><a href="https://kaisery.github.io/trpl-zh-cn/ch10-00-generics.html">第十章</a>会讲到如何修复这个问题以便在结构体中存储引用，不过现在，会使用像 <code>String</code> 这类拥有所有权的类型来替代 <code>&amp;str</code> 这样的引用以修正这个错误。</p>
+</blockquote>
+<h2 id="_7">示例程序</h2>
+<p>为了理解何时会需要使用结构体，这里编写一个计算长方形面积的程序。</p>
+<p>使用 <code>Cargo</code> 新建一个叫做 <code>rectangles</code> 的二进制程序，它获取以像素为单位的长方形的宽度和高度，并计算出长方形的面积。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">width1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">height1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形的面积是{}个像素&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">width1</span><span class="p">,</span><span class="w"> </span><span class="n">height1</span><span class="p">))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>修改这段代码来使它的意义更加明确:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 函数 area 本应该计算一个长方形的面积，不过函数却有两个参数。</span>
+<span class="c1">// 这两个参数是相关联的，不过程序本身却没有表现出这一点。</span>
+<span class="c1">// 将长度和宽度组合在一起将更易懂也更易处理。</span>
+<span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_8">元组重构</h3>
+<p>使用元组的另一个程序版本:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形的面积是{}个像素&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="n">rect</span><span class="p">))</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 元组帮助我们增加了一些结构性，并且现在只需传一个参数。</span>
+<span class="c1">// 不过在另一方面，这个版本却有一点不明确了：元组并没有给出元素的名称，所以计算变得更费解了，因为不得不使用索引来获取元组的每一部分：</span>
+<span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="n">dimensions</span>: <span class="p">(</span><span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="kt">u32</span><span class="p">))</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">dimensions</span><span class="p">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dimensions</span><span class="p">.</span><span class="mi">1</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_9">结构体重构</h3>
+<p>可以使用结构体为数据命名来为其赋予意义。将我们正在使用的元组转换成一个有整体名称而且每个部分也有对应名字的结构体，</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 定义一个矩形的结构体</span>
+<span class="c1">// 在大括号中定义了字段 width 和 height，类型都是 u32。</span>
+<span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 创建了一个具体的 Rectangle 实例</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形的面积是{}个像素&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">area</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rect1</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 计算一个矩形的面积</span>
+<span class="c1">// 被定义为接收一个名叫 rectangle 的参数，其类型是一个结构体 Rectangle 实例的不可变借用(引用)。</span>
+<span class="c1">// 借用结构体而不是获取它的所有权，这样 main 函数就可以保持 rect1 的所有权并继续使用它，所以这就是为什么在函数签名和调用的地方会有 &amp;。</span>
+<span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="n">rectangle</span>: <span class="kp">&amp;</span><span class="nc">Rectangle</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 访问 Rectangle 实例的 width 和 height 字段</span>
+<span class="w">    </span><span class="c1">// 注意，访问对结构体的引用的字段不会移动字段的所有权, 所以会经常看到对结构体的引用</span>
+<span class="w">    </span><span class="n">rectangle</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rectangle</span><span class="p">.</span><span class="n">height</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>使用 <code>Rectangle</code> 的 <code>width</code> 和 <code>height</code> 字段，计算 <code>Rectangle</code> 的面积。这表明宽高是相互联系的，并为这些值提供了描述性的名称而不是使用元组的索引值 <code>0</code> 和 <code>1</code> 。<ins class="critic">结构体胜在更清晰明了</ins>。</p>
+<h3 id="trait">派生Trait</h3>
+<p>在调试程序时打印出 Rectangle 实例来查看其所有字段的值非常有用。如果能像前面那样尝试使用 <a href="https://doc.rust-lang.org/std/macro.println.html">println! 宏</a>就好了。但这并不行。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形是{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>出现带有如下核心信息的错误：</p>
+<div class="highlight"><pre><span></span><code>error<span class="o">[</span>E0277<span class="o">]</span>: <span class="sb">`</span>Rectangle<span class="sb">`</span> doesn<span class="err">&#39;</span>t implement <span class="sb">`</span>std::fmt::Display<span class="sb">`</span>
+</code></pre></div>
+<p><code>println! 宏</code>能处理很多类型的格式，不过，<code>{}</code> 默认告诉 <code>println!</code> 使用被称为 <strong>Display</strong> 的格式：<strong>意在提供给直接终端用户查看的输出</strong>。</p>
+<p>目前为止见过的基本类型都默认实现了 <code>Display</code>格式，因为它就是向用户展示 <code>1</code> 或其他任何<strong>基本类型</strong>的唯一方式。</p>
+<p>不过对于结构体，<code>println!</code> 应该用来输出的格式是不明确的，因为这有更多显示的可能性：是否需要逗号？需要打印出大括号吗？所有字段都应该显示吗？
+由于这种不确定性，Rust 不会尝试猜测我们的意图，所以结构体并没有提供一个 <strong>Display</strong> 实现来使用 <code>println!</code> 与 <code>{}</code> 占位符。</p>
+<p>如果我们继续阅读错误，将会发现这个有帮助的信息：</p>
+<div class="highlight"><pre><span></span><code>help: the trait <span class="sb">`</span>std::fmt::Display<span class="sb">`</span> is not implemented <span class="k">for</span> <span class="sb">`</span>Rectangle<span class="sb">`</span>
+note: <span class="k">in</span> format strings you may be able to use <span class="sb">`</span><span class="o">{</span>:?<span class="o">}</span><span class="sb">`</span> <span class="o">(</span>or <span class="o">{</span>:#?<span class="o">}</span> <span class="k">for</span> pretty-print<span class="o">)</span> instead
+</code></pre></div>
+<p>现在 <code>println!</code> 宏调用看起来像 <code>println!("rect1 is {:?}", rect1);</code> 这样。在 <code>{}</code> 中加入 <code>:?</code> 指示符告诉 <code>println!</code> 我们想要使用叫做 <code>Debug</code> 的输出格式。
+<code>Debug</code> 是一个 <code>trait</code>，它允许我们以一种对开发者有帮助的方式打印结构体，以便当我们调试代码时能看到它的值。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形是{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 添加 :? 尝试使用Debug的输出格式</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这样调整后再次运行程序。见鬼了！仍然能看到一个错误：</p>
+<div class="highlight"><pre><span></span><code>error<span class="o">[</span>E0277<span class="o">]</span>: <span class="sb">`</span>Rectangle<span class="sb">`</span> doesn<span class="err">&#39;</span>t implement <span class="sb">`</span>Debug<span class="sb">`</span>
+</code></pre></div>
+<p>不过编译器又一次给出了一个有帮助的信息：</p>
+<div class="highlight"><pre><span></span><code>help: the trait <span class="sb">`</span>Debug<span class="sb">`</span> is not implemented <span class="k">for</span> <span class="sb">`</span>Rectangle<span class="sb">`</span>
+note: add <span class="sb">`</span><span class="c1">#[derive(Debug)]` to `Rectangle` or manually `impl Debug for Rectangle`</span>
+</code></pre></div>
+<h4 id="debug">Debug输出结构体</h4>
+<p>Rust <strong>确实</strong> 包含了打印出调试信息的功能，不过我们必须为结构体<ins class="critic"><strong>显式</strong></ins>选择这个功能。为此，在结构体定义之前加上外部属性 <code>#[derive(Debug)]</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 添加打印调试的功能</span>
+<span class="cp">#[derive(Debug)]</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形是{:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 尝试使用Debug的输出格式</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>再运行这个程序时，就不会有任何错误，并会出现如下输出：</p>
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling rectangles v0.1.0 <span class="o">(</span>file:///projects/rectangles<span class="o">)</span>
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.48s
+     Running <span class="sb">`</span>target/debug/rectangles<span class="sb">`</span>
+矩形是Rectangle <span class="o">{</span> width: <span class="m">30</span>, height: <span class="m">50</span> <span class="o">}</span>
+</code></pre></div>
+<p>这并不是最漂亮的输出，不过它显示这个实例的所有字段，毫无疑问这对调试有帮助。</p>
+<p>当我们有一个更大的结构体时，能有更<strong>易读</strong>一点的输出就好了，为此可以使用 <code>{:#?}</code> 替换 <code>println!</code> 字符串中的 <code>{:?}</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug)]</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形是{:#?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">);</span><span class="w"> </span><span class="c1">// 尝试使用Debug的输出格式</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在这个例子中使用 <code>{:#?}</code> 风格将会输出：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">rectangles</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/rectangles)</span>
+<span class="w">    </span><span class="n">Finished</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="p">[</span><span class="n">unoptimized</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">debuginfo</span><span class="p">]</span><span class="w"> </span><span class="n">target</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mf">0.48</span><span class="n">s</span><span class="w"></span>
+<span class="w">     </span><span class="n">Running</span><span class="w"> </span><span class="err">`</span><span class="n">target</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">rectangles</span><span class="err">`</span><span class="w"></span>
+<span class="err">矩形是</span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h4 id="dbg">dbg!宏</h4>
+<p>另一种使用 <strong>Debug</strong> 格式打印数值的方法是使用 <a href="https://doc.rust-lang.org/std/macro.dbg.html">dbg! 宏</a>。<ins class="critic"><code>dbg! 宏</code>可以接收一个<strong>表达式</strong>的所有权，打印出代码中调用 <code>dbg!</code> 宏时所在的文件和行号，以及该表达式的结果值，并返回该值的所有权。</ins> （与 <code>println!</code> 宏相反，其接收的是引用）</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>调用 <code>dbg! 宏</code>会打印到标准错误控制台流（stderr），与 println! 不同，后者会打印到标准输出控制台流（stdout）。我们将在<a href="https://kaisery.github.io/trpl-zh-cn/ch12-06-writing-to-stderr-instead-of-stdout.html">第十二章 “将错误信息写入标准错误而不是标准输出” 一节</a>中更多地讨论 <code>stderr</code> 和 <code>stdout</code>。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug)]</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 可以把 dbg! 放在表达式 30 * scale 周围，因为 dbg! 会返回表达式的值的所有权，</span>
+<span class="w">        </span><span class="c1">// 所以 width 字段将获得相同的值，就像我们在那里没有 dbg! 调用一样。</span>
+<span class="w">        </span><span class="n">width</span>: <span class="nc">dbg</span><span class="o">!</span><span class="p">(</span><span class="n">scale</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">30</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 不希望 dbg! 拥有 rect1 的所有权，所以在这里调用 dbg! 时仅传递一个引用。</span>
+<span class="w">    </span><span class="fm">dbg!</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rect1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">rectangles</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/rectangles)</span>
+<span class="w">    </span><span class="n">Finished</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="p">[</span><span class="n">unoptimized</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">debuginfo</span><span class="p">]</span><span class="w"> </span><span class="n">target</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mf">0.61</span><span class="n">s</span><span class="w"></span>
+<span class="w">     </span><span class="n">Running</span><span class="w"> </span><span class="err">`</span><span class="n">target</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">rectangles</span><span class="err">`</span><span class="w"></span>
+<span class="p">[</span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">10</span><span class="p">]</span><span class="w"> </span><span class="n">scale</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">60</span><span class="w"></span>
+<span class="p">[</span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">14</span><span class="p">]</span><span class="w"> </span><span class="o">&amp;</span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="mi">60</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这个输出使用了更为易读的 <strong>Debug</strong> 格式。当你试图弄清楚你的代码在做什么时，<code>dbg! 宏</code>可能真的很有帮助!</p>
+<h2 id="_10">方法</h2>
+<p><strong>方法（method）</strong>与函数类似：<ins class="critic">它们使用 fn 关键字和名称声明，可以拥有参数和返回值，同时包含在某处调用该方法时会执行的代码</ins>。
+不过方法与函数是不同的，因为它们在结构体的上下文中被定义（或者是<strong>枚举</strong>或 <strong>trait</strong> 对象的上下文），并且它们第一个参数总是 <code>self</code>，它代表调用该方法的结构体实例。</p>
+<h3 id="_11">定义方法</h3>
+<p>把前面实现的获取一个 <code>Rectangle</code> 实例作为参数的 <code>area</code> 函数，改写成一个定义于 <code>Rectangle</code> 结构体上的 <code>area</code> 方法:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug)]</span><span class="w"></span>
+<span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// impl 是 implementation 的缩写</span>
+<span class="c1">// impl 块中的所有内容都将与 Rectangle 类型相关联</span>
+<span class="k">impl</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 定义 与 Rectangle 相关联的 area方法</span>
+<span class="w">    </span><span class="c1">// 使用 &amp;self 来替代 rectangle: &amp;Rectangle</span>
+<span class="w">    </span><span class="c1">// &amp;self 实际上是 self: &amp;Self 的缩写</span>
+<span class="w">    </span><span class="c1">// 这里选择 `&amp;self` 的理由跟在函数版本中使用 `&amp;Rectangle` 是相同的：并不想获取所有权，只希望能够读取结构体中的数据，而不是写入。</span>
+<span class="w">    </span><span class="c1">// 如果想要在方法中改变调用方法的实例，需要将第一个参数改为 &amp;mut self。</span>
+<span class="w">    </span><span class="c1">// 通过仅仅使用 self 作为第一个参数来使方法获取实例的所有权是很少见的；这种技术通常用在当方法将 self 转换成别的实例的时候，这时想要防止调用者在转换之后使用原始的实例。</span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">height</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形的面积是: {} 像素&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">.</span><span class="n">area</span><span class="p">())</span><span class="w">  </span><span class="c1">// 调用Rectangle的关联方法area</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">在一个 impl 块中，Self 类型是 impl 块的类型的别名。方法的第一个参数必须有一个名为 self 的Self 类型的参数</ins>，所以 Rust 让你在第一个参数位置上只用 self 这个名字来缩写。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>我们仍然需要在 <code>self</code> 前面使用 <code>&amp;</code> 来表示这个方法借用了 <code>Self</code> 实例，就像我们在 <code>rectangle: &amp;Rectangle</code> 中做的那样。
+方法可以选择获得 <code>self</code> 的所有权，或者像这里一样<strong>不可变地借用</strong> <code>self</code>，或者<strong>可变地借用</strong> <code>self</code>，就跟其他参数一样。</p>
+</blockquote>
+<p>使用<strong>方法</strong>替代<strong>函数</strong>，除了可使用方法语法和不需要在每个函数签名中重复 <code>self</code> 的类型之外，其主要好处在于组织性。
+我们将某个类型实例能做的所有事情都一起放入 <code>impl</code> 块中，而不是让将来的用户在我们的库中到处寻找 <code>Rectangle</code> 的功能。</p>
+<h4 id="_12">注意</h4>
+<p>我们可以选择将方法的名称与结构中的一个字段相同。例如，我们可以在 Rectangle 上定义一个方法，并命名为 width：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">width</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">height</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">width</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形的宽度不为零: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">.</span><span class="n">width</span><span class="p">())</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>编程时<strong>可以出于任何目的，在同名的方法中使用同名的字段</strong></p>
+<p>在 main 中，当我们在 <code>rect1.width</code> 后面加上括号时。Rust 知道我们指的是方法 <code>width</code>。当我们不使用圆括号时，Rust 知道我们指的是字段 <code>width</code>。</p>
+<p>通常，但并不总是如此，与字段同名的方法将被定义为只返回字段中的值，而不做其他事情。这样的方法被称为 <code>getters</code>，
+Rust 并不像其他一些语言那样为结构字段自动实现它们。
+Getters 很有用，因为你可以把字段变成私有的，但方法是公共的，这样就可以把对字段的只读访问作为该类型公共 API 的一部分。
+我们将在<a href="https://kaisery.github.io/trpl-zh-cn/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html">第七章</a>中讨论什么是公有和私有，以及如何将一个字段或方法指定为公有或私有。</p>
+<h3 id="_13">参数方法</h3>
+<p>通过实现 <code>Rectangle</code> 结构体上的另一方法来练习使用方法</p>
+<p>让一个 <code>Rectangle</code> 的实例获取另一个 <code>Rectangle</code> 实例，如果 self （第一个 <code>Rectangle</code>）能完全包含第二个长方形则返回 true；否则返回 false。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">30</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">50</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">10</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">40</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">rect3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">width</span>: <span class="mi">60</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">height</span>: <span class="mi">45</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形rect1可以包含rect2: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect1</span><span class="p">.</span><span class="n">can_hold</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rect2</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;矩形rect2可以包含rect3: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">rect2</span><span class="p">.</span><span class="n">can_hold</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rect3</span><span class="p">));</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>同时希望看到如下输出，因为 rect2 的两个维度都小于 rect1，而 rect3 比 rect1 要宽：</p>
+<div class="highlight"><pre><span></span><code>矩形rect1可以包含rect2: <span class="nb">true</span>
+矩形rect2可以包含rect3: <span class="nb">false</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">impl</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">width</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">height</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 希望 main 保持 other 的所有权，这样就可以在调用这个方法后继续使用它。</span>
+<span class="w">    </span><span class="c1">// can_hold 的返回值是一个布尔值，其实现会分别检查 self 的宽高是否都大于另一个 Rectangle。</span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">can_hold</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">other</span>: <span class="kp">&amp;</span><span class="nc">Rectangle</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">height</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="n">height</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_14">关联函数</h3>
+<p>所有在 <code>impl</code> 块中定义的函数被称为 <strong>关联函数</strong>（associated functions），因为它们与 <code>impl</code> 后面命名的类型相关。</p>
+<p>可以定义不以 <code>self</code> 为第一参数的关联函数（因此不是方法），因为它们并不作用于一个结构体的实例。我们已经使用了一个这样的函数：<strong>在 String 类型上定义的 String::from 函数</strong>。</p>
+<p><ins class="critic">不是方法的关联函数经常被用作返回一个结构体新实例的构造函数</ins>。这些函数的名称通常为 <code>new</code> ，但 <code>new</code> 并不是一个关键字。
+例如我们可以提供一个叫做 <code>square</code> 关联函数，它接受一个维度参数并且同时作为宽和高，这样可以更轻松的创建一个正方形 <code>Rectangle</code> 而不必指定两次同样的值：</p>
+<div class="highlight"><pre><span></span><code><span class="k">impl</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 创建一个正方形的关联函数，不是方法！！！</span>
+<span class="w">    </span><span class="c1">// 关键字 Self 在函数的返回类型中代指在 impl 关键字后出现的类型，在这里是 Rectangle</span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">square</span><span class="p">(</span><span class="n">size</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">Self</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">width</span>: <span class="nc">size</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">height</span>: <span class="nc">size</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>使用结构体名和 <code>::</code> 语法来调用这个关联函数：比如 <code>let sq = Rectangle::square(3);</code>。
+这个函数位于结构体的命名空间中：<code>::</code> 语法用于<strong>关联函数</strong>和<strong>模块创建的命名空间</strong>。<a href="https://kaisery.github.io/trpl-zh-cn/ch07-00-managing-growing-projects-with-packages-crates-and-modules.html">第七章</a>会讲到模块。</p>
+<h3 id="impl">多个 impl 块</h3>
+<p>每个结构体都允许拥有多个 <code>impl</code> 块。例如，下面示例中的代码等同于上面示例中代码，但每个方法有其自己的 impl 块。</p>
+<div class="highlight"><pre><span></span><code><span class="k">impl</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">area</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">height</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">can_hold</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">other</span>: <span class="kp">&amp;</span><span class="nc">Rectangle</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="n">width</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">height</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="n">height</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这里没有理由将这些方法分散在多个 <code>impl</code> 块中，不过这是有效的语法。<a href="https://kaisery.github.io/trpl-zh-cn/ch10-00-generics.html">第十章</a>讨论泛型和 trait 时会看到实用的多 <code>impl</code> 块的用例。</p>
+<h2 id="_15">总结</h2>
+<p><ins class="critic">结构体让你可以创建出在你的领域中有意义的自定义类型</ins>。
+通过结构体，我们可以<strong>将相关联的数据片段联系起来并命名它们，这样可以使得代码更加清晰</strong>。
+在 <code>impl</code> 块中，你可以定义与你的类型相关联的函数，而方法是一种相关联的函数，让你指定结构体的<strong>实例</strong>所具有的行为。</p>
+<p>但结构体并不是创建自定义类型的唯一方法： Rust 的枚举功能也可以！</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../common-programing-concepts/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 常见编程概念" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              常见编程概念
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../enumerations/" class="md-footer__link md-footer__link--next" aria-label="下一页: 枚举" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              枚举
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
