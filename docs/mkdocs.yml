@@ -14,3 +14,5 @@ nav:
   - 'guessing-game.md'
   - 'common-programing-concepts.md'
   - 'ownership.md'
+  - 'struct.md'
+  - 'enumerations.md'
