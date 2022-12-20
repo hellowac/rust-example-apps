@@ -415,6 +415,36 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packages/" class="md-nav__link">
+        包、crate、模块
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-collections/" class="md-nav__link">
+        常见集合
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -916,6 +946,49 @@ Rust 中的匹配是 <strong>穷尽的</strong>（exhaustive）：<ins class="cr
 </code></pre></div>
 <p>在这里，明确告诉 Rust 我们<ins class="critic">不会使用与前面模式不匹配的值，并且这种情况下我们不想运行任何代码</ins>。</p>
 <h2 id="if-let">if let控制流</h2>
+<p><code>if let</code> 语法让我们以一种不那么冗长的方式结合 <code>if</code> 和 <code>let</code>，来处理只匹配一个模式的值而忽略其他模式的情况。</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">config_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mi">3</span><span class="k">u8</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// 匹配一个 config_max 变量中的 Option&lt;u8&gt; 值并只希望当值为 Some 成员时执行代码</span>
+<span class="k">match</span><span class="w"> </span><span class="n">config_max</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 这个值被绑定到模式中的 max 变量里。</span>
+<span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The maximum is configured to be {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 对于 None 值我们不希望做任何操作</span>
+<span class="w">    </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(),</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>不过我们可以使用 <code>if let</code> 这种更短的方式编写:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">config_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mi">3</span><span class="k">u8</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// if let 语法获取通过等号分隔的一个模式和一个表达式。它的工作方式与 match 相同，这里的表达式对应 match 而模式则对应第一个分支。</span>
+<span class="c1">// 模式是 Some(max)，max 绑定为 Some 中的值。</span>
+<span class="c1">// 接着可以在 if let 代码块中使用 max 了</span>
+<span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">max</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config_max</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The maximum is configured to be {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 模式不匹配时 if let 块中的代码不会执行。</span>
+</code></pre></div>
+<p>使用 <code>if let</code> 意味着编写更少代码，更少的缩进和更少的样板代码。
+然而，这样会失去 <code>match</code> 强制要求的穷尽性检查。
+<code>match</code> 和 <code>if let</code> 之间的选择依赖特定的环境以及增加简洁度和失去穷尽性检查的权衡取舍。</p>
+<p><ins class="critic">可以认为 if let 是 match 的一个语法糖，它当值匹配某一模式时执行代码而忽略所有其他值。</ins></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 可以在 if let 中包含一个 else。else 块中的代码与 match 表达式中的 _ 分支块中的代码相同</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="n">Coin</span>::<span class="n">Quarter</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coin</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;State quarter from {:?}!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 这样的 match 表达式就等同于 if let 和 else。</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="k">match</span><span class="w"> </span><span class="n">coin</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Coin</span>::<span class="n">Quarter</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;State quarter from {:?}!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 
 
 
@@ -950,6 +1023,21 @@ Rust 中的匹配是 <strong>穷尽的</strong>（exhaustive）：<ins class="cr
           </div>
         </a>
       
+      
+        
+        <a href="../packages/" class="md-footer__link md-footer__link--next" aria-label="下一页: 包、crate、模块" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              包、crate、模块
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
       
     </nav>
   

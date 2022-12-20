@@ -1,0 +1,771 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>常见集合 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              常见集合
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ownership/" class="md-nav__link">
+        所有权
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../struct/" class="md-nav__link">
+        结构体
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumerations/" class="md-nav__link">
+        枚举
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packages/" class="md-nav__link">
+        包、crate、模块
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          常见集合
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        常见集合
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vector" class="md-nav__link">
+    Vector 列表
+  </a>
+  
+    <nav class="md-nav" aria-label="Vector 列表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vector_1" class="md-nav__link">
+    新建 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_2" class="md-nav__link">
+    更新 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_3" class="md-nav__link">
+    丢弃 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_4" class="md-nav__link">
+    读取 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_5" class="md-nav__link">
+    遍历 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    枚举来储存多种类型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utf-8" class="md-nav__link">
+    字符串和UTF-8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hashmap" class="md-nav__link">
+    HashMap 键值对
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vector" class="md-nav__link">
+    Vector 列表
+  </a>
+  
+    <nav class="md-nav" aria-label="Vector 列表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vector_1" class="md-nav__link">
+    新建 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_2" class="md-nav__link">
+    更新 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_3" class="md-nav__link">
+    丢弃 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_4" class="md-nav__link">
+    读取 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vector_5" class="md-nav__link">
+    遍历 vector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    枚举来储存多种类型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utf-8" class="md-nav__link">
+    字符串和UTF-8
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hashmap" class="md-nav__link">
+    HashMap 键值对
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">常见集合</h1>
+<p>Rust 标准库中包含一系列被称为 <strong>集合</strong>（collections）的非常有用的数据结构。
+大部分其他数据类型都代表一个特定的值，不过集合可以包含多个值。
+<ins class="critic">不同于内建的数组和元组类型，这些集合指向的数据是储存在堆上的，这意味着数据的数量不必在编译时就已知，并且还可以随着程序的运行增长或缩小。</ins>
+每种集合都有着不同功能和成本，而根据当前情况选择合适的集合，这是一项应当逐渐掌握的技能。</p>
+<ul>
+<li><strong>vector</strong> 允许我们一个挨着一个地储存一系列数量可变的值</li>
+<li><strong>字符串</strong>（string）是字符的集合。之前见过 <strong>String</strong> 类型。</li>
+<li><strong>哈希 map</strong>（hash map）允许我们将值与一个特定的键（key）相关联。这是一个叫做 <strong>map</strong> 的更通用的数据结构的特定实现。</li>
+</ul>
+<p>对于标准库提供的其他类型的集合，请查看<a href="https://www.rustwiki.org.cn/zh-CN/std/collections/index.html">文档</a>。</p>
+<h2 id="vector">Vector 列表</h2>
+<p><code>Vec&lt;T&gt;</code>，也被称为 <strong>vector</strong>。 <strong>vector</strong> 允许在一个单独的数据结构中储存多于一个的值，它在内存中彼此相邻地排列所有的值。
+<strong>vector</strong> 只能储存相同类型的值。它们在拥有<strong>一系列项</strong>的场景下非常实用，例如文件中的文本行或是购物车中商品的价格。</p>
+<h3 id="vector_1">新建 vector</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// 创建一个新的空 vector，可以调用 Vec::new 函数</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">v</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">i32</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Vec</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="c1">// 告诉 Rust v 这个 Vec&lt;T&gt; 将存放 i32 类型的元素。</span>
+<span class="c1">// 注意增加了一个类型注解, 因为没有向这个 vector 中插入任何值，Rust 并不知道我们想要储存什么类型的元素。</span>
+<span class="c1">// vector 是用泛型实现的，第十章会涉及到如何对你自己的类型使用它们。</span>
+</code></pre></div>
+<p>现在，所需要知道的就是 <code>Vec&lt;T&gt;</code> 是一个由标准库提供的类型，它可以存放任何类型，而当 <code>Vec</code> 存放某个特定类型时，那个类型位于尖括号中。</p>
+<p>通常，会用初始值来创建一个 <code>Vec&lt;T&gt;</code> 而 Rust 会推断出储存值的类型，所以很少会需要这些类型注解。</p>
+<p>为了方便 Rust 提供了 <code>vec!</code> 宏，这个宏会根据我们提供的值来创建一个新的 <code>vector</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 新建一个拥有值 1、2 和 3 的 Vec&lt;i32&gt;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
+</code></pre></div>
+<p>因为提供了 <code>i32</code> 类型的初始值，Rust 可以推断出 <code>v</code> 的类型是 <code>Vec&lt;i32&gt;</code>，因此类型注解就不是必须的。</p>
+<h3 id="vector_2">更新 vector</h3>
+<p>使用 <code>push</code> 方法可以向其增加元素：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 如果想要能够改变它的值，必须使用 mut 关键字使其可变</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Vec</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">  </span><span class="c1">// 增加元素</span>
+<span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span><span class="w">  </span><span class="c1">// 增加元素</span>
+<span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">7</span><span class="p">);</span><span class="w"></span>
+<span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// 放入其中的所有值都是 i32 类型的，而且 Rust 也根据数据做出如此判断，所以不需要 Vec&lt;i32&gt; 注解。</span>
+</code></pre></div>
+<h3 id="vector_3">丢弃 vector</h3>
+<p>类似于任何其他的 <code>struct</code>，<code>vector</code> 在其离开作用域时会被释放</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 处理变量 v</span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// &lt;- 这里 v 离开作用域并被丢弃</span>
+</code></pre></div>
+<p><ins class="critic">当 <code>vector</code> 被丢弃时，所有其内容也会被丢弃，这意味着这里它包含的整数将被清理。</ins>
+这可能看起来非常直观，不过一旦开始使用 <code>vector</code> 元素的引用，情况就变得有些复杂了。</p>
+<h3 id="vector_4">读取 vector</h3>
+<p>有两种方法引用 <code>vector</code> 中储存的值。 <strong>索引语法</strong>或者 <code>get</code> 方法</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 使用索引值 2 来获取第三个元素，索引是从 0 开始的。</span>
+<span class="w">    </span><span class="c1">// 使用 &amp; 和 [] 返回一个引用</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">third</span>: <span class="kp">&amp;</span><span class="kt">i32</span> <span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;第三个数是 {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">third</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 使用 get 方法以索引作为参数来返回一个 Option&lt;&amp;T&gt;。</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Some</span><span class="p">(</span><span class="n">third</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;第三个元素是 {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">third</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;这儿没有元素&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">Rust 提供了两种引用元素的方法的原因是当<strong>尝试使用现有元素范围之外的索引值时可以选择让程序如何运行。</strong></ins></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 尝试在当有一个 5 个元素的 vector 接着访问索引 100 位置的元素会发生什么</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span><span class="w"></span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">does_not_exist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span><span class="w">       </span><span class="c1">// 当引用一个不存在的元素时 Rust 会造成 panic</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">does_not_exist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="w">    </span><span class="c1">// 当 get 方法被传递了一个数组外的索引时，它不会 panic 而是返回 None。</span>
+<span class="c1">// 当偶尔出现超过 vector 范围的访问属于正常情况的时候可以考虑使用它。</span>
+<span class="c1">// 接着你的代码可以有处理 Some(&amp;element) 或 None 的逻辑，</span>
+</code></pre></div>
+<p><strong>一旦程序获取了一个有效的引用，借用检查器将会执行所有权和借用规则来确保 <code>vector</code> 内容的这个引用和任何其他引用保持有效。
+回忆一下不能在相同作用域中同时存在可变和不可变引用的规则。</strong></p>
+<p>这个规则适用于下面的示例：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 在拥有 vector 中项的引用的同时向其增加一个元素</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">];</span><span class="w"></span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span><span class="w"></span>
+
+<span class="fm">println!</span><span class="p">(</span><span class="s">&quot;第一个元素是: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// 当我们获取了 vector 的第一个元素的不可变引用</span>
+<span class="c1">// 并尝试在 vector 末尾增加一个元素的时候，如果尝试在函数的后面引用这个元素是行不通的</span>
+</code></pre></div>
+<p>编译会给出这个错误</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">collections</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/collections)</span>
+<span class="n">error</span><span class="p">[</span><span class="n">E0502</span><span class="p">]</span>: <span class="nc">cannot</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="err">`</span><span class="n">v</span><span class="err">`</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">because</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="n">borrowed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">immutable</span><span class="w"></span>
+<span class="w"> </span><span class="o">-</span>-&gt; <span class="nc">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">6</span>:<span class="mi">5</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="mi">4</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">                  </span><span class="o">-</span><span class="w"> </span><span class="n">immutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+<span class="mi">5</span><span class="w"> </span><span class="o">|</span><span class="w"> </span>
+<span class="mi">6</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="n">v</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">     </span><span class="o">^^^^^^^^^</span><span class="w"> </span><span class="n">mutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">occurs</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+<span class="mi">7</span><span class="w"> </span><span class="o">|</span><span class="w"> </span>
+<span class="mi">8</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The first element is: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">                                          </span><span class="o">-----</span><span class="w"> </span><span class="n">immutable</span><span class="w"> </span><span class="n">borrow</span><span class="w"> </span><span class="n">later</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">here</span><span class="w"></span>
+
+<span class="n">For</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="kr">try</span><span class="w"> </span><span class="err">`</span><span class="n">rustc</span><span class="w"> </span><span class="o">--</span><span class="n">explain</span><span class="w"> </span><span class="n">E0502</span><span class="err">`</span><span class="p">.</span><span class="w"></span>
+<span class="n">error</span>: <span class="nc">could</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="err">`</span><span class="n">collections</span><span class="err">`</span><span class="w"> </span><span class="n">due</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+</code></pre></div>
+<mark class="critic block">
+<blockquote>
+<p><strong>为什么第一个元素的引用会关心 vector 结尾的变化？</strong></p>
+<p>不能这么做的原因是由于 <code>vector</code> 的工作方式：
+在 <code>vector</code> 的结尾增加新元素时，在没有足够空间将所有元素依次相邻存放的情况下，可能会要求分配新内存并将老的元素拷贝到新的空间中。
+这时，<strong>第一个元素的引用就指向了被释放的内存。</strong>借用规则阻止程序陷入这种状况。</p>
+<p>关于 <code>Vec&lt;T&gt;</code> 类型的更多实现细节，请查看 “<a href="https://doc.rust-lang.org/nomicon/vec/vec.html">The Rust onomicon</a>”</p>
+</blockquote>
+</mark>
+<h3 id="vector_5">遍历 vector</h3>
+<p>如果想要依次访问 <code>vector</code> 中的每一个元素，可以遍历其所有的元素而无需通过索引一次一个的访问。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 通过 for 循环遍历 vector 的元素并打印</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">];</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">// 也可以遍历可变 vector 的每一个元素的可变引用以便能改变他们</span>
+<span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">];</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 为了修改可变引用所指向的值，在使用 += 运算符之前必须使用解引用运算符（*）获取 i 中的值。</span>
+<span class="w">    </span><span class="o">*</span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_2">枚举来储存多种类型</h3>
+<p><code>vector</code> 只能储存相同类型的值。这是很不方便的；<strong>绝对会有需要储存一系列不同类型的值的用例</strong>。
+幸运的是，枚举的成员都被定义为相同的枚举类型，所以当需要在 <code>vector</code> 中储存不同类型值时，我们可以定义并使用一个枚举！</p>
+<p>例如，假如我们想要从电子表格的一行中获取值，而这一行的有些列包含数字，有些包含浮点值，还有些是字符串。
+我们可以定义一个枚举，其成员会存放这些不同类型的值，同时所有这些枚举成员都会被当作相同类型，那个枚举的类型。
+接着可以创建一个储存枚举值的 vector，这样最终就能够储存不同类型的值了。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">enum</span> <span class="nc">SpreadsheetCell</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Int</span><span class="p">(</span><span class="kt">i32</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">Float</span><span class="p">(</span><span class="kt">f64</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">Text</span><span class="p">(</span><span class="nb">String</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="n">SpreadsheetCell</span>::<span class="n">Int</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="n">SpreadsheetCell</span>::<span class="n">Text</span><span class="p">(</span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;blue&quot;</span><span class="p">)),</span><span class="w"></span>
+<span class="w">        </span><span class="n">SpreadsheetCell</span>::<span class="n">Float</span><span class="p">(</span><span class="mf">10.12</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="p">];</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<mark class="critic block">
+<p><strong>Rust 在编译时就必须准确的知道 vector 中类型的原因在于它需要知道储存每个元素到底需要多少内存。</strong>
+第二个好处是可以准确的知道这个 <code>vector</code> 中允许什么类型。
+如果 Rust 允许 <code>vector</code> 存放任意类型，那么当对 <code>vector</code> 元素执行操作时一个或多个类型的值就有可能会造成错误。
+使用枚举外加 <code>match</code> 意味着 Rust 能在编译时就保证总是会处理所有可能的情况.</p>
+</mark>
+<p>如果在编写程序时不能确切无遗地知道运行时会储存进 <code>vector</code> 的所有类型，枚举技术就行不通了。相反，你可以使用 trait 对象，第十七章会讲到它。</p>
+<p>现在我们了解了一些使用 vector 的最常见的方式，请一定去看看标准库中 <code>Vec</code> 定义的很多其他实用方法的 <a href="https://www.rustwiki.org.cn/zh-CN/std/vec/struct.Vec.html">API 文档</a>。
+例如，除了 <code>push</code> 之外还有一个 <code>pop</code> 方法，它会移除并返回 <code>vector</code> 的最后一个元素。</p>
+<h2 id="utf-8">字符串和UTF-8</h2>
+<h2 id="hashmap">HashMap 键值对</h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../packages/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 包、crate、模块" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              包、crate、模块
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>

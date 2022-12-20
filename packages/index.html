@@ -1,0 +1,1274 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>包、crate、模块 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#crate" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              包、crate、模块
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ownership/" class="md-nav__link">
+        所有权
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../struct/" class="md-nav__link">
+        结构体
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumerations/" class="md-nav__link">
+        枚举
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          包、crate、模块
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        包、crate、模块
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#crate_1" class="md-nav__link">
+    包和crate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    定义模块
+  </a>
+  
+    <nav class="md-nav" aria-label="定义模块">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    对相关代码进行分组
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    引用模块
+  </a>
+  
+    <nav class="md-nav" aria-label="引用模块">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pub" class="md-nav__link">
+    pub关键字
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#super" class="md-nav__link">
+    super相对路径
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    公有的结构体和枚举
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    use关键字
+  </a>
+  
+    <nav class="md-nav" aria-label="use关键字">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use_1" class="md-nav__link">
+    惯用的 use 路径
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#as" class="md-nav__link">
+    as 关键字
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pub-use" class="md-nav__link">
+    pub use重导出
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    使用外部包
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    嵌套路径
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glob" class="md-nav__link">
+    glob运算符
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    模块拆分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-collections/" class="md-nav__link">
+        常见集合
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#crate_1" class="md-nav__link">
+    包和crate
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    定义模块
+  </a>
+  
+    <nav class="md-nav" aria-label="定义模块">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    对相关代码进行分组
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    引用模块
+  </a>
+  
+    <nav class="md-nav" aria-label="引用模块">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pub" class="md-nav__link">
+    pub关键字
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#super" class="md-nav__link">
+    super相对路径
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    公有的结构体和枚举
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    use关键字
+  </a>
+  
+    <nav class="md-nav" aria-label="use关键字">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use_1" class="md-nav__link">
+    惯用的 use 路径
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#as" class="md-nav__link">
+    as 关键字
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pub-use" class="md-nav__link">
+    pub use重导出
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    使用外部包
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    嵌套路径
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glob" class="md-nav__link">
+    glob运算符
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    模块拆分
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="crate">包、crate、模块</h1>
+<p><strong>当编写大型程序时，组织你的代码显得尤为重要。</strong></p>
+<p>概念 “<strong>作用域（scope）</strong>”：代码所在的嵌套上下文有一组定义为 “<strong>in scope</strong>” 的名称。</p>
+<p>当阅读、编写和编译代码时，程序员和编译器需要知道特定位置的特定名称是否引用了<strong>变量</strong>、<strong>函数</strong>、<strong>结构体</strong>、<strong>枚举</strong>、<strong>模块</strong>、<strong>常量</strong>或者其他有意义的<strong>项</strong>。
+你可以创建作用域，以及改变哪些名称在作用域内还是作用域外。<ins class="critic">同一个作用域内不能拥有两个相同名称的项</ins>。</p>
+<p>Rust 有许多功能可以<strong>管理代码的组织</strong>，包括哪些内容可以被公开，哪些内容作为私有部分，以及程序每个作用域中的名字。这些功能。这有时被称为 “<strong>模块系统</strong>（the module system）”，包括：</p>
+<ul>
+<li><strong>包（Packages）</strong>： Cargo 的一个功能，它允许你构建、测试和分享 crate。</li>
+<li><strong>Crates</strong> ：一个模块的树形结构，它形成了库或二进制项目。</li>
+<li><strong>模块（Modules）和 use</strong>： 允许你控制作用域和路径的私有性。</li>
+<li><strong>路径（path）</strong>：一个命名例如结构体、函数或模块等项的方式</li>
+</ul>
+<h2 id="crate_1">包和crate</h2>
+<p><code>crate</code> 是 Rust 在编译时最小的代码单位。如果用 <code>rustc</code> 而不是 <code>cargo</code> 来编译一个文件，编译器还是会将那个文件认作一个 <code>crate</code>。
+<code>crate</code> 可以包含模块，模块可以定义在其他文件，然后和 <code>crate</code> 一起编译，我们会在接下来的章节中遇到。</p>
+<p><code>crate</code> 有两种形式：<strong>二进制项</strong>和<strong>库</strong>。
+二进制项 可以被编译为可执行程序，比如一个命令行程序或者一个服务器。<ins class="critic">它们必须有一个 <code>main</code> 函数来定义当程序被执行的时候所需要做的事情。</ins>
+目前为止示例中所创建的 <code>crate</code> 都是二进制项。</p>
+<p><ins class="critic"><strong>库</strong> 并没有 main 函数，它们也不会编译为可执行程序，它们提供一些诸如函数之类的东西</ins>，使其他项目也能使用这些东西。
+比如 <code>rand crate</code> 就提供了生成随机数的东西。大多数时间 Rustaceans 说的 <code>crate</code> 指的都是<strong>库</strong>，这与其他编程语言中 <code>library</code> 概念一致。</p>
+<p><code>crate root</code> 是一个源文件，Rust 编译器以它为起始点，并构成你的 <code>crate</code> 的根模块（我们将在 “<a href="https://kaisery.github.io/trpl-zh-cn/ch07-02-defining-modules-to-control-scope-and-privacy.html">定义模块来控制作用域与私有性</a>” 一节深入解读）。</p>
+<p><strong>包（package）</strong> 是<ins class="critic">提供一系列功能的一个或者多个 crate</ins>。一个包会包含一个 <code>Cargo.toml</code> 文件，阐述如何去构建这些 <code>crate</code>。
+<strong>Cargo</strong> 就是一个包含构建你代码的二进制项的包。Cargo 也包含这些二进制项所依赖的<strong>库</strong>。其他项目也能用 <strong>Cargo</strong> 库来实现与 <strong>Cargo</strong> 命令行程序一样的逻辑。</p>
+<p><ins class="critic">包中可以包含至多一个库 crate(library crate)。包中可以包含任意多个二进制 <code>crate</code>(binary crate)，但是必须至少包含一个 <code>crate</code>（无论是库的还是二进制的）。</ins></p>
+<p>看看创建包的时候会发生什么。首先，输入命令 <code>cargo new</code>：</p>
+<div class="highlight"><pre><span></span><code>$ cargo new my-project
+     Created binary <span class="o">(</span>application<span class="o">)</span> <span class="sb">`</span>my-project<span class="sb">`</span> package
+$ ls my-project
+Cargo.toml
+src
+
+<span class="c1"># Cargo 遵循的一个约定：src/main.rs 就是一个与包同名的二进制 crate 的 crate 根。</span>
+$ ls my-project/src
+main.rs
+
+<span class="c1"># 同样的，Cargo 知道如果包目录中包含 src/lib.rs，则包带有与其同名的库 crate，且 src/lib.rs 是 crate 根。</span>
+
+<span class="c1"># crate 根文件将由 Cargo 传递给 rustc 来实际构建库或者二进制项目。</span>
+</code></pre></div>
+<p>在此，我们有了一个只包含 <code>src/main.rs</code> 的包，<strong>意味着它只含有一个名为 my-project 的二进制 crate</strong>。</p>
+<p>如果一个包同时含有 <code>src/main.rs</code> 和 <code>src/lib.rs</code>，则它有<strong>两个 crate</strong>：一个二进制的和一个库的，且名字都与包相同。
+<ins class="critic">通过将文件放在 <code>src/bin</code> 目录下，一个包可以拥有多个二进制 <code>crate</code>：<strong>每个 src/bin 下的文件都会被编译成一个独立的二进制 crate。</strong></ins></p>
+<h2 id="_1">定义模块</h2>
+<p>一个简单的参考，用来解释模块、路径、use关键词和pub关键词如何在编译器中工作，以及大部分开发者如何组织他们的代码。</p>
+<mark class="critic block">
+<ul>
+<li><strong>从crate根节点开始</strong>: 当编译一个crate, 编译器首先在crate根文件（通常，对于一个库crate而言是<code>src/lib.rs</code>，对于一个二进制crate而言是<code>src/main.rs</code>）中寻找需要被编译的代码。</li>
+<li><strong>声明模块</strong>: 在crate根文件中，你可以声明一个新模块；比如，你用<code>mod garden</code>声明了一个叫做garden的模块。编译器会在下列路径中寻找模块代码：<ul>
+<li>内联，在大括号中，当<code>mod garden</code>后方不是一个分号而是一个大括号</li>
+<li>在文件 <code>src/garden.rs</code></li>
+<li>在文件 <code>src/garden/mod.rs</code></li>
+</ul>
+</li>
+<li><strong>声明子模块</strong>: 在除了crate根节点以外的其他文件中，你可以定义<strong>子模块</strong>。比如，你可能在<code>src/garden.rs</code>中定义了<code>mod vegetables</code>;。编译器会在以父模块命名的目录中寻找子模块代码：<ul>
+<li>内联, 在大括号中，当<code>mod vegetables</code>后方不是一个分号而是一个大括号</li>
+<li>在文件 <code>src/garden/vegetables.rs</code></li>
+<li>在文件 <code>src/garden/vegetables/mod.rs</code></li>
+</ul>
+</li>
+<li><strong>模块中的代码路径</strong>: 一旦一个模块是你crate的一部分， 你可以在隐私规则允许的前提下，从同一个crate内的任意地方，通过代码路径引用该模块的代码。举例而言，一个<code>garden vegetables</code>模块下的Asparagus类型可以在<code>crate::garden::vegetables::Asparagus</code>被找到。</li>
+<li><strong>私有 vs 公用</strong>: 一个模块里的代码默认对其父模块私有。为了使一个模块公用，应当在声明时使用<code>pub mod</code>替代<code>mod</code>。为了使一个公用模块内部的成员公用，应当在声明前使用<code>pub</code>。</li>
+<li><strong>use 关键字</strong>: 在一个作用域内，<code>use</code>关键字创建了一个成员的快捷方式，用来减少长路径的重复。在任何可以引用<code>crate::garden::vegetables::Asparagus</code>的作用域, 你可以通过 <code>use crate::garden::vegetables::Asparagus;</code>创建一个快捷方式，然后你就可以在作用域中只写Asparagus来使用该类型。</li>
+</ul>
+</mark>
+<p>这里创建一个名为<code>backyard</code>的<strong>二进制<code>crate</code></strong>来说明这些规则。该<code>crate</code>的路径同样命名为backyard，该路径包含了这些文件和目录：</p>
+<div class="highlight"><pre><span></span><code>backyard
+├── Cargo.lock
+├── Cargo.toml
+└── src
+    ├── garden
+    │   └── vegetables.rs
+    ├── garden.rs
+    └── main.rs     <span class="c1"># crate根文件</span>
+</code></pre></div>
+<p>文件名: src/main.rs</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">garden</span>::<span class="n">vegetables</span>::<span class="n">Asparagus</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">garden</span><span class="p">;</span><span class="w">  </span><span class="c1">// 告诉编译器应该包含在src/garden.rs文件中发现的代码</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">plant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Asparagus</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;I&#39;m growing {:?}!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">plant</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>文件名: src/garden.rs</p>
+<div class="highlight"><pre><span></span><code><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">vegetables</span><span class="p">;</span><span class="w">  </span><span class="c1">// 意味着在src/garden/vegetables.rs中的代码也应该被包括。</span>
+</code></pre></div>
+<p>文件名: src/garden/vegetables.rs</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[derive(Debug)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Asparagus</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_2">对相关代码进行分组</h3>
+<p><strong>模块</strong> 可以将一个 <code>crate</code> 中的代码进行分组，以提高可读性与重用性。
+因为一个<ins class="critic">模块中的代码默认是私有的</ins>，所以还可以利用模块控制项的 <strong>私有性</strong>。
+私有项是不可为外部使用的内在详细实现。也可以将模块和它其中的项标记为公开的，这样，外部代码就可以使用并依赖与它们。</p>
+<p>在餐饮业，餐馆中会有一些地方被称之为 <strong>前台</strong>（front of house），还有另外一些地方被称之为 <strong>后台</strong>（back of house）。
+前台是招待顾客的地方，在这里，店主可以为顾客安排座位，服务员接受顾客下单和付款，调酒师会制作饮品。
+后台则是由厨师工作的厨房，洗碗工的工作地点，以及经理做行政工作的地方组成。</p>
+<p>可以将函数放置到嵌套的模块中，来使我们的 crate 结构与实际的项目业务结构相同。通过执行 <code>cargo new --lib restaurant</code>，
+来创建一个新的名为 <code>restaurant</code> 的库。然后将示例中所罗列出来的代码放入 <code>src/lib.rs</code> 中，来定义一些模块和函数。</p>
+<p>文件名: src/lib.rs</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 一个包含了其他内置了函数的模块的 front_of_house 模块</span>
+
+<span class="c1">// 定义一个模块，是以 mod 关键字为起始，然后指定模块的名字（叫做 front_of_house），并且用花括号包围模块的主体。</span>
+<span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 在模块内，我们还可以定义其他的模块，</span>
+<span class="w">    </span><span class="c1">// hosting 模块</span>
+<span class="w">    </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// 模块还可以保存一些定义的其他项</span>
+<span class="w">        </span><span class="c1">// 比如结构体、枚举、常量、traits、或者函数。</span>
+<span class="w">        </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">fn</span> <span class="nf">seat_at_table</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// serving 模块</span>
+<span class="w">    </span><span class="k">mod</span> <span class="nn">serving</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">fn</span> <span class="nf">take_order</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">fn</span> <span class="nf">serve_order</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">fn</span> <span class="nf">take_payment</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">通过使用模块，可以将相关的定义分组到一起，并指出他们为什么相关</ins>。
+程序员可以通过使用这段代码，更加容易地找到他们想要的定义，因为他们可以基于分组来对代码进行导航，而不需要阅读所有的定义。
+程序员向这段代码中添加一个新的功能时，他们也会知道代码应该放置在何处，可以保持程序的组织性。</p>
+<p>在前面提到了，<code>src/main.rs</code> 和 <code>src/lib.rs</code> 叫做 <code>crate</code> 根。
+之所以这样叫它们是因为这两个文件的内容都分别在 <code>crate</code> 模块结构的根组成了一个名为 <code>crate</code> 的模块，该结构被称为 <strong>模块树</strong>（module tree）。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 示例的模块树</span>
+
+<span class="c1"># 这个树展示了一些模块是如何被嵌入到另一个模块的</span>
+<span class="c1"># 还展示了一些模块是互为 兄弟（siblings） 的，这意味着它们定义在同一模块中</span>
+<span class="c1"># （hosting 和 serving 被一起定义在 front_of_house 中）。</span>
+crate
+ └── front_of_house
+     ├── hosting
+     │   ├── add_to_waitlist
+     │   └── seat_at_table
+     └── serving
+         ├── take_order
+         ├── serve_order
+         └── take_payment
+</code></pre></div>
+<p>沿用家庭关系的比喻，如果一个模块 A 被包含在模块 B 中，我们将模块 A 称为模块 B 的 <strong>子模块</strong>（child），模块 B 则是模块 A 的 <strong>父模块</strong>（parent）。注意，整个模块树都植根于名为 <code>crate</code> 的隐式模块下。</p>
+<p>这个模块树很像电脑上文件系统的<strong>目录树</strong>；这是一个非常恰当的类比！就像文件系统的目录，可以使用模块来组织你的代码。</p>
+<h2 id="_3">引用模块</h2>
+<p><strong>使用路径的方式，就像在文件系统使用路径一样。</strong></p>
+<p>路径有两种形式：</p>
+<ul>
+<li><strong>绝对路径</strong>（absolute path）从 crate 根开始，以 <code>crate</code> 名或者<code>字面值 crate</code> 开头。</li>
+<li><strong>相对路径</strong>（relative path）从当前模块开始，以 <code>self</code>、<code>super</code> 或<code>当前模块的标识符</code>开头。</li>
+</ul>
+<p>绝对路径和相对路径都后跟一个或多个由双冒号（<code>::</code>）分割的标识符。</p>
+<p>文件名: src/lib.rs</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 绝对路径</span>
+<span class="w">    </span><span class="c1">// 被定义在同一 crate 中，这意味着我们可以使用 crate 关键字为起始的绝对路径。</span>
+<span class="w">    </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 相对路径</span>
+<span class="w">    </span><span class="c1">// 以 front_of_house 为起始</span>
+<span class="w">    </span><span class="c1">// 以名称为起始，意味着该路径是相对路径。</span>
+<span class="w">    </span><span class="n">front_of_house</span>::<span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 这个例子无法编译通过, 因为 hosting 子模块是私有的（默认）</span>
+</code></pre></div>
+<p>选择使用相对路径还是绝对路径，还是要取决于你的项目。取决于你是更倾向于将项的定义代码与使用该项的代码分开来移动，还是一起移动。</p>
+<p>build 报错:</p>
+<div class="highlight"><pre><span></span><code>$ cargo build
+   Compiling restaurant v0.1.0 <span class="o">(</span>file:///projects/restaurant<span class="o">)</span>
+error<span class="o">[</span>E0603<span class="o">]</span>: module <span class="sb">`</span>hosting<span class="sb">`</span> is private
+ --&gt; src/lib.rs:9:28
+  <span class="p">|</span>
+<span class="m">9</span> <span class="p">|</span>     crate::front_of_house::hosting::add_to_waitlist<span class="o">()</span><span class="p">;</span>
+  <span class="p">|</span>                            ^^^^^^^ private module
+  <span class="p">|</span>
+note: the module <span class="sb">`</span>hosting<span class="sb">`</span> is defined here
+ --&gt; src/lib.rs:2:5
+  <span class="p">|</span>
+<span class="m">2</span> <span class="p">|</span>     mod hosting <span class="o">{</span>
+  <span class="p">|</span>     ^^^^^^^^^^^
+
+error<span class="o">[</span>E0603<span class="o">]</span>: module <span class="sb">`</span>hosting<span class="sb">`</span> is private
+  --&gt; src/lib.rs:12:21
+   <span class="p">|</span>
+<span class="m">12</span> <span class="p">|</span>     front_of_house::hosting::add_to_waitlist<span class="o">()</span><span class="p">;</span>
+   <span class="p">|</span>                     ^^^^^^^ private module
+   <span class="p">|</span>
+note: the module <span class="sb">`</span>hosting<span class="sb">`</span> is defined here
+  --&gt; src/lib.rs:2:5
+   <span class="p">|</span>
+<span class="m">2</span>  <span class="p">|</span>     mod hosting <span class="o">{</span>
+   <span class="p">|</span>     ^^^^^^^^^^^
+
+For more information about this error, try <span class="sb">`</span>rustc --explain E0603<span class="sb">`</span>.
+error: could not compile <span class="sb">`</span>restaurant<span class="sb">`</span> due to <span class="m">2</span> previous errors
+</code></pre></div>
+<p>错误信息说 <code>hosting</code> 模块是私有的。换句话说，示例拥有 <code>hosting</code> 模块和 <code>add_to_waitlist</code> 函数的的正确路径，但是 Rust 不让我们使用，因为它<strong>不能访问私有片段</strong>。</p>
+<p>模块不仅对于组织代码很有用。还定义了 Rust 的 <strong>私有性边界</strong>（privacy boundary）：这条界线不允许外部代码了解、调用和依赖被封装的实现细节。所以，如果希望创建一个私有函数或结构体，可以将其放入模块。</p>
+<p><ins class="critic">Rust 中<strong>默认</strong>所有项（函数、方法、结构体、枚举、模块和常量）都是私有的。父模块中的项不能使用子模块中的私有项，但是子模块中的项可以使用他们父模块中的项。</ins>
+这是因为子模块封装并隐藏了他们的实现详情，但是子模块可以看到他们定义的上下文。
+继续拿餐馆作比喻，把私有性规则想象成餐馆的后台办公室：餐馆内的事务对餐厅顾客来说是不可知的，但办公室经理可以洞悉其经营的餐厅并在其中做任何事情。</p>
+<p>Rust 选择以这种方式来实现模块系统功能，因此默认隐藏内部实现细节。这样一来，就知道可以更改内部代码的哪些部分而不会破坏外部代码。还可以通过使用 <code>pub</code> 关键字来创建公共项，使子模块的内部部分暴露给上级模块。</p>
+<h3 id="pub">pub关键字</h3>
+<p>在上面示例的报错信息中，它告诉我们 <code>hosting</code> 模块是私有的。想让父模块中的 <code>eat_at_restaurant</code> 函数可以访问子模块中的 <code>add_to_waitlist</code> 函数，因此我们使用 <code>pub</code> 关键字来标记 <code>hosting</code> 模块，</p>
+<p>文件名: src/lib.rs</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 添加pub关键字使模块公开</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 添加pub关键字使函数公开</span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 绝对路径</span>
+<span class="w">    </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 相对路径</span>
+<span class="w">    </span><span class="n">front_of_house</span>::<span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 现在代码可以编译通过了！</span>
+</code></pre></div>
+<p><ins class="critic">私有性规则不但应用于模块，还应用于结构体、枚举、函数和方法。</ins></p>
+<h3 id="super">super相对路径</h3>
+<p><ins class="critic">还可以使用 <code>super</code> 开头来构建从父模块开始的相对路径。</ins> 似于文件系统中以 <code>..</code> 开头的语法。</p>
+<p>文件名: src/lib.rs</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 使用以 super 开头的相对路径从父目录开始调用函数</span>
+
+<span class="k">fn</span> <span class="nf">serve_order</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="k">mod</span> <span class="nn">back_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">fix_incorrect_order</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">cook_order</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// super表示父级的模块</span>
+<span class="w">        </span><span class="k">super</span>::<span class="n">serve_order</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">cook_order</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_4">公有的结构体和枚举</h3>
+<p>还可以使用 <code>pub</code> 来设计公有的<strong>结构体</strong>和<strong>枚举</strong>，不过有一些额外的细节需要注意。
+<ins class="critic">如果我们在一个结构体定义的前面使用了 <code>pub</code> ，这个结构体会变成公有的，但是这个结构体的字段仍然是私有的。可以根据情况决定每个字段是否公有。</ins></p>
+<p>在示例中，定义了一个公有结构体 <code>back_of_house:Breakfast</code>，其中有一个公有字段 <code>toast</code> 和私有字段 <code>seasonal_fruit</code>。</p>
+<p>这个例子模拟的情况是，在一家餐馆中，顾客可以选择随餐附赠的面包类型，但是厨师会根据季节和库存情况来决定随餐搭配的水果。餐馆可用的水果变化是很快的，所以顾客不能选择水果，甚至无法看到他们将会得到什么水果。</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">back_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Breakfast</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="n">toast</span>: <span class="nb">String</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">seasonal_fruit</span>: <span class="nb">String</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">impl</span><span class="w"> </span><span class="n">Breakfast</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">summer</span><span class="p">(</span><span class="n">toast</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Breakfast</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">Breakfast</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="n">toast</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="n">toast</span><span class="p">),</span><span class="w"></span>
+<span class="w">                </span><span class="n">seasonal_fruit</span>: <span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;peaches&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 在夏天订购一个黑麦土司作为早餐</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">meal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">back_of_house</span>::<span class="n">Breakfast</span>::<span class="n">summer</span><span class="p">(</span><span class="s">&quot;Rye&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// toast 字段是公有的, 所以可以使用点号来随意的读写 toast 字段。</span>
+<span class="w">    </span><span class="c1">// 改变主意更换想要面包的类型</span>
+<span class="w">    </span><span class="n">meal</span><span class="p">.</span><span class="n">toast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;Wheat&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;I&#39;d like {} toast please&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">meal</span><span class="p">.</span><span class="n">toast</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 如果取消下一行的注释代码不能编译；</span>
+<span class="w">    </span><span class="c1">// 不允许查看或修改早餐附带的季节水果</span>
+<span class="w">    </span><span class="c1">// 因为 seasonal_fruit 是私有的, 所以不能用点号来随意的读写 seasonal_fruit 字段。</span>
+<span class="w">    </span><span class="c1">// meal.seasonal_fruit = String::from(&quot;blueberries&quot;);</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<mark class="critic block">
+<blockquote>
+<p><strong>注意</strong></p>
+<p>因为 <code>back_of_house::Breakfast</code> 具有私有字段，所以这个结构体<strong>需要提供一个公共的关联函数来构造 Breakfast 的实例</strong>(这里命名为 <code>summer</code>)。
+如果 <strong>Breakfast</strong> 没有这样的函数，将无法在 <strong>eat_at_restaurant</strong> 中创建 <strong>Breakfast</strong> 实例，
+因为我们不能在 <strong>eat_at_restaurant</strong> 中设置私有字段 <code>seasonal_fruit</code> 的值。</p>
+</blockquote>
+</mark>
+<p>与之相反，如果将<strong>枚举</strong>设为公有，则它的所有成员都将变为公有。只需要在 <code>enum</code> 关键字前面加上 <strong>pub</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 设计公有枚举，使其所有成员公有</span>
+
+<span class="k">mod</span> <span class="nn">back_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">Appetizer</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Soup</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">Salad</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">order1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">back_of_house</span>::<span class="n">Appetizer</span>::<span class="n">Soup</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">order2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">back_of_house</span>::<span class="n">Appetizer</span>::<span class="n">Salad</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><strong>如果枚举成员不是公有的，那么枚举会显得用处不大；</strong>
+给枚举的所有成员挨个添加 <code>pub</code> 是很令人恼火的，因此枚举成员默认就是公有的。
+结构体通常使用时，不必将它们的字段公有化，因此结构体遵循常规，内容全部是私有的，除非使用 <code>pub</code> 关键字。</p>
+<h2 id="use">use关键字</h2>
+<p>可以使用 <code>use</code> 关键字将路径一次性引入作用域，然后调用该路径中的项，就如同它们是本地项一样。</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 使用 use 将模块引入作用域</span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>作用域中增加 <code>use</code> 和路径类似于在文件系统中创建软连接（符号连接，symbolic link）</p>
+<p>通过在 <code>crate</code> 根增加 <code>use crate::front_of_house::hosting</code>，现在 <code>hosting</code> 在作用域中就是有效的名称了，
+如同 <code>hosting</code> 模块<strong>被定义</strong>于 <code>crate</code> 根一样。通过 <code>use</code> 引入作用域的路径<strong>也会检查私有性</strong>，同其它路径一样。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 引入作用域的习惯用法</span>
+
+<span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 使用 use 和相对路径来将一个项引入作用域</span>
+<span class="k">use</span><span class="w"> </span><span class="bp">self</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="use_1">惯用的 use 路径</h3>
+<p><code>use</code> 将函数引入作用域的习惯用法。就是使用 use 将函数的父模块引入作用域，必须在调用函数时指定父模块，这样可以清晰地表明函数不是在本地定义的，同时使完整路径的重复度最小化。
+ 如下示例中的代码不清楚 <code>add_to_waitlist</code> 是在哪里被定义的。</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 此时容易不知 add_to_waitlist 是在哪里被定义的。</span>
+<span class="w">    </span><span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>使用 <code>use</code> 引入结构体、枚举和其他项时，习惯是指定它们的完整路径。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 将 HashMap 引入作用域的习惯用法</span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">collections</span>::<span class="n">HashMap</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HashMap</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">map</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这种习惯用法背后没有什么硬性要求：它只是一种惯例，人们已经习惯了以这种方式阅读和编写 Rust 代码。</p>
+<p>这个习惯用法有一个例外，那就是我们想使用 <code>use</code> 语句将两个具有相同名称的项带入作用域，因为 Rust 不允许这样做。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 展示了如何将两个具有相同名称但不同父模块的 Result 类型引入作用域，以及如何引用它们。</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">function1</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">fmt</span>::<span class="nb">Result</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">function2</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">io</span>::<span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 使用父模块可以区分这两个 Result 类型。</span>
+</code></pre></div>
+<h3 id="as">as 关键字</h3>
+<p>使用 <code>use</code> 将两个同名类型引入同一作用域这个问题还有另一个解决办法：<strong>在这个类型的路径后面，使用 <code>as</code> 指定一个新的本地名称或者别名。</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 通过 as 重命名其中一个 Result 类型</span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fmt</span>::<span class="nb">Result</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="nb">Result</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">IoResult</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">function1</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">function2</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nc">IoResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="pub-use">pub use重导出</h3>
+<p>使用 <code>use</code> 关键字，<strong>将某个名称导入当前作用域后，这个名称在此作用域中就可以使用了，但它对此作用域之外还是私有的</strong>。
+<ins class="critic">如果想让其他人调用我们的代码时，也能够正常使用这个名称，就好像它本来就在当前作用域一样，那我们可以将 <code>pub</code> 和 <code>use</code> 合起来使用。</ins>
+这种技术被称为 “<strong>重导出</strong>（re-exporting）”：我们不仅将一个名称导入了当前作用域，还允许别人把它导入他们自己的作用域。</p>
+<div class="highlight"><pre><span></span><code><span class="k">mod</span> <span class="nn">front_of_house</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>通过 <code>pub use</code>重导出，外部代码现在可以通过新路径 <code>restaurant::hosting::add_to_waitlist</code> 来调用 <code>add_to_waitlist</code> 函数。
+如果没有指定 <code>pub use</code>，外部代码需在其作用域中调用 <code>restaurant::front_of_house::hosting::add_to_waitlist</code>。</p>
+<p>当你代码的内部结构与调用你代码的程序员所想象的结构不同时，重导出会很有用。
+例如，在这个餐馆的比喻中，经营餐馆的人会想到“前台”和“后台”。但顾客在光顾一家餐馆时，可能不会以这些术语来考虑餐馆的各个部分。
+使用 <code>pub use</code>，我们可以使用一种结构编写代码，却将不同的结构形式暴露出来。这样做使我们的库<strong>井井有条</strong>，<strong>也使开发这个库的程序员和调用这个库的程序员都更加方便。</strong></p>
+<h3 id="_5">使用外部包</h3>
+<p>在编写猜猜看游戏时。项目使用了一个外部包，<code>rand</code>，来生成随机数。为了在项目中使用 <code>rand</code>，在 <code>Cargo.toml</code> 中加入了如下行：</p>
+<div class="highlight"><pre><span></span><code><span class="n">rand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.8.3&quot;</span><span class="w"> </span><span class="c1">// 告诉了 Cargo 要从 crates.io 下载 rand 和其依赖，并使其可在项目代码中使用。</span>
+</code></pre></div>
+<p>接着，为了将 <code>rand</code> 定义引入项目包的作用域，加入一行 <code>use</code> 起始的包名，它以 <code>rand</code> 包名开头并列出了需要引入作用域的项。曾将 <code>Rng trait</code> 引入作用域并调用了 <code>rand::thread_rng</code> 函数：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">rand</span>::<span class="n">Rng</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">secret_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span>::<span class="n">thread_rng</span><span class="p">().</span><span class="n">gen_range</span><span class="p">(</span><span class="mi">1</span><span class="o">..=</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><code>crates.io</code> 上有很多 Rust 社区成员发布的包，将其引入自己的项目都需要一道相同的步骤：<ins class="critic">在 Cargo.toml 列出它们并通过 use 将其中定义的项引入项目包的作用域中。</ins></p>
+<p>注意<strong>标准库（std）</strong>对于你的包来说也是外部 <code>crate</code>。因为标准库随 Rust 语言一同分发，无需修改 <code>Cargo.toml</code> 来引入 <code>std</code>，不过需要通过 <code>use</code> 将标准库中定义的项引入项目包的作用域中来引用它们，比如使用的 <code>HashMap</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">collections</span>::<span class="n">HashMap</span><span class="p">;</span><span class="w">  </span><span class="c1">// 以标准库 crate 名 std 开头的绝对路径。</span>
+</code></pre></div>
+<h3 id="_6">嵌套路径</h3>
+<p>当需要引入很多定义于相同包或相同模块的项时，为每一项单独列出一行会占用源码很大的空间。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// --snip--</span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">cmp</span>::<span class="n">Ordering</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
+<span class="c1">// --snip--</span>
+</code></pre></div>
+<p>可以使用嵌套路径将相同的项在一行中引入作用域。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// --snip--</span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="p">{</span><span class="n">cmp</span>::<span class="n">Ordering</span><span class="p">,</span><span class="w"> </span><span class="n">io</span><span class="p">};</span><span class="w"></span>
+<span class="c1">// --snip--</span>
+</code></pre></div>
+<p>在较大的程序中，使用嵌套路径从相同包或模块中引入很多项，可以显著减少所需的独立 use 语句的数量！</p>
+<p>可以在路径的任何层级使用嵌套路径，这在组合两个共享子路径的 use 语句时非常有用。</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">Write</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>为:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 同时引入作用域。</span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">Write</span><span class="p">};</span><span class="w"></span>
+</code></pre></div>
+<h3 id="glob">glob运算符</h3>
+<p>如果希望将一个路径下 所有 公有项引入作用域，可以指定路径后跟 <code>*</code>，glob 运算符：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">collections</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// 使用 glob 运算符时请多加小心！</span>
+<span class="c1">// Glob 会使得我们难以推导作用域中有什么名称和它们是在何处定义的。</span>
+</code></pre></div>
+<p><code>glob</code> 运算符经常用于测试模块 <code>tests</code> 中，这时会将所有内容引入作用域；</p>
+<p><code>glob</code> 运算符有时也用于 <code>prelude</code> 模式；查看 <a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">标准库中的文档</a> 了解这个模式的更多细节。</p>
+<h2 id="_7">模块拆分</h2>
+<p><strong>当模块变得更大时，可能想要将它们的定义移动到单独的文件中，从而使代码更容易阅读。</strong></p>
+<p>例如，将 <code>front_of_house</code> 模块移动到属于它自己的文件 <code>src/front_of_house.rs</code> 中，通过改变 <code>crate</code> 根文件，使其包含示例的代码。
+在这个例子中，crate 根文件是 <code>src/lib.rs</code>，这也同样适用于以 <code>src/main.rs</code> 为 <code>crate</code> 根文件的二进制 <code>crate</code> 项。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 文件名: src/lib.rs</span>
+<span class="c1">// 声明 front_of_house 模块，其内容将位于 src/front_of_house.rs</span>
+
+<span class="k">mod</span> <span class="nn">front_of_house</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">front_of_house</span>::<span class="n">hosting</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">eat_at_restaurant</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">hosting</span>::<span class="n">add_to_waitlist</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><code>src/front_of_house.rs</code> 会获取 <code>front_of_house</code> 模块的定义内容</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 文件名: src/front_of_house.rs</span>
+<span class="c1">// 在 src/front_of_house.rs 中定义 front_of_house 模块</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在 <code>mod front_of_house</code> 后使用<strong>分号</strong>，而不是<strong>代码块</strong>，这将告诉 Rust 在另一个与模块同名的文件中加载模块的内容。
+继续重构例子，将 <code>hosting</code> 模块也提取到其自己的文件中，仅对 <code>src/front_of_house.rs</code> 包含 hosting 模块的声明进行修改：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 文件名: src/front_of_house.rs</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">mod</span> <span class="nn">hosting</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+<p>接着我们创建一个 <code>src/front_of_house</code> 目录和一个包含 <code>hosting</code> 模块定义的 <code>src/front_of_house/hosting.rs</code> 文件：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 文件名: src/front_of_house/hosting.rs</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">add_to_waitlist</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</code></pre></div>
+<p>模块树依然保持相同，<code>eat_at_restaurant</code> 中的函数调用也无需修改继续保持有效，即便其定义存在于不同的文件中。<ins class="critic">这个技巧可以在模块代码增长时，将它们移动到新文件中。</ins></p>
+<p>注意，<code>src/lib.rs</code> 中的 <code>pub use crate::front_of_house::hosting</code> 语句是没有改变的，在文件作为 <code>crate</code> 的一部分而编译时，<code>use</code> 不会有任何影响。
+<code>mod</code> 关键字声明了模块，Rust 会在与模块同名的文件中查找模块的代码。</p>
+<h2 id="_8">总结</h2>
+<p>Rust 提供了将包分成多个 <code>crate</code>，将 <code>crate</code> 分成模块，以及通过指定绝对或相对路径从一个模块引用另一个模块中定义的项的方式。
+可以通过使用 <code>use</code> 语句将路径引入作用域，这样在多次使用时可以使用更短的路径。
+<ins class="critic">模块定义的代码默认是私有的，不过可以选择增加 <code>pub</code> 关键字使其定义变为公有。</ins></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../enumerations/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 枚举" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              枚举
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../common-collections/" class="md-footer__link md-footer__link--next" aria-label="下一页: 常见集合" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              常见集合
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
