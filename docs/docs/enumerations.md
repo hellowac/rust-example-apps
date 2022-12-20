@@ -499,3 +499,56 @@ fn remove_fancy_hat() {}
 在这里，明确告诉 Rust 我们{++不会使用与前面模式不匹配的值，并且这种情况下我们不想运行任何代码++}。
 
 ## if let控制流
+
+`if let` 语法让我们以一种不那么冗长的方式结合 `if` 和 `let`，来处理只匹配一个模式的值而忽略其他模式的情况。
+
+```rust
+let config_max = Some(3u8);
+
+// 匹配一个 config_max 变量中的 Option<u8> 值并只希望当值为 Some 成员时执行代码
+match config_max {
+    // 这个值被绑定到模式中的 max 变量里。
+    Some(max) => println!("The maximum is configured to be {}", max),
+    // 对于 None 值我们不希望做任何操作
+    _ => (),
+}
+```
+
+不过我们可以使用 `if let` 这种更短的方式编写:
+
+```rust
+let config_max = Some(3u8);
+
+// if let 语法获取通过等号分隔的一个模式和一个表达式。它的工作方式与 match 相同，这里的表达式对应 match 而模式则对应第一个分支。
+// 模式是 Some(max)，max 绑定为 Some 中的值。
+// 接着可以在 if let 代码块中使用 max 了
+if let Some(max) = config_max {
+    println!("The maximum is configured to be {}", max);
+}
+
+// 模式不匹配时 if let 块中的代码不会执行。
+```
+
+使用 `if let` 意味着编写更少代码，更少的缩进和更少的样板代码。
+然而，这样会失去 `match` 强制要求的穷尽性检查。
+`match` 和 `if let` 之间的选择依赖特定的环境以及增加简洁度和失去穷尽性检查的权衡取舍。
+
+{++可以认为 if let 是 match 的一个语法糖，它当值匹配某一模式时执行代码而忽略所有其他值。++}
+
+```rust
+// 可以在 if let 中包含一个 else。else 块中的代码与 match 表达式中的 _ 分支块中的代码相同
+
+let mut count = 0;
+if let Coin::Quarter(state) = coin {
+    println!("State quarter from {:?}!", state);
+} else {
+    count += 1;
+}
+
+// 这样的 match 表达式就等同于 if let 和 else。
+let mut count = 0;
+match coin {
+    Coin::Quarter(state) => println!("State quarter from {:?}!", state),
+    _ => count += 1,
+}
+```

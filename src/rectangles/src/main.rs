@@ -76,6 +76,11 @@ fn main() {
         // 最后一个分支则涵盖了所有其他可能的值
         other => move_player(other),
     }
+
+    let config_max = Some(3i32);
+    if let Some(max) = config_max {
+        println!("最大的数被配置为 {}", max);
+    }
 }
 
 fn add_fancy_hat() {}
