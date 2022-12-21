@@ -887,3 +887,119 @@ fn get_word_from_line() -> String {
 ```
 
 ### 增加员工名字
+
+```rust
+// 最后一题不简单
+// 知识点：
+// 1. 从命令行解析字符串输入
+// 2. 判断字符串相等
+// 3. 生命周期控制
+fn main() {
+    let mut dep_map = HashMap::new();
+
+    let mut continue_add = true;
+
+    // 循环添加人员到部门
+    while continue_add {
+        println!("请输入要添加的人员和部门(add who to where):");
+        let add_text = get_input_text(); // Add Sally to Engineering
+
+        let mut name: Option<String> = None;
+        let mut department: Option<String> = None;
+
+        for (idx, word) in add_text.split_whitespace().enumerate() {
+            let text: String = match word.parse() {
+                Ok(name) => {
+                    println!("解析的单词为: {name}");
+                    name
+                }
+                Err(_) => {
+                    println!("解析输入失败");
+                    break;
+                }
+            };
+
+            match idx {
+                1 => name = Some(String::from(text)),       // 索引为1为名称；
+                3 => department = Some(String::from(text)), // 索引为3为部门；
+                _ => (),
+            }
+        }
+
+        // 增加部门到公司
+        if let Some(name) = name {
+            if let Some(department) = department {
+                let persons = dep_map.entry(department).or_insert(Vec::from([]));
+                persons.push(name);
+            }
+        }
+
+        println!("是否继续增加(y/n):");
+
+        continue_add = get_answer();
+    }
+
+    println!("请输入要获取的员工列表的部门(where):");
+
+    let dep_name = get_input_text();
+
+    let mut persons = dep_map.get_mut(&dep_name); // 获取可以改变的vec集合
+
+    if let Some(persons) = persons {
+        println!("{} 部门的员工有:", &dep_name);
+
+        persons.sort(); // 根据字母表排序
+
+        for person in persons {
+            println!("\t{}", person);
+        }
+    } else {
+        println!("{}部门没有员工存在!", &dep_name)
+    }
+
+    dbg!(dep_map);
+}
+
+fn get_answer() -> bool {
+    let mut word = String::new();
+
+    loop {
+        match io::stdin().read_line(&mut word) {
+            Ok(_) => {
+                let chars_count = word.trim().chars().count();
+
+                dbg!(chars_count);
+                dbg!(word.trim().chars());
+
+                if chars_count == 1 && word.trim().chars().eq("y".chars()) {
+                    return true;
+                }
+
+                return false;
+            }
+            Err(_) => {
+                println!("请输入y或者n!");
+                continue;
+            }
+        }
+    }
+}
+
+fn get_input_text() -> String {
+    let mut word = String::new();
+
+    loop {
+        match io::stdin().read_line(&mut word) {
+            Ok(_) => break,
+            Err(_) => continue,
+        }
+    }
+
+    word = match word.trim().parse() {
+        Ok(w) => w,
+        Err(_) => String::from(""),
+    };
+
+    word
+}
+```
