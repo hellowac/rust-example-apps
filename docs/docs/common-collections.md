@@ -219,4 +219,671 @@ fn main() {
 
 ## 字符串和UTF-8
 
+**字符串**是新晋 Rustacean 们通常会被困住的领域，这是由于三方面理由的结合：**Rust 倾向于确保暴露出可能的错误，字符串是比很多程序员所想象的要更为复杂的数据结构，以及 UTF-8**。所有这些要素结合起来对于来自其他语言背景的程序员就可能显得很困难了。
+
+**在集合章节中讨论字符串的原因是，字符串就是作为字节的集合外加一些方法实现的，当这些字节被解释为文本时，这些方法提供了实用的功能。**
+
+### 什么是字符串？
+
+**字符串**。Rust 的核心语言中只有一种字符串类型：**字符串slice** `str`，它通常以被**借用**的形式出现，`&str`。第四章讲到了 **字符串 slices**：{++它们是一些对储存在别处的 UTF-8 编码字符串数据的引用++}。
+举例来说，由于字符串**字面值**被储存在程序的二进制输出中，因此字符串字面值也是**字符串slices**。
+
+称作 **String** 的类型是由标准库提供的，而没有写进核心语言部分，它是**可增长的**、**可变的**、**有所有权的**、**UTF-8 编码的字符串类型**。
+当 Rustacean 们谈到 Rust 的 “**字符串**”时，它们通常指的是 **String** 或**字符串slice &str 类型**，而不特指其中某一个。
+虽然本部分内容大多是关于 **String** 的，不过这两个类型在 Rust 标准库中都被广泛使用，**String** 和**字符串 slices** 都是 UTF-8 编码的。
+
+### 新建字符串
+
+```rust
+// 以 new 函数创建字符串开始
+
+// 新建一个空的 String
+let mut s = String::new();
+```
+
+通常字符串会有初始数据，因为希望一开始就有这个字符串。为此，可以使用 `to_string` 方法，它能用于任何实现了 `Display` trait 的类型，字符串字面值也实现了它。
+
+```rust
+let data = "initial contents";
+
+let s = data.to_string();
+
+// 该方法也可直接用于字符串字面值：
+// 会创建包含 initial contents 的字符串。
+let s = "initial contents".to_string();
+
+// 也可以使用 String::from 函数来从字符串字面值创建 String
+let s = String::from("initial contents");
+```
+
+因为字符串应用广泛，这里有很多不同的用于字符串的通用 API 可供选择。其中一些可能看起来多余，不过都有其用武之地！在这个例子中，`String::from` 和 `.to_string` 最终做了完全相同的工作，所以如何选择就是**代码风格与可读性**的问题了。
+
+```rust
+// 字符串是 UTF-8 编码的，所以可以包含任何可以正确编码的数据
+let hello = String::from("السلام عليكم");
+let hello = String::from("Dobrý den");
+let hello = String::from("Hello");
+let hello = String::from("שָׁלוֹם");
+let hello = String::from("नमस्ते");
+let hello = String::from("こんにちは");
+let hello = String::from("안녕하세요");
+let hello = String::from("你好");
+let hello = String::from("Olá");
+let hello = String::from("Здравствуйте");
+let hello = String::from("Hola");
+// 所有这些都是有效的 String 值
+```
+
+### 更新字符串
+
+**String** 的大小可以增加，其内容也可以改变，就像可以放入更多数据来改变 **Vec** 的内容一样。
+另外，可以方便的使用 `+` 运算符或 `format!` 宏来拼接 **String** 值。
+
+#### push_str 和 push
+
+```rust
+// 通过 push_str 方法来附加字符串 slice，从而使 String 变长
+let mut s = String::from("foo");
+s.push_str("bar");
+```
+
+```rust
+// s 将会包含 foobar。push_str 方法采用字符串 slice，因为我们并不需要获取参数的所有权。
+// 将字符串 slice 的内容附加到 String 后使用它
+let mut s1 = String::from("foo");
+let s2 = "bar";
+s1.push_str(s2);   // 如果 push_str 方法获取了 s2 的所有权，就不能在最后一行打印出其值了
+println!("s2 is {}", s2);
+
+
+// push 方法被定义为获取一个单独的字符作为参数，并附加到 String 中
+// 使用 push 将一个字符加入 String 值中
+let mut s = String::from("lo"); // 添加mut关键字使其可变。
+s.push('l');
+```
+
+#### + 运算符或 format! 宏
+
+通常会希望将两个已知的字符串合并在一起。一种办法是像这样使用 `+` 运算符
+
+```rust
+// 使用 + 运算符将两个 String 值合并到一个新的 String 值中
+fn main() {
+    let s1 = String::from("Hello, ");
+    let s2 = String::from("world!");
+    let s3 = s1 + &s2; // 注意 s1 被移动了，不能继续使用
+    // 使用了 &，意味着我们使用第二个字符串的 引用 与第一个字符串相加。
+    // 因为 add 函数的 s 参数：只能将 &str 和 String 相加，不能将两个 String 值相加。
+
+    // println!("a is {s1}"); // 取消注释，会编译不通过，s1已经移动了，不可使用
+    println!("c is {s3}");  // s3 则没问题
+}
+```
+
+`s1` 在相加后不再有效的原因，和使用 `s2` 的引用的原因，与使用 `+` 运算符时调用的函数签名有关。`+` 运算符使用了 `add` 函数，这个函数签名看起来像这样：
+
+```rust
+fn add(self, s: &str) -> String {
+
+// 这并不是标准库中实际的签名；标准库中的 add 使用泛型定义。
+```
+
+这里我们看到的 `add` 的签名使用具体类型代替了泛型，这也正是当使用 **String** 值调用这个方法会发生的。第十章会讨论泛型。
+
+{==
+
+> 正如 **add** 的第二个参数所指定的，**&s2** 的类型是 **&String** 而不是 **&str**。那么为什么示例还能编译呢？
+>
+> 之所以能够在 `add` 调用中使用 `&s2` 是因为 `&String` 可以被 **强转**（coerced）成 `&str`。当`add`函数被调用时，Rust 使用了一个被称为 `Deref` **强制转换**（deref coercion）的技术，
+> 可以将其理解为它把 `&s2` 变成了 `&s2[..]`。
+> [第十五章](https://kaisery.github.io/trpl-zh-cn/ch15-00-smart-pointers.html)会更深入的讨论 `Deref` 强制转换。
+> 因为 `add` 没有获取参数的所有权，所以 `s2` 在这个操作后仍然是有效的 **String**。
+>
+> 其次，可以发现签名中 `add` 获取了 `self` 的所有权，因为 `self` **没有** 使用 `&`。这意味着示例中的 `s1` 的所有权将被移动到 `add` 调用中，之后就不再有效。
+> 所以虽然 `let s3 = s1 + &s2;` 看起来就像它会复制两个字符串并创建一个新的字符串，而实际上这个语句会获取 `s1` 的所有权，附加上从 `s2` 中拷贝的内容，**并返回结果的所有权**。
+> 换句话说，它看起来好像生成了很多拷贝，不过实际上并没有：**这个实现比拷贝要更高效**。
+
+==}
+
+```rust
+// 级联多个字符串，+ 的行为就显得笨重了
+let s1 = String::from("tic");
+let s2 = String::from("tac");
+let s3 = String::from("toe");
+
+let s = s1 + "-" + &s2 + "-" + &s3;
+// 这时 s 的内容会是 “tic-tac-toe”
+
+// 对于更为复杂的字符串链接，可以使用 format! 宏
+let s = format!("{}-{}-{}", s1, s2, s3);
+```
+
+`format!` 与 `println!` 的工作原理相同，不过不同于将输出打印到屏幕上，它返回一个带有结果内容的 `String`。这个版本就好理解的多，宏 `format!` 生成的代码使用引用所以不会获取任何参数的所有权。
+
+### 索引字符串
+
+**Rust 的字符串不支持索引。** 如下使用索引访问字符串会报编译错误：
+
+```rust
+let s1 = String::from("hello");
+let h = s1[0];      // 尝试对字符串使用索引语法
+```
+
+会导致如下错误：
+
+```rust
+$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+error[E0277]: the type `String` cannot be indexed by `{integer}`
+ --> src/main.rs:3:13
+  |
+3 |     let h = s1[0];
+  |             ^^^^^ `String` cannot be indexed by `{integer}`
+  |
+  = help: the trait `Index<{integer}>` is not implemented for `String`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `collections` due to previous error
+```
+
+为什么不支持呢？那么就要回答**Rust是如何在内存中储存字符串的**。看下面👇🏻
+
+#### 内部表现
+
+**String 是一个 `Vec<u8>` 的封装。**
+
+```rust
+let hello = String::from("Hola");
+// 在这里，len 的值是 4 ，
+// 这意味着储存字符串 “Hola” 的 Vec 的长度是四个字节：
+// 这里每一个字母的 UTF-8 编码都占用一个字节。
+```
+
+这个呢?
+
+```rust
+// 字符串中的首字母是西里尔字母的 Ze 而不是阿拉伯数字 3 
+let hello = String::from("Здравствуйте");
+
+// 当问及这个字符是多长的时候有人可能会说是 12。
+// 然而，Rust 的回答是 24。
+```
+
+这是使用 UTF-8 编码 `“Здравствуйте”` 所需要的字节数，这是因为每个 **Unicode** 标量值需要**两个字节**存储。
+因此一个字符串字节值的索引并不总是对应一个有效的 **Unicode** 标量值。
+
+作为演示，考虑如下无效的 Rust 代码：
+
+```rust
+let hello = "Здравствуйте";
+let answer = &hello[0];
+// 已经知道 answer 不是第一个字符 З。
+```
+
+当使用 **UTF-8** 编码时，`З` 的第一个字节 `208`，第二个是 `151`，所以 `answer` 实际上应该是 `208`，不过 `208` 自身并不是一个有效的字母。
+返回 `208` 可不是一个请求字符串第一个字母的人所希望看到的，不过它是 Rust 在字节索引 `0` 位置所能提供的唯一数据。
+
+用户通常不会想要一个字节值被返回，即便这个字符串只有拉丁字母： 即便 `&"hello"[0]` 是返回字节值的有效代码，它也应当返回 `104` 而不是 `h`。
+
+**为了避免返回意外的值并造成不能立刻发现的 bug，Rust 根本不会编译这些代码，并在开发过程中及早杜绝了误会的发生。**
+
+#### 字节、标量值和字形簇
+
+从 Rust 的角度来讲，事实上有三种相关方式可以理解字符串：**字节**、**标量值**和**字形簇**（最接近人们眼中 **字母** 的概念）。
+
+比如这个用梵文书写的印度语单词 `“नमस्ते”`，最终它储存在 **vector** 中的 `u8` 值看起来像这样：
+
+```rust
+[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
+224, 165, 135]
+```
+
+这里有 18 个字节，也就是计算机最终会储存的数据。如果从 **Unicode** 标量值的角度理解它们，也就像 **Rust** 的 **char** 类型那样，这些字节看起来像这样：
+
+```rust
+['न', 'म', 'स', '्', 'त', 'े']
+// 这里有六个 char，不过第四个和第六个都不是字母，它们是发音符号本身并没有任何意义。
+// 最后，如果以字形簇的角度理解，就会得到人们所说的构成这个单词的四个字母：
+["न", "म", "स्", "ते"]
+```
+
+Rust 提供了多种不同的方式来解释计算机储存的原始字符串数据，这样程序就可以选择它需要的表现方式，而无所谓是何种人类语言。
+
+{==
+
+最后一个 Rust 不允许使用索引获取 String 字符的原因是，**索引操作预期总是需要常数时间 (O(1))**。但是对于 `String` 不可能保证这样的性能，**因为 Rust 必须从开头到索引位置遍历来确定有多少有效的字符。**
+
+==}
+
+### 字符串 slice
+
+索引字符串通常是一个坏点子，{++因为字符串索引应该返回的类型是不明确的：字节值、字符、字形簇或者字符串 slice。++}
+
+为了更明确索引并表明你需要一个字符串 `slice`，相比使用 `[]` 和**单个值**的索引，可以使用 `[]` 和一个 `range` 来创建含特定字节的字符串 `slice`：
+
+```rust
+let hello = "Здравствуйте";
+
+let s = &hello[0..4];
+
+// s 会是一个 &str，它包含字符串的头四个字节。
+// 早些时候，提到了这些字母都是两个字节长的，
+// 所以这意味着 s 将会是 “Зд”。
+```
+
+> 如果获取 `&hello[0..1]` 会发生什么呢？
+>
+> 答案是：Rust 在运行时会 `panic`，就跟访问 `vector` 中的无效索引时一样：
+>
+> ```rust
+> $ cargo run
+>    Compiling collections v0.1.0 (file:///projects/collections)
+>     Finished dev [unoptimized + debuginfo] target(s) in 0.43s
+>      Running `target/debug/collections`
+> thread 'main' panicked at 'byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`', src/main.rs:4:14
+> note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+> ```
+>
+> **应该小心谨慎的使用这个操作，因为这么做可能会使你的程序崩溃。**
+
+### 遍历字符串
+
+{++操作字符串每一部分的最好的方法是明确表示需要**字符**还是**字节**++}。对于单独的 **Unicode** 标量值使用 `chars` 方法。
+
+对 **“नमस्ते”** 调用 `chars` 方法会将其分开并返回六个 `char` 类型的值，接着就可以遍历其结果来访问每一个元素了：
+
+```rust
+for c in "नमस्ते".chars() {
+    println!("{}", c);
+}
+```
+
+会打印出如下内容：
+
+```rust
+न
+म
+स
+्
+त
+े
+```
+
+另外 `bytes` 方法返回每一个**原始字节**，这可能会适合你的使用场景：
+
+```rust
+for b in "नमस्ते".bytes() {
+    println!("{}", b);
+}
+```
+
+会打印出组成 String 的 18 个字节：
+
+```rust
+224
+164
+// --snip--
+165
+135
+```
+
+{++请记住有效的 Unicode 标量值可能会由不止一个字节组成。++}
+
+从字符串中获取字形簇是很复杂的，所以标准库并没有提供这个功能。[crates.io](https://crates.io/) 上有些提供这样功能的 `crate`。
+
+### 字符串并不简单
+
+{==
+
+总而言之，字符串还是很复杂的。**不同的语言选择了不同的向程序员展示其复杂性的方式**。
+Rust 选择了以准确的方式处理 **String** 数据作为所有 Rust 程序的默认行为，这意味着程序员们必须更多的思考如何预先处理 `UTF-8` 数据。
+这种权衡取舍相比其他语言更多的暴露出了字符串的复杂性，不过也使你在开发生命周期后期免于处理涉及非 `ASCII` 字符的错误。
+
+==}
+
 ## HashMap 键值对
+
+集合类型 **哈希 map**（hash map）。`HashMap<K, V>`类型储存了一个键类型 `K` 对应一个值类型 `V` 的映射。
+它通过一个 `哈希函数`（hashing function）来实现映射，决定如何将键和值放入内存中。
+很多编程语言支持这种数据结构，不过通常有不同的名字：`哈希`、`map`、`对象`、`哈希表`或者`关联数组`，
+
+哈希 `map` 可以用于需要任何类型作为键来寻找数据的情况，而不是像 `vector` 那样通过索引。
+
+### 新建哈希 map
+
+```rust
+// 用 new 创建一个空的 HashMap，并使用 insert 增加元素。
+use std::collections::HashMap;
+// 必须首先 use 标准库中集合部分的 HashMap
+// HashMap 是最不常用的，所以并没有被 prelude 自动引用。
+// 标准库中对 HashMap 的支持也相对较少，例如，并没有内建的构建宏。
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+```
+
+像 `vector` 一样，哈希 `map` 将它们的数据储存在堆上，这个 `HashMap` 的键类型是 `String` 而值类型是 `i32`。
+类似于 **vector**，**哈希 map** 是同质的：{++所有的键必须是相同类型，值也必须都是相同类型。++}
+
+另一个构建哈希 map 的方法是在一个元组的 **vector** 上使用**迭代器**（iterator）和 **collect** 方法，其中每个元组包含一个键值对。
+
+会在第十三章的 “[使用迭代器处理一系列元素](https://kaisery.github.io/trpl-zh-cn/ch13-02-iterators.html)” 部分 **介绍迭代器及其关联方法**。
+**collect** 方法可以将数据收集进一系列的集合类型，包括 **HashMap**。
+
+```rust
+use std::collections::HashMap;
+
+let teams = vec![String::from("Blue"), String::from("Yellow")];
+let initial_scores = vec![10, 50];
+
+// 这里 HashMap<_, _> 类型注解是必要的，因为可能 collect 为很多不同的数据结构，而除非显式指定否则 Rust 无从得知你需要的类型。
+// 但是对于键和值的类型参数来说，可以使用下划线占位，而 Rust 能够根据 vector 中数据的类型推断出 HashMap 所包含的类型。
+// 键（key）类型是 String，
+// 值（value）类型是 i32，
+let mut scores: HashMap<_, _> =
+    teams.into_iter().zip(initial_scores.into_iter()).collect();
+```
+
+### 哈希 map 和所有权
+
+对于像 `i32` 这样的实现了 **Copy** trait 的类型，其值可以拷贝进**哈希 map**。对于像 **String** 这样拥有所有权的值，其值将被**移动**而**哈希 map** 会成为这些值的所有者，
+
+```rust
+use std::collections::HashMap;
+
+let field_name = String::from("Favorite color");
+let field_value = String::from("Blue");
+
+let mut map = HashMap::new();
+map.insert(field_name, field_value);
+// 这里 field_name 和 field_value 不再有效，
+// 尝试使用它们看看会出现什么编译错误！
+
+// 当 insert 调用将 field_name 和 field_value 移动到哈希 map 中后，将不能使用这两个绑定。
+```
+
+{++如果将值的引用插入哈希 map，这些值本身将不会被移动进哈希 map。但是这些引用指向的值必须至少在哈希 map 有效时也是有效的。++}
+第十章 “[生命周期与引用有效性](https://kaisery.github.io/trpl-zh-cn/ch10-03-lifetime-syntax.html#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%B8%8E%E5%BC%95%E7%94%A8%E6%9C%89%E6%95%88%E6%80%A7)” 部分将会更多的讨论这个问题。
+
+### 访问哈希 map
+
+可以通过 `get` 方法并提供对应的键来从哈希 map 中获取值
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+
+let team_name = String::from("Blue");
+let score = scores.get(&team_name);  // score 是与蓝队分数相关的值，应为 Some(10)。
+// 因为 get 返回 Option<V>，所以结果被装进 Some；
+// 如果某个键在哈希 map 中没有对应的值，get 会返回 None。
+// 这时就要用某种第六章提到的方法之一来处理 Option。
+
+// if let 方式👇🏻
+if let Some(value) = score {
+    println!("value is {value}")
+} else {
+    println!("not value")
+}
+
+// match 方式👇🏻
+match score {
+    Some(value) => {
+        println!("value is {value}")
+    }
+    // None => {
+    //     println!("not value")
+    // }
+    _ => println!("not value"),
+}
+```
+
+可以使用与 vector 类似的方式来遍历哈希 map 中的每一个键值对，也就是 for 循环：
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+
+for (key, value) in &scores {
+    println!("{}: {}", key, value);
+}
+
+// 这会以任意顺序打印出每一个键值对：
+// Blue:10
+// Yellow:50
+```
+
+### 更新哈希 map
+
+{==
+
+**尽管键值对的数量是可以增长的，不过任何时候，每个键只能关联一个值。**
+当我们想要改变哈希 map 中的数据时，必须决定如何处理一个键已经有值了的情况。
+
+- 可以选择完全无视旧值并用新值代替旧值。
+- 可以选择保留旧值而忽略新值，并只在键 **没有** 对应值时增加新值。
+- 或者可以结合新旧两值。
+
+==}
+
+#### 覆盖一个值
+
+**如果插入了一个键值对，接着用相同的键插入一个不同的值，与这个键相关联的旧值将被替换。**
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Blue"), 25);
+
+println!("{:?}", scores);
+// 这会打印出 {"Blue": 25}。原始的值 10 则被覆盖了。
+```
+
+#### 只在键没有对应值时插入
+
+**经常会检查某个特定的键是否有值，如果没有就插入一个值。**
+为此**哈希 map** 有一个特有的 API，叫做 `entry`，它获取我们想要检查的键作为参数。
+`entry` 函数的返回值是一个枚举，`Entry`，它代表了可能存在也可能不存在的值。
+
+```rust
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+scores.insert(String::from("Blue"), 10);
+
+scores.entry(String::from("Yellow")).or_insert(50);
+scores.entry(String::from("Blue")).or_insert(50);
+
+println!("{:?}", scores);
+// 会打印出 {"Yellow": 50, "Blue": 10}。
+```
+
+{==
+
+**Entry** 的 `or_insert` 方法在键对应的值存在时就返回这个值的可变引用，如果不存在则将参数作为新值插入并返回新值的可变引用。
+
+这比编写自己的逻辑要简明的多，另外也与借用检查器结合得更好。
+
+==}
+
+#### 根据旧值更新一个值
+
+**另一个常见的哈希 map 的应用场景是找到一个键对应的值并根据旧的值更新它。**
+
+示例中的代码计数一些文本中每一个单词分别出现了多少次。
+
+```rust
+use std::collections::HashMap;
+
+let text = "hello world wonderful world";
+
+let mut map = HashMap::new();
+
+// split_whitespace 方法会迭代 text 的值由空格分隔的子 slice.
+for word in text.split_whitespace() {
+    // or_insert 方法返回这个键的值的一个可变引用（&mut V）。
+    let count = map.entry(word).or_insert(0);
+
+    // 这里将这个可变引用储存在 count 变量中，所以为了赋值必须首先使用星号（*）解引用 count。
+    *count += 1;
+
+    // 这个可变引用在 for 循环的结尾离开作用域，这样所有这些改变都是安全的并符合借用规则。
+}
+
+println!("{:?}", map);
+// 会打印出 {"world": 2, "hello": 1, "wonderful": 1}。
+```
+
+### 哈希函数
+
+HashMap 默认使用一种叫做 `SipHash` 的哈希函数，它可以抵御涉及**哈希表**（hash table）1 的拒绝服务（Denial of Service, DoS）攻击。
+然而这并不是可用的最快的算法，不过为了更高的安全性值得付出一些性能的代价。
+如果性能监测显示此哈希函数非常慢，以致于你无法接受，可以指定一个不同的 `hasher` 来切换为其它函数。
+`hasher` 是一个实现了 **BuildHasher trait** 的类型。
+第十章会讨论 `trait` 和如何实现它们。并不需要从头开始实现你自己的 `hasher`；
+[crates.io](https://crates.io/) 有其他人分享的实现了许多常用哈希算法的 `hasher` 的库。
+
+> 参考: <https://en.wikipedia.org/wiki/SipHash>
+
+## 总结
+
+`vector`、**字符串**和**哈希 map** 会在你的程序需要**储存**、**访问**和**修改数据**时帮助你。这里有一些你应该能够解决的练习问题：
+
+- 给定一系列数字，使用 `vector` 并返回这个列表的中位数（排列数组后位于中间的值）和众数（mode，出现次数最多的值；这里哈希 `map` 会很有帮助）。
+- 将字符串转换为 `Pig Latin`，也就是每一个单词的第一个辅音字母被移动到单词的结尾并增加 “ay”，所以 “first” 会变成 “irst-fay”。元音字母开头的单词则在结尾增加 “hay”（“apple” 会变成 “apple-hay”）。牢记 UTF-8 编码！
+- 使用`哈希 map` 和 `vector`，创建一个文本接口来允许用户向公司的部门中增加员工的名字。例如，“Add Sally to Engineering” 或 “Add Amir to Sales”。接着让用户获取一个部门的所有员工的列表，或者公司每个部门的所有员工按照字典序排列的列表。
+
+标准库 API 文档中描述的这些类型的方法将有助于你进行这些练习！
+
+## 练习-我的答案
+
+### 返回列表的中位数
+
+```rust
+fn main() {
+    let mut numbers = vec![];
+
+    // 生成100个随机数
+    for _ in 0..100 {
+        let rand_number = thread_rng().gen_range(0..100); // 随机数从0-100中取得。
+        numbers.push(rand_number);
+    }
+
+    numbers.sort(); // 从小到大排序
+    numbers.reverse(); // 逆序
+
+    println!("生成的随机数列是: {:?}", &numbers);
+
+    let mid_idx = numbers.len() / 2; // 找到中位数坐标
+
+    println!("中位数是: {}", numbers[mid_idx]);  // 打印中位数
+
+    let max_word = max_count_word(&numbers);   // 获取出现最多次数的随机数
+
+    // 使用if let 判断并打印出现最多次数的随机数
+    if let Some(value) = max_word {
+        println!("众数是: {}", value);
+    } else {
+        println!("未发现众数!");
+    }
+}
+
+fn max_count_word(vec: &Vec<i32>) -> Option<&i32> {
+    let mut word_count = HashMap::new();
+
+    // 统计每个随机数出现的次数
+    for word in vec {
+        let count = word_count.entry(word).or_insert(0);
+        *count += 1;
+    }
+
+    let mut max_count = 0;
+    let mut max_count_key = None;
+
+    // 找到出现最多次的随机数;
+    for (k, v) in word_count {
+        if v > max_count {
+            max_count = v;
+            max_count_key = Some(k);
+        }
+    }
+
+    // 返回出现最多次的随机数
+    max_count_key
+}
+```
+
+### 字符串转换
+
+```rust
+fn main() {
+    let vowel_chars = ['a', 'e', 'i', 'o', 'u'];
+
+    // 从控制台获取单词
+    let word = get_word_from_line();
+
+    println!("获取的单词是: {}", &word);
+
+    let mut fixed_word = String::from("");
+
+    // 非元音开头单词的第一个字母
+    let mut not_vowel_char: Option<char> = None;
+    let mut other_chars = String::from("");
+
+    for (idx, c) in word.chars().enumerate() {
+        // 获取第一个字符并且不是元音字母开头的单词的第一个字母
+        if idx == 0 && !vowel_chars.contains(&c) {
+            not_vowel_char = Some(c);
+            continue;
+        } else {
+            other_chars.push(c);
+        };
+    }
+
+    // 非元音字母开头的情况
+    if let Some(not_vowel_c) = not_vowel_char {
+        fixed_word = format!("{}-{}ay", other_chars, not_vowel_c); // 使用format!宏格式化字符
+
+    // 元音字母开头的情况
+    } else {
+        fixed_word = format!("{}-hay", other_chars);   // 使用format!宏格式化字符
+    }
+
+    println!("修改后的字符为: {}", fixed_word);
+}
+
+fn get_word_from_line() -> String {
+    let mut word = String::new();
+
+    println!("请输入一个单词:");
+
+    loop {
+        match io::stdin().read_line(&mut word) {
+            Ok(_) => break,
+            Err(_) => continue,
+        }
+    }
+
+    word = match word.trim().parse() {
+        Ok(w) => w,
+        Err(_) => String::from(""),
+    };
+
+    word
+}
+```
+
+### 增加员工名字
