@@ -1627,6 +1627,120 @@ Rust 选择了以准确的方式处理 <strong>String</strong> 数据作为所�
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h3 id="_18">增加员工名字</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// 最后一题不简单</span>
+<span class="c1">// 知识点：</span>
+<span class="c1">// 1. 从命令行解析字符串输入</span>
+<span class="c1">// 2. 判断字符串相等</span>
+<span class="c1">// 3. 生命周期控制</span>
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">dep_map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HashMap</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">continue_add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 循环添加人员到部门</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">continue_add</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;请输入要添加的人员和部门(add who to where):&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">add_text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_input_text</span><span class="p">();</span><span class="w"> </span><span class="c1">// Add Sally to Engineering</span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">name</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">department</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">None</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">idx</span><span class="p">,</span><span class="w"> </span><span class="n">word</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">add_text</span><span class="p">.</span><span class="n">split_whitespace</span><span class="p">().</span><span class="n">enumerate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">text</span>: <span class="nb">String</span> <span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">word</span><span class="p">.</span><span class="n">parse</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nb">Ok</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;解析的单词为: {name}&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">                    </span><span class="n">name</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">                </span><span class="nb">Err</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;解析输入失败&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">                    </span><span class="k">break</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">            </span><span class="k">match</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="mi">1</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="n">text</span><span class="p">)),</span><span class="w">       </span><span class="c1">// 索引为1为名称；</span>
+<span class="w">                </span><span class="mi">3</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="n">text</span><span class="p">)),</span><span class="w"> </span><span class="c1">// 索引为3为部门；</span>
+<span class="w">                </span><span class="n">_</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(),</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// 增加部门到公司</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">department</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">persons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dep_map</span><span class="p">.</span><span class="n">entry</span><span class="p">(</span><span class="n">department</span><span class="p">).</span><span class="n">or_insert</span><span class="p">(</span><span class="nb">Vec</span>::<span class="n">from</span><span class="p">([]));</span><span class="w"></span>
+<span class="w">                </span><span class="n">persons</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;是否继续增加(y/n):&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">continue_add</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_answer</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;请输入要获取的员工列表的部门(where):&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">dep_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_input_text</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">persons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dep_map</span><span class="p">.</span><span class="n">get_mut</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dep_name</span><span class="p">);</span><span class="w"> </span><span class="c1">// 获取可以改变的vec集合</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">persons</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">persons</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{} 部门的员工有:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dep_name</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">persons</span><span class="p">.</span><span class="n">sort</span><span class="p">();</span><span class="w"> </span><span class="c1">// 根据字母表排序</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">person</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">persons</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">person</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;{}部门没有员工存在!&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">dep_name</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">dbg!</span><span class="p">(</span><span class="n">dep_map</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">get_answer</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kt">bool</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="n">io</span>::<span class="n">stdin</span><span class="p">().</span><span class="n">read_line</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">word</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nb">Ok</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">chars_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">word</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">chars</span><span class="p">().</span><span class="n">count</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">                </span><span class="fm">dbg!</span><span class="p">(</span><span class="n">chars_count</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="fm">dbg!</span><span class="p">(</span><span class="n">word</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">chars</span><span class="p">());</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">chars_count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">word</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">chars</span><span class="p">().</span><span class="n">eq</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">.</span><span class="n">chars</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                    </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"></span>
+<span class="w">                </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">            </span><span class="nb">Err</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;请输入y或者n!&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">get_input_text</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">String</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="n">io</span>::<span class="n">stdin</span><span class="p">().</span><span class="n">read_line</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">word</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nb">Ok</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">break</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nb">Err</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">continue</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">word</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">parse</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">word</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 
 
 
