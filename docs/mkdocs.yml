@@ -19,3 +19,4 @@ nav:
   - 'packages.md'
   - 'common-collections.md'
   - 'error-handing.md'
+  - 'generics.md'
