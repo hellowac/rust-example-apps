@@ -1,0 +1,1262 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>错误处理 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              错误处理
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ownership/" class="md-nav__link">
+        所有权
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../struct/" class="md-nav__link">
+        结构体
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumerations/" class="md-nav__link">
+        枚举
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packages/" class="md-nav__link">
+        包、crate、模块
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-collections/" class="md-nav__link">
+        常见集合
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          错误处理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        错误处理
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#panic" class="md-nav__link">
+    不可恢复的错误(panic!)
+  </a>
+  
+    <nav class="md-nav" aria-label="不可恢复的错误(panic!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panic-backtrace" class="md-nav__link">
+    使用 panic! 的 backtrace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    可恢复的错误(Result)
+  </a>
+  
+    <nav class="md-nav" aria-label="可恢复的错误(Result)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    匹配不同的错误
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap-expect" class="md-nav__link">
+    unwrap 和 expect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    传播错误
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    ?运算符
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    哪里使用 ? 运算符
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    错误处理抉择
+  </a>
+  
+    <nav class="md-nav" aria-label="错误处理抉择">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panic_1" class="md-nav__link">
+    示例、代码原型和测试都非常适合 panic
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    当我们知道更多的情况
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    错误处理指导原则
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    创建自定义类型进行有效性验证
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#panic" class="md-nav__link">
+    不可恢复的错误(panic!)
+  </a>
+  
+    <nav class="md-nav" aria-label="不可恢复的错误(panic!)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panic-backtrace" class="md-nav__link">
+    使用 panic! 的 backtrace
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    可恢复的错误(Result)
+  </a>
+  
+    <nav class="md-nav" aria-label="可恢复的错误(Result)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    匹配不同的错误
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap-expect" class="md-nav__link">
+    unwrap 和 expect
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    传播错误
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    ?运算符
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    哪里使用 ? 运算符
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    错误处理抉择
+  </a>
+  
+    <nav class="md-nav" aria-label="错误处理抉择">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#panic_1" class="md-nav__link">
+    示例、代码原型和测试都非常适合 panic
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    当我们知道更多的情况
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    错误处理指导原则
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    创建自定义类型进行有效性验证
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">错误处理</h1>
+<p>错误是软件中不可否认的事实，所以 Rust 有一些处理出错情况的特性。<ins class="critic">在许多情况下，Rust 要求你承认错误的可能性，并在代码编译前采取一些行动。</ins>这一要求使你的程序更加健壮，因为它可以确保你在将代码部署到生产环境之前就能发现错误并进行适当的处理。</p>
+<p>Rust 将错误分为两大类：<strong>可恢复的</strong>（recoverable）和 <strong>不可恢复的</strong>（unrecoverable）错误。对于一个可恢复的错误，比如文件未找到的错误，很可能只想向用户报告问题并重试操作。不可恢复的错误总是 bug 出现的征兆，比如试图访问一个超过数组末端的位置，因此我们要立即停止程序。</p>
+<p>大多数语言并不区分这两种错误，并采用类似异常这样方式统一处理他们。Rust 没有异常。相反，它有 <code>Result&lt;T, E&gt;</code> 类型，用于处理可恢复的错误，还有 <code>panic!</code> 宏，在程序遇到不可恢复的错误时停止执行。</p>
+<h2 id="panic">不可恢复的错误(panic!)</h2>
+<p>突然有一天，代码出问题了，而你对此束手无策。对于这种情况，<ins class="critic">Rust 有 <code>panic!</code>宏。当执行这个宏时，程序会<strong>打印出一个错误信息，展开并清理栈数据</strong>，然后接着退出。</ins>出现这种情况的场景通常是检测到一些类型的 <code>bug</code>，而且程序员并不清楚该如何处理它。</p>
+<blockquote>
+<p><strong>对应 panic 时的栈展开或终止</strong></p>
+<p>当出现 <code>panic</code> 时，程序默认会开始 <strong>展开</strong>（unwinding），这意味着 Rust 会回溯栈并清理它遇到的每一个函数的数据，不过这个回溯并清理的过程有很多工作。</p>
+<p>另一种选择是直接 <strong>终止</strong>（abort），这会不清理数据就退出程序。那么程序所使用的内存需要由操作系统来清理。
+如果你需要项目的最终二进制文件越小越好，<code>panic</code> 时通过在 <strong>Cargo.toml</strong> 的 <strong>[profile]</strong> 部分增加 <code>panic = 'abort'</code>，可以由展开切换为<strong>终止</strong>。
+例如，如果你想要在<strong>release</strong>模式中 <code>panic</code> 时直接终止：</p>
+<div class="highlight"><pre><span></span><code><span class="k">[profile.release]</span><span class="w"></span>
+<span class="n">panic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&#39;abort&#39;</span><span class="w"></span>
+</code></pre></div>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 调用 panic!</span>
+<span class="w">    </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;crash and burn&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>将会出现类似这样的输出：</p>
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling panic v0.1.0 <span class="o">(</span>file:///projects/panic<span class="o">)</span>
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.25s
+     Running <span class="sb">`</span>target/debug/panic<span class="sb">`</span>
+thread <span class="s1">&#39;main&#39;</span> panicked at <span class="s1">&#39;crash and burn&#39;</span>, src/main.rs:2:5
+note: run with <span class="sb">`</span><span class="nv">RUST_BACKTRACE</span><span class="o">=</span><span class="m">1</span><span class="sb">`</span> environment variable to display a backtrace
+
+<span class="c1"># 第一行显示了 panic 提供的信息并指明了源码中 panic 出现的位置：src/main.rs:2:5 表明这是 src/main.rs 文件的第二行第五个字符。</span>
+</code></pre></div>
+<p>在这个例子中，被指明的那一行是我们代码的一部分，而且查看这一行的话就会发现 <code>panic!</code> 宏的调用。
+在其他情况下，<code>panic!</code> 可能会出现在我们的代码所调用的代码中。
+<strong>错误信息报告的文件名和行号可能指向别人代码中的 <code>panic!</code> 宏调用，而不是我们代码中最终导致 <code>panic!</code> 的那一行。</strong>
+我们可以使用 <code>panic!</code> 被调用的函数的 <strong>backtrace</strong> 来寻找代码中出问题的地方。下面我们会详细介绍 <strong>backtrace</strong> 是什么。</p>
+<h3 id="panic-backtrace">使用 panic! 的 backtrace</h3>
+<p>另一个因为代码中的 <code>bug</code> 引起的别的库中 <code>panic!</code> 的例子，而不是直接的宏调用.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 尝试访问超越 vector 结尾的元素，这会造成 panic!</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 尝试访问 vector 的第一百个元素, 实际只有3个。</span>
+<span class="w">    </span><span class="c1">// 这种情况下 Rust 会 panic。</span>
+<span class="w">    </span><span class="n">v</span><span class="p">[</span><span class="mi">99</span><span class="p">];</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>C 语言中，尝试读取数据结构之后的值是<strong>未定义行为</strong>（undefined behavior）。
+你<strong>会得到任何对应数据结构中这个元素的内存位置的值，甚至是这些内存并不属于这个数据结构的情况。</strong>
+这被称为 <strong>缓冲区溢出</strong>（buffer overread），并可能会导致<strong>安全漏洞</strong>，比如攻击者可以像这样操作索引来读取储存在数据结构之后不被允许的数据。</p>
+<p><strong>为了保护程序远离这类漏洞，如果尝试读取一个索引不存在的元素，Rust 会停止执行并拒绝继续。</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># 尝试运行上面的程序会出现如下：</span>
+$ cargo run
+   Compiling panic v0.1.0 <span class="o">(</span>file:///projects/panic<span class="o">)</span>
+    Finished dev <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.27s
+     Running <span class="sb">`</span>target/debug/panic<span class="sb">`</span>
+thread <span class="s1">&#39;main&#39;</span> panicked at <span class="s1">&#39;index out of bounds: the len is 3 but the index is 99&#39;</span>, src/main.rs:4:5  <span class="c1"># 错误指向 main.rs 的第 4 行，</span>
+note: run with <span class="sb">`</span><span class="nv">RUST_BACKTRACE</span><span class="o">=</span><span class="m">1</span><span class="sb">`</span> environment variable to display a backtrace
+<span class="c1"># 下面的说明（note）行提醒我们可以设置 RUST_BACKTRACE 环境变量来得到一个 backtrace。</span>
+</code></pre></div>
+<p><code>backtrace</code> 是一个执行到目前位置所有被调用的函数的列表。Rust 的 <code>backtrace</code> 跟其他语言中的一样：<strong>阅读 <code>backtrace</code> 的关键是从头开始读直到发现你编写的文件。</strong>
+这就是问题的发源地。这一行往上是你的代码所调用的代码；往下则是调用你的代码的代码。这些行可能包含核心 Rust 代码，标准库代码或用到的 <code>crate</code> 代码。
+将 <strong>RUST_BACKTRACE</strong> 环境变量设置为任何不是 <code>0</code> 的值来获取 <strong>backtrace</strong> 看看。</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">RUST_BACKTRACE</span><span class="o">=</span><span class="mi">1</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="n">thread</span><span class="w"> </span><span class="o">&#39;</span><span class="na">main</span><span class="o">&#39;</span><span class="w"> </span><span class="n">panicked</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="o">&#39;</span><span class="na">index</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">bounds</span>: <span class="nc">the</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="mi">99</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">4</span>:<span class="mi">5</span><span class="w"></span>
+<span class="n">stack</span><span class="w"> </span><span class="n">backtrace</span>:
+   <span class="mi">0</span>: <span class="nc">rust_begin_unwind</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">std</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">panicking</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">483</span><span class="w"></span>
+<span class="w">   </span><span class="mi">1</span>: <span class="nc">core</span>::<span class="n">panicking</span>::<span class="n">panic_fmt</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">panicking</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">85</span><span class="w"></span>
+<span class="w">   </span><span class="mi">2</span>: <span class="nc">core</span>::<span class="n">panicking</span>::<span class="n">panic_bounds_check</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">panicking</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">62</span><span class="w"></span>
+<span class="w">   </span><span class="mi">3</span>: <span class="o">&lt;</span><span class="kt">usize</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">core</span>::<span class="n">slice</span>::<span class="n">index</span>::<span class="n">SliceIndex</span><span class="o">&lt;</span><span class="p">[</span><span class="n">T</span><span class="p">]</span><span class="o">&gt;&gt;</span>::<span class="n">index</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">slice</span><span class="o">/</span><span class="n">index</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">255</span><span class="w"></span>
+<span class="w">   </span><span class="mi">4</span>: <span class="nc">core</span>::<span class="n">slice</span>::<span class="n">index</span>::<span class="o">&lt;</span><span class="k">impl</span><span class="w"> </span><span class="n">core</span>::<span class="n">ops</span>::<span class="n">index</span>::<span class="n">Index</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">[</span><span class="n">T</span><span class="p">]</span><span class="o">&gt;</span>::<span class="n">index</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">slice</span><span class="o">/</span><span class="n">index</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">15</span><span class="w"></span>
+<span class="w">   </span><span class="mi">5</span>: <span class="o">&lt;</span><span class="n">alloc</span>::<span class="n">vec</span>::<span class="nb">Vec</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">core</span>::<span class="n">ops</span>::<span class="n">index</span>::<span class="n">Index</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;&gt;</span>::<span class="n">index</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">alloc</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">vec</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">1982</span><span class="w"></span>
+<span class="w">   </span><span class="mi">6</span>: <span class="nc">panic</span>::<span class="n">main</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="p">.</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">4</span><span class="w"></span>
+<span class="w">   </span><span class="mi">7</span>: <span class="nc">core</span>::<span class="n">ops</span>::<span class="n">function</span>::<span class="nb">FnOnce</span>::<span class="n">call_once</span><span class="w"></span>
+<span class="w">             </span><span class="n">at</span><span class="w"> </span><span class="o">/</span><span class="n">rustc</span><span class="o">/</span><span class="mi">7</span><span class="n">eac88abb2e57e752f3302f02be5f3ce3d7adfb4</span><span class="o">/</span><span class="n">library</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">ops</span><span class="o">/</span><span class="n">function</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">227</span><span class="w"></span>
+<span class="n">note</span>: <span class="nb">Some</span> <span class="nc">details</span><span class="w"> </span><span class="n">are</span><span class="w"> </span><span class="n">omitted</span><span class="p">,</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="err">`</span><span class="n">RUST_BACKTRACE</span><span class="o">=</span><span class="n">full</span><span class="err">`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">verbose</span><span class="w"> </span><span class="n">backtrace</span><span class="p">.</span><span class="w"></span>
+</code></pre></div>
+<p>这里有大量的输出！<strong>实际看到的输出可能因不同的操作系统和 Rust 版本而有所不同</strong>。为了获取带有这些信息的 <code>backtrace</code>，必须启用 <code>debug</code> 标识。当不使用 <code>--release</code> 参数运行 <code>cargo build</code> 或 <code>cargo run</code> 时 <strong>debug</strong> 标识会默认启用，就像这里一样。</p>
+<p>示例的输出中，backtrace 的 12 行指向了我们项目中造成问题的行：<code>src/main.rs</code> 的第 <code>4</code> 行。如果不希望程序 <code>panic</code>，第一个提到我们编写的代码行的位置是你应该开始调查的，以便查明是什么值如何在这个地方引起了 <code>panic</code>。
+在示例中，故意编写会 <code>panic</code> 的代码来演示如何使用 <code>backtrace</code>，修复这个 <code>panic</code> 的方法就是不要尝试在一个只包含三个项的 <code>vector</code> 中请求索引是 100 的元素。
+当将来你的代码出现了 <code>panic</code>，你需要搞清楚在这特定的场景下代码中执行了什么操作和什么值导致了 <code>panic</code>，以及应当如何处理才能避免这个问题。</p>
+<h2 id="result">可恢复的错误(Result)</h2>
+<p><strong>大部分错误并没有严重到需要程序完全停止执行</strong>。有时，一个函数会因为一个容易理解并做出反应的原因失败。</p>
+<p>例如，如果因为打开一个并不存在的文件而失败，此时我们可能想要创建这个文件，而不是终止进程。</p>
+<p>第二章 “<a href="https://kaisery.github.io/trpl-zh-cn/ch02-00-guessing-game-tutorial.html#%E4%BD%BF%E7%94%A8-result-%E7%B1%BB%E5%9E%8B%E6%9D%A5%E5%A4%84%E7%90%86%E6%BD%9C%E5%9C%A8%E7%9A%84%E9%94%99%E8%AF%AF">使用 Result 类型来处理潜在的错误</a>” 部分中的那个 <strong>Result</strong> 枚举，它定义有如下两个成员，<strong>Ok</strong> 和 <strong>Err</strong>：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// T 和 E 是泛型类型参数</span>
+<span class="k">enum</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">T</span><span class="p">),</span><span class="w">      </span><span class="c1">// T 代表成功时返回的 Ok 成员中的数据的类型，</span>
+<span class="w">    </span><span class="nb">Err</span><span class="p">(</span><span class="n">E</span><span class="p">),</span><span class="w">     </span><span class="c1">// 而 E 代表失败时返回的 Err 成员中的错误的类型。</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>因为 <strong>Result</strong> 有这些泛型类型参数，我们可以将 <strong>Result</strong> 类型和标准库中为其定义的函数用于很多不同的场景，这些情况中需要返回的成功值和失败值可能会各不相同。</p>
+<p>调用一个返回 Result 的函数，因为它可能会失败：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 打开文件</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>如何知道 <code>File::open</code> 返回一个 <strong>Result</strong> 呢？我们可以查看 <a href="https://doc.rust-lang.org/std/index.html">标准库 API</a> 文档，或者可以直接问编译器！
+如果给 <code>f</code> 某个我们知道 <strong>不是</strong> 函数返回值类型的类型注解，接着尝试编译代码，编译器会告诉我们类型不匹配。
+然后错误信息会告诉我们 <code>f</code> 的类型 <strong>应该</strong> 是什么。</p>
+<p>试试！知道 <code>File::open</code> 的返回值不是 u32 类型的，所以将 <code>let f</code> 语句改为如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">f</span>: <span class="kt">u32</span> <span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling error-handling v0.1.0 <span class="o">(</span>file:///projects/error-handling<span class="o">)</span>
+error<span class="o">[</span>E0308<span class="o">]</span>: mismatched types
+ --&gt; src/main.rs:4:18
+  <span class="p">|</span>
+<span class="m">4</span> <span class="p">|</span>     <span class="nb">let</span> f: <span class="nv">u32</span> <span class="o">=</span> File::open<span class="o">(</span><span class="s2">&quot;hello.txt&quot;</span><span class="o">)</span><span class="p">;</span>
+  <span class="p">|</span>            ---   ^^^^^^^^^^^^^^^^^^^^^^^ expected <span class="sb">`</span>u32<span class="sb">`</span>, found enum <span class="sb">`</span>Result<span class="sb">`</span>
+  <span class="p">|</span>            <span class="p">|</span>
+  <span class="p">|</span>            expected due to this
+  <span class="p">|</span>
+  <span class="o">=</span> note: expected <span class="nb">type</span> <span class="sb">`</span>u32<span class="sb">`</span>
+             found enum <span class="sb">`</span>Result&lt;File, std::io::Error&gt;<span class="sb">`</span>
+
+For more information about this error, try <span class="sb">`</span>rustc --explain E0308<span class="sb">`</span>.
+error: could not compile <span class="sb">`</span>error-handling<span class="sb">`</span> due to previous error
+</code></pre></div>
+<p>这就告诉我们了 <code>File::open</code> 函数的返回值类型是 <code>Result&lt;T, E&gt;</code>。这里泛型参数 <strong>T</strong> 放入了成功值的类型 <code>std::fs::File</code>，它是一个文件句柄。<code>E</code> 被用在失败值上时 <code>E</code> 的类型是 <code>std::io::Error</code>。</p>
+<p>这个返回值类型说明 <code>File::open</code> 调用可能会成功并返回一个可以进行读写的文件句柄。
+这个函数也可能会失败：例如，文件可能并不存在，或者可能没有访问文件的权限。
+<code>File::open</code> 需要一个方式告诉我们是成功还是失败，并同时提供给我们文件句柄或错误信息。而这些信息正是 <strong>Result</strong> 枚举可以提供的。</p>
+<p>当 <code>File::open</code> 成功的情况下，变量 <code>f</code> 的值将会是一个包含文件句柄的 <code>Ok</code> 实例。在失败的情况下，<code>f</code> 的值会是一个包含更多关于出现了何种错误信息的 <code>Err</code> 实例。</p>
+<p>需要在示例的代码中增加根据 <code>File::open</code> 返回值进行不同处理的逻辑。下面示例展示了一个使用基本工具处理 <strong>Result</strong> 的例子：第六章学习过的 <code>match</code> 表达式。</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// 这里告诉 Rust 当结果是 Ok 时，返回 Ok 成员中的 file 值，然后将这个文件句柄赋值给变量 f。</span>
+<span class="w">        </span><span class="c1">// match 之后，我们可以利用这个文件句柄来进行读写。</span>
+
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;Problem opening the file: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">),</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// match 的另一个分支处理从 File::open 得到 Err 值的情况。在这种情况下，我们选择调用 panic! 宏。</span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>注意与 <strong>Option</strong> 枚举一样，<strong>Result</strong> 枚举和其成员也被导入到了 <code>prelude</code> 中，所以就不需要在 <code>match</code> 分支中的 <code>Ok</code> 和 <code>Err</code> 之前指定 <code>Result::</code>。</p>
+<p>如果当前目录没有一个叫做 <code>hello.txt</code> 的文件，当运行这段代码时会看到如下来自 <code>panic!</code> 宏的输出：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">error</span><span class="o">-</span><span class="n">handling</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/error-handling)</span>
+<span class="w">    </span><span class="n">Finished</span><span class="w"> </span><span class="n">dev</span><span class="w"> </span><span class="p">[</span><span class="n">unoptimized</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">debuginfo</span><span class="p">]</span><span class="w"> </span><span class="n">target</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mf">0.73</span><span class="n">s</span><span class="w"></span>
+<span class="w">     </span><span class="n">Running</span><span class="w"> </span><span class="err">`</span><span class="n">target</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">error</span><span class="o">-</span><span class="n">handling</span><span class="err">`</span><span class="w"></span>
+<span class="n">thread</span><span class="w"> </span><span class="o">&#39;</span><span class="na">main</span><span class="o">&#39;</span><span class="w"> </span><span class="n">panicked</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="o">&#39;</span><span class="na">Problem</span><span class="w"> </span><span class="n">opening</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">file</span>: <span class="nc">Os</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">code</span>: <span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">kind</span>: <span class="nc">NotFound</span><span class="p">,</span><span class="w"> </span><span class="n">message</span>: <span class="s">&quot;No such file or directory&quot;</span><span class="w"> </span><span class="p">}</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">8</span>:<span class="mi">23</span><span class="w"></span>
+<span class="n">note</span>: <span class="nc">run</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="err">`</span><span class="n">RUST_BACKTRACE</span><span class="o">=</span><span class="mi">1</span><span class="err">`</span><span class="w"> </span><span class="n">environment</span><span class="w"> </span><span class="n">variable</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">display</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">backtrace</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_2">匹配不同的错误</h3>
+<p>示例中的代码不管 <strong>File::open</strong> 是因为什么原因失败都会 <code>panic!</code>。
+我们真正希望的是对不同的错误原因采取不同的行为：</p>
+<ul>
+<li>如果 <strong>File::open</strong> 因为文件不存在而失败，我们希望创建这个文件并返回新文件的句柄。</li>
+<li>如果 <strong>File::open</strong> 因为任何其他原因失败，例如没有打开文件的权限，我们仍然希望像示例那样 <code>panic!</code>。</li>
+</ul>
+<p>让我们看看下面的示例，其中 <code>match</code> 增加了另一个分支：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 使用不同的方式处理不同类型的错误</span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">ErrorKind</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// File::open 返回的 Err 成员中的值类型 io::Error，它是一个标准库中提供的结构体。</span>
+<span class="w">        </span><span class="c1">// 这个结构体有一个返回 io::ErrorKind 值的 kind 方法可供调用。</span>
+<span class="w">        </span><span class="c1">// io::ErrorKind 是一个标准库提供的枚举，它的成员对应 io 操作可能导致的不同错误类型。</span>
+<span class="w">        </span><span class="c1">// 我们感兴趣的成员是 ErrorKind::NotFound，它代表尝试打开的文件并不存在。</span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">err</span><span class="p">.</span><span class="n">kind</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// 如果 error.kind() 的返回值为 ErrorKind的 NotFound 成员。</span>
+<span class="w">            </span><span class="c1">// 则尝试通过 File::create 创建文件。</span>
+<span class="w">            </span><span class="n">ErrorKind</span>::<span class="n">NotFound</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">File</span>::<span class="n">create</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="nb">Ok</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="c1">// 然而因为 File::create 也可能会失败，还需要增加一个内层 match 语句。</span>
+<span class="w">                </span><span class="c1">// 当文件不能被打开，会打印出一个不同的错误信息。</span>
+<span class="w">                </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;创建文件失败: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">),</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// 外层 match 的最后一个分支保持不变，这样对任何除了文件不存在的错误会使程序 panic。</span>
+<span class="w">            </span><span class="n">other_error</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;打开文件失败: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">other_error</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<blockquote>
+<p>不同于使用 <strong>match</strong> 和 <strong>Result&lt;T, E></strong></p>
+<p>这里有好多 match！match 确实很强大，不过也非常的基础。第十三章我们会介绍闭包（closure），这可以用于很多 Result<T, E> 上定义的方法。在处理代码中的 Result<T, E> 值时这些方法可能会更加简洁。</p>
+<p>例如，这是另一个编写与示例 9-5 逻辑相同但是使用闭包和 unwrap_or_else 方法的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">ErrorKind</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">).</span><span class="n">unwrap_or_else</span><span class="p">(</span><span class="o">|</span><span class="n">error</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="n">kind</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ErrorKind</span>::<span class="n">NotFound</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">File</span>::<span class="n">create</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">).</span><span class="n">unwrap_or_else</span><span class="p">(</span><span class="o">|</span><span class="n">error</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;创建文件失败: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="p">})</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;打开文件失败: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>虽然这段代码有着如上面示例中一样的行为，但并没有包含任何 <code>match</code> 表达式且更容易阅读。在阅读完第十三章后再回到这个例子，并查看标准库文档 <code>unwrap_or_else</code> 方法都做了什么操作。在处理错误时，还有很多这类方法可以消除大量嵌套的 <code>match</code> 表达式。</p>
+</blockquote>
+<h3 id="unwrap-expect">unwrap 和 expect</h3>
+<p><strong><code>match</code> 能够胜任它的工作，不过它可能有点冗长并且不总是能很好的表明其意图。</strong> <strong>Result&lt;T, E></strong>类型定义了很多辅助方法来处理各种情况。
+其中之一叫做 <code>unwrap</code>，它的实现就类似于上面示例中的 <code>match</code> 语句。</p>
+<ul>
+<li>如果 <strong>Result</strong> 值是成员 <code>Ok</code>，<code>unwrap</code> 会返回 <code>Ok</code> 中的值。</li>
+<li>如果 <strong>Result</strong> 值是成员 <code>Err</code>，<code>unwrap</code> 会为我们调用 <code>panic!</code>。</li>
+</ul>
+<p>这里是一个实践 <code>unwrap</code> 的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// `unwrap` **调用** `panic!` </span>
+<span class="w">    </span><span class="c1">// 使用默认的 panic! 信息。</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>如果调用这段代码时不存在 <code>hello.txt</code> 文件，我们将会看到一个 <code>unwrap</code> <strong>调用</strong> <code>panic!</code> 时提供的错误信息：</p>
+<div class="highlight"><pre><span></span><code><span class="n">thread</span><span class="w"> </span><span class="o">&#39;</span><span class="na">main</span><span class="o">&#39;</span><span class="w"> </span><span class="n">panicked</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="o">&#39;</span><span class="na">called</span><span class="w"> </span><span class="err">`</span><span class="nb">Result</span>::<span class="n">unwrap</span><span class="p">()</span><span class="err">`</span><span class="w"> </span><span class="n">on</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="err">`</span><span class="nb">Err</span><span class="err">`</span><span class="w"> </span><span class="n">value</span>: <span class="nc">Error</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="n">repr</span>: <span class="nc">Os</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">code</span>: <span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">message</span>: <span class="s">&quot;No such file or directory&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="o">&#39;</span><span class="p">,</span><span class="w"></span>
+<span class="n">src</span><span class="o">/</span><span class="n">libcore</span><span class="o">/</span><span class="n">result</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">906</span>:<span class="mi">4</span><span class="w"></span>
+</code></pre></div>
+<p>还有另一个类似于 <code>unwrap</code> 的方法它还允许我们选择 <code>panic!</code> 的错误信息：<code>expect</code>。
+使用 <code>expect</code> 而不是 <code>unwrap</code> 并提供一个好的错误信息可以表明你的意图并更易于追踪 <code>panic</code> 的根源。
+<code>expect</code> 的语法看起来像这样：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 返回文件句柄或调用 panic! 宏</span>
+<span class="w">    </span><span class="c1">// expect 在调用 panic! 时使用的错误信息将是传递给 expect 的参数，</span>
+<span class="w">    </span><span class="c1">// 而不像 unwrap 那样使用默认的 panic! 信息。</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">).</span><span class="n">expect</span><span class="p">(</span><span class="s">&quot;Failed to open hello.txt&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><code>expect</code> 与 <code>unwrap</code> 的使用方式一样：返回文件句柄或调用 <code>panic!</code> 宏。<code>expect</code> 在调用 <code>panic!</code> 时使用的错误信息将是我们传递给 <code>expect</code> 的参数，而不像 <code>unwrap</code> 那样使用默认的 <code>panic!</code> 信息。
+它看起来像这样：</p>
+<div class="highlight"><pre><span></span><code><span class="n">thread</span><span class="w"> </span><span class="o">&#39;</span><span class="na">main</span><span class="o">&#39;</span><span class="w"> </span><span class="n">panicked</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="o">&#39;</span><span class="na">Failed</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">open</span><span class="w"> </span><span class="n">hello</span><span class="p">.</span><span class="n">txt</span>: <span class="nc">Error</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">repr</span>: <span class="nc">Os</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">code</span>:
+<span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">message</span>: <span class="s">&quot;No such file or directory&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="o">&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">src</span><span class="o">/</span><span class="n">libcore</span><span class="o">/</span><span class="n">result</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">906</span>:<span class="mi">4</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">因为这个错误信息以指定的文本开始，<strong>Failed to open hello.txt</strong>，将会更容易找到代码中的错误信息来自何处。
+如果在多处使用 <code>unwrap</code>，则需要花更多的时间来分析到底是哪一个 <code>unwrap</code> 造成了 <code>panic</code>，因为所有的 <code>unwrap</code> 调用都打印相同的信息。</ins></p>
+<h3 id="_3">传播错误</h3>
+<p><strong>当编写一个其实先会调用一些可能会失败的操作的函数时，除了在这个函数中处理错误外，还可以选择让调用者知道这个错误并决定该如何处理。</strong>
+这被称为 <strong>传播</strong>（propagating）错误，这样能更好的控制代码调用，因为比起你代码所拥有的上下文，调用者可能拥有更多信息或逻辑来决定应该如何处理错误。</p>
+<p>例如，下面展示了一个从文件中读取用户名的函数。如果文件不存在或不能读取，这个函数会将这些错误返回给调用它的代码：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 一个函数使用 match 将错误返回给代码调用者</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">Read</span><span class="p">};</span><span class="w"></span>
+
+<span class="c1">// 函数返回一个 Result&lt;T, E&gt; 类型的值，其中泛型参数 T 的具体类型是 String，而 E 的具体类型是 io::Error。</span>
+<span class="c1">// 如果这个函数没有出任何错误成功返回，函数的调用者会收到一个包含 String 的 Ok 值 —— 函数从文件中读取到的用户名。</span>
+<span class="c1">// 如果函数遇到任何错误，函数的调用者会收到一个 Err 值，它储存了一个包含更多这个问题相关信息的 io::Error 实例。</span>
+<span class="c1">// 这里选择 io::Error 作为函数的返回值, 则是因为它正好是函数体中：File::open 函数和 read_to_string 方法可能会操作失败的的错误返回值。</span>
+<span class="k">fn</span> <span class="nf">read_username_from_file</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">io</span>::<span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">file</span><span class="p">,</span><span class="w">           </span><span class="c1">// 打开文件成功时，直接返回文件句柄</span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="w">    </span><span class="c1">// 打开文件错误是，直接Return成Result的Error枚举。</span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w">      </span><span class="c1">// 创建字符串保存读取的值。</span>
+
+<span class="w">    </span><span class="c1">// match结果值将返回, OK值或Err值</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">f</span><span class="p">.</span><span class="n">read_to_string</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w">  </span><span class="c1">// 将读取到的字符串作为Result的OK中的值。</span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="w">   </span><span class="c1">// 将Error值作为Result的Err中的值。</span>
+<span class="w">        </span><span class="c1">// 不需要显式的调用 return，因为这是函数的最后一个表达式。</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>调用这个函数的代码最终会得到一个包含用户名的 <strong>Ok</strong> 值，或者一个包含 <code>io::Error</code> 的 <strong>Err</strong> 值。
+我们无从得知调用者会如何处理这些值。
+例如，如果他们得到了一个 <code>Err</code> 值，他们可能会选择 <code>panic!</code> 并使程序崩溃、使用一个默认的用户名或者从文件之外的地方寻找用户名。
+我们没有足够的信息知晓调用者具体会如何尝试，所以将所有的成功或失败信息向上传播，让他们选择合适的处理方法。</p>
+<p>这种传播错误的模式在 Rust 是如此的常见，以至于 Rust 提供了 <code>?</code> 问号运算符来使其更易于处理。</p>
+<h3 id="_4">?运算符</h3>
+<p>下面示例展示了一个 <code>read_username_from_file</code> 的实现，它实现了与上个示例中的代码相同的功能，不过这个实现使用了 <code>?</code> 运算符：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 一个使用 ? 运算符向调用者返回错误的函数</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">Read</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">read_username_from_file</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">io</span>::<span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 如果 Result 的值是 Ok，这个表达式将会返回 Ok 中的值而程序将继续执行。</span>
+<span class="w">    </span><span class="c1">// 如果值是 Err，Err 中的值将作为整个函数的返回值，就好像使用了 return 关键字一样，这样错误值就被传播给了调用者。</span>
+
+
+<span class="w">    </span><span class="c1">// ? 将会把 Ok 中的值返回给变量 f, 如果出现了错误，? 运算符会提早返回整个函数并将一些 Err 值传播给调用者</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w">   </span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w">            </span>
+
+<span class="w">    </span><span class="c1">// ？运用同上</span>
+<span class="w">    </span><span class="n">f</span><span class="p">.</span><span class="n">read_to_string</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w">  </span>
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">     </span><span class="c1">// 返回Result枚举的Ok值。</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<mark class="critic block">
+<p>上个示例中的 <code>match</code> 表达式与问号运算符所做的有<strong>一点不同</strong>：<code>?</code> 运算符所使用的错误值被传递给了 <a href="https://www.rustwiki.org.cn/zh-CN/std/convert/trait.From.html#tymethod.from"><strong>from</strong></a> 函数，它定义于标准库的 <a href="https://www.rustwiki.org.cn/zh-CN/std/convert/trait.From.html#"><strong>From trait</strong></a> 中，其用来将错误从一种类型转换为另一种类型。
+当 <code>?</code> 运算符调用 <code>from</code> 函数时，收到的错误类型被转换为由当前函数返回类型所指定的错误类型。
+这在当函数返回单个错误类型来代表所有可能失败的方式时很有用，即使其可能会因很多种原因失败。
+只要每一个错误类型都实现了 <code>from</code> 函数来定义如何将自身转换为返回的错误类型，<code>?</code> 运算符会自动处理这些转换。</p>
+</mark>
+<p><ins class="critic"><code>?</code> 运算符消除了大量样板代码并使得函数的实现更简单。</ins> 我们甚至可以在 <code>?</code> 之后直接使用链式方法调用来进一步缩短代码:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 问号运算符之后的链式方法调用</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">Read</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">read_username_from_file</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">io</span>::<span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">String</span>::<span class="n">new</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">read_to_string</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_5">哪里使用 ? 运算符</h3>
+<p><ins class="critic"><code>?</code> 运算符只能被用于返回值与 <code>?</code> 作用的值相兼容的函数。</ins>
+因为 <code>?</code> 运算符被定义为从函数中提早返回一个值，这与示例中的 <code>match</code> 表达式有着完全相同的工作方式。
+示例中 <code>match</code> 作用于一个 <strong>Result</strong> 值，提早返回的分支返回了一个 <strong>Err(e)</strong> 值。
+函数的返回值必须是 <strong>Result</strong> 类型才能与这个 <strong>return</strong> 相兼容。</p>
+<p>看看在返回值不兼容的 <strong>main</strong> 函数中使用 <code>?</code> 运算符会得到什么错误：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 尝试在返回 () 的函数中使用 ? 的代码不能编译</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// 返回类型是 () 而不是 Result</span>
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>当编译这些代码，会得到如下错误信息：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">error</span><span class="o">-</span><span class="n">handling</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/error-handling)</span>
+<span class="n">error</span><span class="p">[</span><span class="n">E0277</span><span class="p">]</span>: <span class="nc">the</span><span class="w"> </span><span class="err">`</span><span class="o">?</span><span class="err">`</span><span class="w"> </span><span class="n">operator</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">only</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="err">`</span><span class="nb">Result</span><span class="err">`</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="err">`</span><span class="nb">Option</span><span class="err">`</span><span class="w"> </span><span class="p">(</span><span class="n">or</span><span class="w"> </span><span class="n">another</span><span class="w"> </span><span class="k">type</span> <span class="nc">that</span><span class="w"> </span><span class="n">implements</span><span class="w"> </span><span class="err">`</span><span class="n">FromResidual</span><span class="err">`</span><span class="p">)</span><span class="w"></span>
+<span class="w"> </span><span class="o">-</span>-&gt; <span class="nc">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">4</span>:<span class="mi">36</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="mi">3</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="mi">4</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w">                                    </span><span class="o">^</span><span class="w"> </span><span class="n">cannot</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="err">`</span><span class="o">?</span><span class="err">`</span><span class="w"> </span><span class="n">operator</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">that</span><span class="w"> </span><span class="n">returns</span><span class="w"> </span><span class="err">`</span><span class="p">()</span><span class="err">`</span><span class="w"></span>
+<span class="mi">5</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="n">_</span><span class="o">-</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="err">`</span><span class="nb">Result</span><span class="err">`</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="err">`</span><span class="nb">Option</span><span class="err">`</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">accept</span><span class="w"> </span><span class="err">`</span><span class="o">?</span><span class="err">`</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">help</span>: <span class="nc">the</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="err">`</span><span class="n">FromResidual</span><span class="o">&lt;</span><span class="nb">Result</span><span class="o">&lt;</span><span class="n">Infallible</span><span class="p">,</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="n">Error</span><span class="o">&gt;&gt;</span><span class="err">`</span><span class="w"> </span><span class="n">is</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">implemented</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="err">`</span><span class="p">()</span><span class="err">`</span><span class="w"></span>
+
+<span class="n">For</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="kr">try</span><span class="w"> </span><span class="err">`</span><span class="n">rustc</span><span class="w"> </span><span class="o">--</span><span class="n">explain</span><span class="w"> </span><span class="n">E0277</span><span class="err">`</span><span class="p">.</span><span class="w"></span>
+<span class="n">error</span>: <span class="nc">could</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="err">`</span><span class="n">error</span><span class="o">-</span><span class="n">handling</span><span class="err">`</span><span class="w"> </span><span class="n">due</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+</code></pre></div>
+<p>这个错误指出只能在返回 <strong>Result</strong> 或者其它实现了 <strong>FromResidual</strong> 的类型的函数中使用 <code>?</code> 运算符。
+为了修复这个错误，有两个选择。</p>
+<p>一个是，如果没有限制的话将函数的返回值改为 <strong>Result&lt;T, E></strong>。</p>
+<p>另一个是使用 <code>match</code> 或 <strong>Result&lt;T, E></strong> 的方法中合适的一个来处理 <strong>Result&lt;T, E></strong>。</p>
+<p>错误信息中也提到 <code>?</code> 也可用于 <strong>Option&lt;T></strong> 值。
+如同对 <strong>Result</strong> 使用 <code>?</code> 一样，只能在返回 <strong>Option</strong> 的函数中对 <strong>Option</strong> 使用 <code>?</code>。
+在 <strong>Option&lt;T></strong> 上调用 <code>?</code> 运算符的行为与 <strong>Result&lt;T, E></strong> 类似：</p>
+<p>如果值是 <strong>None</strong>，此时 <strong>None</strong> 会从函数中提前返回。</p>
+<p>如果值是 <strong>Some</strong>，<strong>Some</strong> 中的值作为表达式的返回值同时函数继续。</p>
+<p>下面示例中有一个从给定文本中返回第一行最后一个字符的函数的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 在 Option&lt;T&gt; 值上使用 ? 运算符</span>
+<span class="k">fn</span> <span class="nf">last_char_of_first_line</span><span class="p">(</span><span class="n">text</span>: <span class="kp">&amp;</span><span class="kt">str</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">text</span><span class="p">.</span><span class="n">lines</span><span class="p">().</span><span class="n">next</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="n">chars</span><span class="p">().</span><span class="n">last</span><span class="p">()</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这个函数返回 <strong>Option&lt;char></strong> 因为它可能会在这个位置找到一个字符，也可能没有字符。
+这段代码获取 <code>text</code> 字符串 <code>slice</code> 作为参数并调用其 <code>lines</code> 方法，这会返回一个字符串中每一行的迭代器。
+因为函数希望检查第一行，所以调用了迭代器 <code>next</code> 来获取迭代器中第一个值。</p>
+<p>如果 <code>text</code> 是空字符串，<code>next</code> 调用会返回 <strong>None</strong>，此时我们可以使用 <code>?</code> 来停止并从 <code>last_char_of_first_line</code> 返回 <strong>None</strong>。</p>
+<p>如果 <code>text</code> 不是空字符串，<code>next</code> 会返回一个包含 <code>text</code> 中第一行的字符串 <code>slice</code> 的 <strong>Some</strong> 值。</p>
+<p><code>?</code> 会提取这个字符串 <code>slice</code>，然后可以在字符串 <code>slice</code> 上调用 <code>chars</code> 来获取字符的迭代器。
+我们感兴趣的是第一行的最后一个字符，所以可以调用 <code>last</code> 来返回迭代器的最后一项。
+这是一个 <strong>Option</strong>，因为有可能第一行是一个空字符串，例如 <code>text</code> 以一个空行开头而后面的行有文本，像是 "\nhi"。
+不过，如果第一行有最后一个字符，它会返回在一个 <code>Some</code> 成员中。
+<code>?</code> 运算符作用于其中给了我们一个简洁的表达这种逻辑的方式。</p>
+<p>如果我们不能在 <strong>Option</strong> 上使用 <code>?</code> 运算符，则不得不使用更多的方法调用或者 <code>match</code> 表达式来实现这些逻辑。</p>
+<blockquote>
+<p><strong>注意</strong></p>
+<p>你可以在返回 <strong>Result</strong> 的函数中对 <strong>Result</strong> 使用 <code>?</code> 运算符，可以在返回 <strong>Option</strong> 的函数中对 <strong>Option</strong> 使用 <code>?</code> 运算符，但是不可以混合搭配。</p>
+<p><code>?</code> 运算符不会自动将 <code>Result</code> 转化为 <code>Option</code>，反之亦然；
+在这些情况下，可以使用类似 <strong>Result</strong> 的 <code>ok</code> 方法或者 <strong>Option</strong> 的 <code>ok_or</code> 方法来显式转换。</p>
+</blockquote>
+<p>目前为止，所使用的所有 <code>main</code> 函数都返回 <code>()</code>。<code>main</code> 函数是特殊的因为它是可执行程序的入口点和退出点，为了使程序能正常工作，其可以返回的类型是有限制的。</p>
+<p>幸运的是 <code>main</code> 函数也可以返回 <strong>Result&lt;(), E></strong>， 下面示例修改了 <code>main</code> 的返回值为 <strong>Result&lt;(), Box&lt;dyn Error>></strong> 并在结尾增加了一个 <code>Ok(())</code> 作为返回值。
+这段代码可以编译：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 修改 main 返回 Result&lt;(), E&gt; 允许对 Result 值使用 ? 运算符</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">error</span>::<span class="n">Error</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">fs</span>::<span class="n">File</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="nb">Box</span><span class="o">&lt;</span><span class="k">dyn</span><span class="w"> </span><span class="n">Error</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">File</span>::<span class="n">open</span><span class="p">(</span><span class="s">&quot;hello.txt&quot;</span><span class="p">)</span><span class="o">?</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><strong>Box&lt;dyn Error></strong> 类型是一个 <strong>trait</strong> 对象（<strong>trait</strong> object）第十七章 “<strong>为使用不同类型的值而设计的 trait 对象</strong>” 部分会做介绍。
+目前可以将 <strong>Box&lt;dyn Error></strong> 理解为 “<strong>任何类型的错误</strong>”。
+在返回 <strong>Box&lt;dyn Error></strong> 错误类型 <code>main</code> 函数中对 <strong>Result</strong> 使用 <code>?</code> 是允许的，因为它允许任何 <code>Err</code> 值提前返回。</p>
+<p>当 <code>main</code> 函数返回 <strong>Result&lt;(), E></strong>，</p>
+<ul>
+<li>如果 <code>main</code> 返回 <strong>Ok(())</strong> 可执行程序会以 <code>0</code> 值退出，</li>
+<li>而如果 <strong>main</strong> 返回 <code>Err</code> 值则会以非零值退出；</li>
+</ul>
+<p>成功退出的程序会返回整数 <code>0</code>，运行错误的程序会返回非 <code>0</code> 的整数。<strong>Rust 也会从二进制程序中返回与这个惯例相兼容的整数。</strong></p>
+<p><code>main</code> 函数也可以返回任何实现了 <strong>std::process::Termination trait</strong> 的类型。
+截至编写时，<strong>Termination trait</strong> 是一个不稳定功能（unstable feature），只能用于 <strong>Nightly Rust</strong> 中，
+所以你不能在 <strong>稳定版</strong> Rust（Stable Rust）中用自己的类型去实现，不过有朝一日应该可以！</p>
+<h2 id="_6">错误处理抉择</h2>
+<p>那么，该如何决定何时应该 <code>panic!</code> 以及何时应该返回 <strong>Result</strong> 呢？</p>
+<ul>
+<li>如果代码 <code>panic</code>，就没有恢复的可能。你可以选择对任何错误场景都调用 <code>panic!</code>，不管是否有可能恢复，不过这样就是你代替调用者决定了这是不可恢复的。</li>
+<li>选择返回 <strong>Result</strong> 值的话，就将选择权交给了调用者，而不是代替他们做出决定。调用者可能会选择以符合他们场景的方式尝试恢复，或者也可能干脆就认为 Err 是不可恢复的，所以他们也可能会调用 <code>panic!</code> 并将可恢复的错误变成了不可恢复的错误。<ins class="critic">因此返回 <strong>Result</strong> 是定义可能会失败的函数的一个好的默认选择。</ins></li>
+</ul>
+<p>在一些类似<strong>示例</strong>、<strong>原型代码</strong>（prototype code）和<strong>测试</strong>中， <code>panic</code> 比返回 <strong>Result</strong> 更为合适，不过他们并不常见。</p>
+<h3 id="panic_1">示例、代码原型和测试都非常适合 panic</h3>
+<p>当你编写一个<strong>示例</strong>来展示一些概念时，<strong>在拥有健壮的错误处理代码的同时也会使得例子不那么明确。</strong> 例如，调用一个类似 <code>unwrap</code> 这样可能 <code>panic!</code> 的方法可以被理解为一个你实际希望程序处理错误方式的占位符，它根据其余代码运行方式可能会各不相同。</p>
+<p>类似地，在准备好决定如何处理错误之前，<code>unwrap</code>和<code>expect</code>方法在原型设计时非常方便。<ins class="critic">当我们准备好让程序更加健壮时，它们会在代码中留下清晰的标记。</ins></p>
+<p>如果方法调用在测试中失败了，我们希望这个测试都失败，即便这个方法并不是需要测试的功能。因为 <code>panic!</code> 会将测试标记为失败，此时调用 <code>unwrap</code> 或 <code>expect</code> 是恰当的。</p>
+<h3 id="_7">当我们知道更多的情况</h3>
+<p>当你有一些其他的逻辑来确保 <strong>Result</strong> 会是 <strong>Ok</strong> 值时，调用 <code>unwrap</code> 也是合适的，虽然编译器无法理解这种逻辑。
+你仍然需要处理一个 <strong>Result</strong> 值：即使在你的特定情况下逻辑上是不可能的，你所调用的任何操作仍然有可能失败。
+如果通过人工检查代码来确保永远也不会出现 <code>Err</code> 值，那么调用 <code>unwrap</code> 也是完全可以接受的，这里是一个例子：</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">net</span>::<span class="n">IpAddr</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// 永远不可能失败，但要处理Result，可以使用unwrap;</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">home</span>: <span class="nc">IpAddr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;127.0.0.1&quot;</span><span class="p">.</span><span class="n">parse</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+</code></pre></div>
+<p>通过解析一个硬编码的字符来创建一个 <strong>IpAddr</strong> 实例。可以看出 <code>127.0.0.1</code> 是一个有效的 IP 地址，所以这里使用 <code>unwrap</code> 是可以接受的。
+然而，拥有一个硬编码的有效的字符串也不能改变 <strong>parse</strong> 方法的返回值类型：它仍然是一个 <strong>Result</strong> 值，而编译器仍然会要求我们处理这个 <strong>Result</strong>，好像还是有可能出现 <strong>Err</strong> 成员那样。
+这是因为编译器还没有智能到可以识别出这个字符串总是一个有效的 <strong>IP</strong> 地址。如果 <strong>IP</strong> 地址字符串来源于用户而不是硬编码进程序中的话，那么就 <strong>确实</strong> 有失败的可能性，这时就绝对需要我们以一种更健壮的方式处理 <strong>Result</strong> 了。</p>
+<h3 id="_8">错误处理指导原则</h3>
+<p>在当有可能会导致<strong>有害状态</strong>的情况下建议使用 <code>panic!</code> —— 在这里，<ins class="critic"><strong>有害状态</strong>是指当一些假设、保证、协议或不可变性被打破的状态</ins>，例如<em>无效的值</em>、<em>自相矛盾的值</em>或者<em>被传递了不存在的值</em> —— 外加如下几种情况：</p>
+<ul>
+<li>有害状态是<strong>非预期的行为</strong>，与偶尔会发生的行为相对，比如用户输入了错误格式的数据。</li>
+<li>在此之后<strong>代码的运行依赖于不处于这种有害状态</strong>，而不是在每一步都检查是否有问题。</li>
+<li><strong>没有可行的手段来将有害状态信息编码进所使用的类型中的情况</strong>。我们会在第十七章 “<a href="https://kaisery.github.io/trpl-zh-cn/ch17-03-oo-design-patterns.html#%E5%B0%86%E7%8A%B6%E6%80%81%E5%92%8C%E8%A1%8C%E4%B8%BA%E7%BC%96%E7%A0%81%E4%B8%BA%E7%B1%BB%E5%9E%8B">将状态和行为编码为类型</a>” 部分通过一个例子来说明我们的意思。</li>
+</ul>
+<p>如果别人调用你的代码并传递了一个没有意义的值，最好的情况也许就是 <code>panic!</code> 并警告使用你的库的人他的代码中有 <code>bug</code> 以便他能在开发时就修复它。
+类似的，如果你正在调用不受你控制的外部代码，并且它返回了一个你无法修复的无效状态，那么 <code>panic!</code> 往往是合适的。</p>
+<p>然而当错误预期会出现时，返回 <strong>Result</strong> 仍要比调用 <code>panic!</code> 更为合适。
+这样的例子包括解析器接收到格式错误的数据，或者 <strong>HTTP</strong> 请求返回了一个表明触发了限流的状态。
+在这些例子中，应该通过返回 <strong>Result</strong> 来表明失败预期是可能的，这样将有害状态向上传播，调用者就可以决定该如何处理这个问题。
+使用 <strong>panic!</strong> 来处理这些情况就不是最好的选择。</p>
+<p>当代码对值进行操作时，应该首先验证值是有效的，并在其无效时 <code>panic!</code>。
+这主要是出于安全的原因：尝试操作无效数据会暴露代码漏洞，这就是标准库在尝试越界访问数组时会 <code>panic!</code> 的主要原因：尝试访问不属于当前数据结构的内存是一个常见的安全隐患。</p>
+<p>函数通常都遵循 <strong>契约</strong>（contracts）：<ins class="critic">他们的行为只有在输入满足特定条件时才能得到保证</ins>。当违反契约时 <code>panic</code> 是有道理的，因为这通常代表调用方的 <code>bug</code>，而且这也不是那种你希望所调用的代码必须处理的错误。
+事实上所调用的代码也没有合理的方式来恢复，而是需要调用方的 <strong>程序员</strong> 修复其代码。函数的契约，尤其是当违反它会造成 <code>panic</code> 的契约，应该在函数的 <strong>API</strong> 文档中得到解释。</p>
+<p>虽然在所有函数中都拥有许多错误检查是冗长而烦人的。
+幸运的是，可以利用 <strong>Rust</strong> 的类型系统（以及编译器的类型检查）为你进行很多检查。</p>
+<ul>
+<li>如果函数有一个特定类型的参数，可以在知晓编译器已经确保其拥有一个有效值的前提下进行你的代码逻辑。</li>
+</ul>
+<p>例如，如果你使用了一个并不是 <strong>Option</strong> 的类型，则程序期望它是 <strong>有值</strong> 的并且不是 <strong>空值</strong>,
+你的代码无需处理 <strong>Some</strong> 和 <strong>None</strong> 这两种情况，它只会有一种情况就是绝对会有一个值。
+<ins class="critic">尝试向函数传递空值的代码甚至根本不能编译，所以你的函数在运行时没有必要判空。</ins>
+另外一个例子是使用像 <code>u32</code> 这样的无符号整型，也会确保它永远不为负。</p>
+<h3 id="_9">创建自定义类型进行有效性验证</h3>
+<p>让我们使用 <strong>Rust</strong> 类型系统的思想来进一步确保值的有效性，并尝试创建一个自定义类型以进行验证。
+回忆一下第二章的猜猜看游戏，我们的代码要求用户猜测一个 <code>1</code> 到 <code>100</code> 之间的数字，在将其与秘密数字做比较之前我们从未验证用户的猜测是位于这两个数字之间的，我们只验证它是否为正。
+在这种情况下，其影响并不是很严重：“Too high” 或 “Too low” 的输出仍然是正确的。
+但是这是一个很好的引导用户得出有效猜测的辅助，例如当用户猜测一个超出范围的数字或者输入字母时采取不同的行为。</p>
+<p>一种实现方式是将猜测解析成 <code>i32</code> 而不仅仅是 <code>u32</code>，来默许输入负数，接着检查数字是否在范围内：</p>
+<div class="highlight"><pre><span></span><code><span class="k">loop</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// --snip--</span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">guess</span>: <span class="kt">i32</span> <span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">guess</span><span class="p">.</span><span class="n">trim</span><span class="p">().</span><span class="n">parse</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">num</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">continue</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// if 表达式检查了值是否超出范围，告诉用户出了什么问题，并调用 continue 开始下一次循环，请求另一个猜测。</span>
+<span class="w">    </span><span class="c1">// if 表达式之后，就可以在知道 guess 在 1 到 100 之间的情况下与秘密数字作比较了。</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The secret number will be between 1 and 100.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">guess</span><span class="p">.</span><span class="n">cmp</span><span class="p">(</span><span class="o">&amp;</span><span class="n">secret_number</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// --snip--</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>然而，这并不是一个理想的解决方案：如果让程序仅仅处理 <code>1</code> 到 <code>100</code> 之间的值是一个绝对需要满足的要求，而且程序中的很多函数都有这样的要求，<ins class="critic">在每个函数中都有这样的检查将是非常冗余的</ins>（并可能潜在的影响性能）。</p>
+<p><strong>相反我们可以创建一个新类型来将验证放入创建其实例的函数中，而不是到处重复这些检查。这样就可以安全的在函数签名中使用新类型并相信他们接收到的值。</strong>
+下面示例中展示了一个定义 <strong>Guess</strong> 类型的方法，只有在 <code>new</code> 函数接收到 <code>1</code> 到 <code>100</code> 之间的值时才会创建 <strong>Guess</strong> 的实例：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 一个 Guess 类型，它只在值位于 1 和 100 之间时才继续</span>
+
+<span class="c1">// 首先，定义了一个包含 i32 类型字段 value 的结构体 Guess。这里是储存猜测值的地方。</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">Guess</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">value</span>: <span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">impl</span><span class="w"> </span><span class="n">Guess</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 接着在 Guess 上实现了一个叫做 new 的关联函数来创建 Guess 的实例。</span>
+<span class="w">    </span><span class="c1">// new 定义为接收一个 i32 类型的参数 value 并返回一个 Guess。</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">value</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Guess</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// new 函数中代码的测试确保了其值是在 1 到 100 之间的。</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+
+<span class="w">            </span><span class="c1">// 如果 value 没有通过测试则调用 panic!，这会警告调用这个函数的程序员有一个需要修改的 bug，</span>
+<span class="w">            </span><span class="c1">// 因为创建一个 value 超出范围的 Guess 将会违反 Guess::new 所遵循的契约。</span>
+
+<span class="w">            </span><span class="c1">// Guess::new 会出现 panic 的条件应该在其公有 API 文档中被提及；</span>
+<span class="w">            </span><span class="fm">panic!</span><span class="p">(</span><span class="s">&quot;Guess value must be between 1 and 100, got {}.&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// 如果 value 通过了测试，我们新建一个 Guess，其字段 value 将被设置为参数 value 的值，接着返回这个 Guess。</span>
+<span class="w">        </span><span class="n">Guess</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 接着, 实现了一个借用了 self 的方法 value，它没有任何其他参数并返回一个 i32。</span>
+<span class="w">    </span><span class="c1">// 这类方法有时被称为 getter，因为它的目的就是返回对应字段的数据。</span>
+<span class="w">    </span><span class="c1">// 这样的公有方法是必要的，因为 Guess 结构体的 value 字段是私有的。</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">value</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">value</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">私有的字段 <strong>value</strong> 是很重要的，这样使用 <strong>Guess</strong> 结构体的代码将不允许直接设置 <strong>value</strong> 的值：调用者 <strong>必须</strong> 使用 <code>Guess::new</code> 方法来创建一个 <strong>Guess</strong> 的实例，这就确保了不会存在一个 <strong>value</strong> 没有通过 <strong>Guess::new</strong> 函数的条件检查的 Guess。</ins></p>
+<p>于是，一个接收（或返回） 1 到 100 之间数字的函数就可以声明为接收（或返回） <strong>Guess</strong>的实例，而不是 <code>i32</code>，同时其函数体中也无需进行任何额外的检查。</p>
+<h2 id="_10">总结</h2>
+<p>Rust 的错误处理功能被设计为帮助你编写更加健壮的代码。<code>panic!</code> 宏代表一个程序无法处理的状态，并停止执行而不是使用无效或不正确的值继续处理。
+Rust 类型系统的 <strong>Result</strong> 枚举代表操作可能会在一种可以恢复的情况下失败。
+可以使用 <strong>Result</strong> 来告诉代码调用者他需要处理潜在的成功或失败。
+在适当的场景使用 <code>panic!</code> 和 <strong>Result</strong> 将会使你的代码在面对不可避免的错误时显得更加可靠。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../common-collections/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 常见集合" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              常见集合
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
