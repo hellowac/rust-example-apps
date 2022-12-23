@@ -1,0 +1,1360 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>泛型/Trait/生命周期 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#trait" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              泛型/Trait/生命周期
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ownership/" class="md-nav__link">
+        所有权
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../struct/" class="md-nav__link">
+        结构体
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumerations/" class="md-nav__link">
+        枚举
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packages/" class="md-nav__link">
+        包、crate、模块
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-collections/" class="md-nav__link">
+        常见集合
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error-handing/" class="md-nav__link">
+        错误处理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          泛型/Trait/生命周期
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        泛型/Trait/生命周期
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    提炼函数减少重复
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    泛型
+  </a>
+  
+    <nav class="md-nav" aria-label="泛型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    函数中使用泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    结构体中使用泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    枚举中使用泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    方法中使用泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trait_1" class="md-nav__link">
+    Trait
+  </a>
+  
+    <nav class="md-nav" aria-label="Trait">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trait_2" class="md-nav__link">
+    定义Trait
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait_3" class="md-nav__link">
+    为类型实现Trait
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    默认实现
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait_4" class="md-nav__link">
+    trait作为参数
+  </a>
+  
+    <nav class="md-nav" aria-label="trait作为参数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trait-bound" class="md-nav__link">
+    Trait Bound语法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait-bound_1" class="md-nav__link">
+    指定多个trait bound(+)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wheretrait-bound" class="md-nav__link">
+    where简化trait bound
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait_5" class="md-nav__link">
+    返回实现了 trait 的类型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait-bounds-largest" class="md-nav__link">
+    使用 trait bounds 来修复 largest 函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait-bound_2" class="md-nav__link">
+    使用 trait bound 有条件地实现方法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    生命周期
+  </a>
+  
+    <nav class="md-nav" aria-label="生命周期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    生命周期避免了悬垂引用
+  </a>
+  
+    <nav class="md-nav" aria-label="生命周期避免了悬垂引用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    借用检查器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    函数中的泛型生命周期
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    生命周期注解语法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    函数签名中的生命周期注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    深入理解生命周期
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    结构体定义中的生命周期注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifetime-elision" class="md-nav__link">
+    生命周期省略（Lifetime Elision）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    方法定义中的生命周期注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    静态生命周期
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    提炼函数减少重复
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    泛型
+  </a>
+  
+    <nav class="md-nav" aria-label="泛型">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    函数中使用泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    结构体中使用泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    枚举中使用泛型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    方法中使用泛型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trait_1" class="md-nav__link">
+    Trait
+  </a>
+  
+    <nav class="md-nav" aria-label="Trait">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trait_2" class="md-nav__link">
+    定义Trait
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait_3" class="md-nav__link">
+    为类型实现Trait
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    默认实现
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait_4" class="md-nav__link">
+    trait作为参数
+  </a>
+  
+    <nav class="md-nav" aria-label="trait作为参数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trait-bound" class="md-nav__link">
+    Trait Bound语法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait-bound_1" class="md-nav__link">
+    指定多个trait bound(+)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wheretrait-bound" class="md-nav__link">
+    where简化trait bound
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait_5" class="md-nav__link">
+    返回实现了 trait 的类型
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait-bounds-largest" class="md-nav__link">
+    使用 trait bounds 来修复 largest 函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trait-bound_2" class="md-nav__link">
+    使用 trait bound 有条件地实现方法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    生命周期
+  </a>
+  
+    <nav class="md-nav" aria-label="生命周期">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    生命周期避免了悬垂引用
+  </a>
+  
+    <nav class="md-nav" aria-label="生命周期避免了悬垂引用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    借用检查器
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    函数中的泛型生命周期
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    生命周期注解语法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    函数签名中的生命周期注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    深入理解生命周期
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    结构体定义中的生命周期注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lifetime-elision" class="md-nav__link">
+    生命周期省略（Lifetime Elision）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    方法定义中的生命周期注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    静态生命周期
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="trait">泛型/Trait/生命周期</h1>
+<p>每一个编程语言都有高效处理重复概念的工具。在 Rust 中其工具之一就是 <strong>泛型</strong>（generics）。<ins class="critic">泛型是具体类型或其他属性的抽象替代。</ins>
+我们可以表达泛型的属性，比如他们的行为或如何与其他泛型相关联，而不需要在编写和编译代码时知道他们在这里实际上代表什么。</p>
+<p>同理为了编写一份可以用于多种具体值的代码，函数并不知道其参数为何值，
+这时就可以让函数获取泛型而不是像 <code>i32</code> 或 <strong>String</strong> 这样的具体类型。
+我们已经使用过第六章的 <strong>Option&lt;T></strong>，第八章的 <strong>Vec&lt;T></strong> 和 <strong>HashMap&lt;K, V></strong>，以及第九章的 <strong>Result&lt;T, E></strong> 这些泛型了。</p>
+<ul>
+<li>首先，我们将回顾一下<strong>提取函数以减少代码重复的机制</strong>。接下来，我们将使用相同的技术，从两个仅参数类型不同的函数中创建一个泛型函数。我们也会讲到<strong>结构体</strong>和<strong>枚举</strong>定义中的泛型。</li>
+<li>之后，我们讨论 <strong>trait</strong>，这是一个<ins class="critic">定义泛型行为的方法。trait 可以与泛型结合来将泛型限制为拥有特定行为的类型，而不是任意类型。</ins></li>
+<li>最后介绍 <strong>生命周期</strong>（lifetimes），它是一类允许我们<ins class="critic">向编译器提供<strong>引用如何相互关联的泛型</strong></ins>。Rust 的生命周期功能允许在很多场景下借用值的同时仍然使编译器能够检查这些引用的有效性。</li>
+</ul>
+<h2 id="_1">提炼函数减少重复</h2>
+<p>在介绍泛型语法之前，首先来回顾一个不使用泛型的处理重复的技术：<strong>提取一个函数</strong>。
+当熟悉了这个技术以后，我们将使用相同的机制来提取一个泛型函数！如同你识别出可以提取到函数中重复代码那样，你也会开始识别出能够使用泛型的重复代码。</p>
+<p>考虑一下这个寻找列表中最大值的小程序:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 码获取一个整型列表，存放在变量 number_list 中。</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 将列表的第一项放入了变量 largest 中。</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number_list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 接着遍历了列表中的所有数字，如果当前值大于 largest 中储存的值，将 largest 替换为这个值。</span>
+<span class="w">    </span><span class="c1">// 如果当前值小于或者等于目前为止的最大值，largest 保持不变。</span>
+<span class="w">    </span><span class="c1">// 当列表中所有值都被考虑到之后，largest 将会是最大值，在这里也就是 100。</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">largest</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>如果需要在两个不同的列表中寻找最大值，我们可以重复示例中的代码，这样程序中就会存在两段相同逻辑的代码，</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number_list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">largest</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">6000</span><span class="p">,</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">43</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number_list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">largest</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><ins class="critic">虽然代码能够执行，但是重复的代码是冗余且容易出错的，并且意味着当更新逻辑时需要<strong>修改多处地方的代码</strong>。</ins></p>
+<p>为了消除重复，可以创建一层<strong>抽象</strong>，在这个例子中将表现为一个获取任意整型列表作为参数并对其进行处理的函数。
+这将增加代码的简洁性并让我们将表达和推导寻找列表中最大值的这个概念与使用这个概念的特定位置相互独立。</p>
+<p>在示例中的程序中将寻找最大值的代码提取到了一个叫做 <code>largest</code> 的函数中。这不同于上面示例中的代码只能在一个特定的列表中找到最大的数字，这个程序可以在两个不同的列表中找到最大的数字。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// largest 函数有一个参数 list，它代表会传递给函数的任何具体的 i32值的 slice。</span>
+<span class="c1">// 函数定义中的 list 代表任何 &amp;[i32]。</span>
+<span class="c1">// 当调用 largest 函数时，其代码实际上运行于我们传递的特定值上。</span>
+<span class="k">fn</span> <span class="nf">largest</span><span class="p">(</span><span class="n">list</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">i32</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// 目前不需要担心 for 循环的语法。这里不是引用了一个 i32 的引用，这里只是模式匹配并表明循环的值应该是 &amp;i32。</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="o">&amp;</span><span class="n">item</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">largest</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">largest</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">6000</span><span class="p">,</span><span class="w"> </span><span class="mi">89</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">43</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">largest</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>总的来说，在示例中涉及的机制经历了如下几步：</p>
+<ol>
+<li><strong>找出重复代码。</strong></li>
+<li><strong>将重复代码提取到了一个函数中，并在函数签名中指定了代码中的输入和返回值。</strong></li>
+<li><strong>将重复代码的两个实例，改为调用函数。</strong></li>
+</ol>
+<p>在不同的场景使用不同的方式，我们也可以利用相同的步骤和泛型来减少重复代码。与函数体可以在抽象<code>list</code>而不是特定值上操作的方式相同，泛型允许代码对抽象类型进行操作。</p>
+<p>如果我们有两个函数，一个寻找一个 i32 值的 slice 中的最大项而另一个寻找 char 值的 slice 中的最大项该怎么办？该如何消除重复呢？看下去！</p>
+<h2 id="_2">泛型</h2>
+<p><strong>可以使用泛型为像函数签名或结构体这样的项创建定义，这样它们就可以用于多种不同的具体数据类型。</strong></p>
+<h3 id="_3">函数中使用泛型</h3>
+<p>当使用泛型定义函数时，本来在函数签名中指定参数和返回值的类型的地方，会改用<strong>泛型</strong>来表示。
+采用这种技术，使得代码适应性更强，从而为函数的调用者提供更多的功能，同时也避免了代码的重复。</p>
+<p>回到 <code>largest</code> 函数，示例中展示了两个函数，它们的功能都是寻找 <code>slice</code> 中最大值。</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">largest_i32</span><span class="p">(</span><span class="n">list</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">i32</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">i32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="o">&amp;</span><span class="n">item</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">largest</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">largest_char</span><span class="p">(</span><span class="n">list</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">char</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="kt">char</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="o">&amp;</span><span class="n">item</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">largest</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">largest_i32</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">char_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="sc">&#39;y&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;m&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;q&#39;</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">largest_char</span><span class="p">(</span><span class="o">&amp;</span><span class="n">char_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest char is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>因为两者函数体的代码是一样的，可以定义一个函数，再引进泛型参数来消除这种重复。</p>
+<p>为了参数化新函数中的这些类型，也需要为类型参数取个名字，道理和给函数的形参起名一样。任何标识符都可以作为类型参数的名字。
+这里选用 <code>T</code>，因为传统上来说，Rust 的参数名字都比较短，通常就只有一个字母，同时，<strong>Rust 类型名的命名规范是骆驼命名法</strong>（CamelCase）。<code>T</code> 作为 <strong>“type”</strong> 的缩写是大部分 Rust 程序员的首选。</p>
+<p>如果要在函数体中使用参数，就必须在函数签名中声明它的名字，好让编译器知道这个名字指代的是什么。
+同理，当在函数签名中使用一个类型参数时，必须在使用它之前就声明它。为了定义泛型版本的 <code>largest</code> 函数，
+类型参数声明位于函数名称与参数列表中间的尖括号 <strong>&lt;></strong> 中，像这样：</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">largest</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">list</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="n">T</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nc">T</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+</code></pre></div>
+<p>可以这样理解这个定义：<ins class="critic">函数 <code>largest</code> 有泛型类型 <strong>T</strong>。它有个参数 <code>list</code>，其类型是元素为 <strong>T</strong> 的 <code>slice</code>。<code>largest</code> 函数的返回值类型也是 <strong>T</strong>。</ins></p>
+<p>下面示例 10-5 中的 <code>largest</code> 函数在它的签名中使用了泛型，统一了两个实现。
+该示例也展示了如何调用 <code>largest</code> 函数，把 <code>i32</code> 值的 <code>slice</code> 或 <code>char</code> 值的 <strong>slice</strong> 传给它。
+请注意这些代码还不能编译，不过稍后在本章会解决这个问题。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 一个使用泛型参数的 largest 函数定义，尚不能编译</span>
+<span class="k">fn</span> <span class="nf">largest</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">list</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="n">T</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nc">T</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="o">&amp;</span><span class="n">item</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">largest</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">largest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">largest</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">number_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="mi">34</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">largest</span><span class="p">(</span><span class="o">&amp;</span><span class="n">number_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest number is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">char_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[</span><span class="sc">&#39;y&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;m&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;q&#39;</span><span class="p">];</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">largest</span><span class="p">(</span><span class="o">&amp;</span><span class="n">char_list</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The largest char is {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>如果现在就编译这个代码，会出现如下错误：</p>
+<div class="highlight"><pre><span></span><code>$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0369]: binary operation `&gt;` cannot be applied to type `T`
+ --&gt; src/main.rs:5:17
+  |
+5 |         if item &gt; largest {
+  |            ---- ^ ------- T
+  |            |
+  |            T
+  |
+help: consider restricting type parameter `T`
+  |
+1 | fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; T {
+  |             ++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0369`.
+error: could not compile `chapter10` due to previous error
+</code></pre></div>
+<p>注释中提到了 <code>std::cmp::PartialOrd</code>，这是一个 <code>trait</code>。
+下一部分会讲到 <code>trait</code>。不过简单来说，这个错误表明 <code>largest</code> 的函数体不能适用于 <code>T</code> 的所有可能的类型。因为在函数体需要比较 <code>T</code> 类型的值，不过它只能用于我们知道如何排序的类型。
+为了开启比较功能，标准库中定义的 <code>std::cmp::PartialOrd</code> <strong>trait</strong> 可以实现类型的比较功能（查看<a href="https://kaisery.github.io/trpl-zh-cn/appendix-03-derivable-traits.html">附录 C</a> 获取该 trait 的更多信息）。</p>
+<p>标准库中定义的 <code>std::cmp::PartialOrd</code> <strong>trait</strong> 可以实现类型的比较功能。在 “<a href="https://kaisery.github.io/trpl-zh-cn/ch10-02-traits.html#trait-%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0">trait 作为参数</a>” 部分会讲解如何指定泛型实现特定的 <code>trait</code>，不过让我们先探索其他使用泛型参数的方法。</p>
+<h3 id="_4">结构体中使用泛型</h3>
+<p>同样也可以用 <code>&lt;&gt;</code>语法来定义结构体，它包含一个或多个泛型参数类型字段。下面示例展示了如何定义和使用一个可以存放任何类型的 <code>x</code> 和 <code>y</code> 坐标值的结构体 <strong>Point</strong>：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Point 结构体存放了两个 T 类型的值 x 和 y</span>
+<span class="k">struct</span> <span class="nc">Point</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">y</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mi">10</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mf">4.0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><strong>其语法类似于函数定义中使用泛型。首先，必须在结构体名称后面的尖括号中声明泛型参数的名称。接着在结构体定义中可以指定具体数据类型的位置使用泛型类型。</strong></p>
+<p>注意 <strong>Point&lt;T></strong> 的定义中只使用了一个泛型类型，这个定义表明结构体 <strong>Point&lt;T></strong> 对于一些类型 <strong>T</strong> 是泛型的，而且字段 <code>x</code> 和 <code>y</code> 都是 相同类型的，无论它具体是何类型。
+如果尝试创建一个有不同类型值的 <strong>Point&lt;T></strong> 的实例，就不能编译：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 字段 x 和 y 的类型必须相同，因为他们都有相同的泛型类型 T</span>
+<span class="k">struct</span> <span class="nc">Point</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">y</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">wont_work</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mf">4.0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在这个例子中，当把整型值 <code>5</code> 赋值给 <code>x</code> 时，就告诉了编译器这个 <strong>Point&lt;T></strong> 实例中的泛型 <code>T</code> 是整型的。接着指定 <code>y</code> 为 <code>4.0</code>，它被定义为与 <code>x</code> 相同类型，就会得到一个像这样的类型不匹配错误：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">$</span><span class="w"> </span><span class="n">cargo</span><span class="w"> </span><span class="n">run</span><span class="w"></span>
+<span class="w">   </span><span class="n">Compiling</span><span class="w"> </span><span class="n">chapter10</span><span class="w"> </span><span class="n">v0</span><span class="p">.</span><span class="mf">1.0</span><span class="w"> </span><span class="p">(</span><span class="n">file</span>:<span class="sd">///projects/chapter10)</span>
+<span class="n">error</span><span class="p">[</span><span class="n">E0308</span><span class="p">]</span>: <span class="nc">mismatched</span><span class="w"> </span><span class="n">types</span><span class="w"></span>
+<span class="w"> </span><span class="o">-</span>-&gt; <span class="nc">src</span><span class="o">/</span><span class="n">main</span><span class="p">.</span><span class="n">rs</span>:<span class="mi">7</span>:<span class="mi">38</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w"></span>
+<span class="mi">7</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="kd">let</span><span class="w"> </span><span class="n">wont_work</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mf">4.0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="o">|</span><span class="w">                                      </span><span class="o">^^^</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="n">integer</span><span class="p">,</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="n">floating</span><span class="o">-</span><span class="n">point</span><span class="w"> </span><span class="n">number</span><span class="w"></span>
+
+<span class="n">For</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="n">information</span><span class="w"> </span><span class="n">about</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="kr">try</span><span class="w"> </span><span class="err">`</span><span class="n">rustc</span><span class="w"> </span><span class="o">--</span><span class="n">explain</span><span class="w"> </span><span class="n">E0308</span><span class="err">`</span><span class="p">.</span><span class="w"></span>
+<span class="n">error</span>: <span class="nc">could</span><span class="w"> </span><span class="n">not</span><span class="w"> </span><span class="n">compile</span><span class="w"> </span><span class="err">`</span><span class="n">chapter10</span><span class="err">`</span><span class="w"> </span><span class="n">due</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">previous</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+</code></pre></div>
+<p>如果想要定义一个 <code>x</code> 和 <code>y</code> 可以有不同类型且仍然是泛型的 <strong>Point</strong> 结构体，
+我们可以使用多个泛型类型参数。在示例中，我们修改 <strong>Point</strong> 的定义为拥有两个泛型类型 <code>T</code> 和 <code>U</code>。
+其中字段 <code>x</code> 是 <code>T</code> 类型的，而字段 <code>y</code> 是 <code>U</code> 类型的：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Point</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">y</span>: <span class="nc">U</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">both_integer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mi">10</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">both_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mf">4.0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">integer_and_float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mf">4.0</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>现在所有这些 <strong>Point</strong> 实例都合法了！
+你可以在定义中使用任意多的泛型类型参数，<strong>不过太多的话，代码将难以阅读和理解</strong>。
+<ins class="critic">当你的代码中需要许多泛型类型时，它可能表明你的代码需要重构，分解成更小的结构。</ins></p>
+<h3 id="_5">枚举中使用泛型</h3>
+<p>和结构体类似，<strong>枚举也可以在成员中存放泛型数据类型</strong>。第六章我们曾用过标准库提供的 <strong>Option&lt;T></strong> 枚举，这里再回顾一下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="nb">Option</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="n">T</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>现在这个定义应该更容易理解了。如你所见 <strong>Option&lt;T></strong> 是一个拥有泛型 <strong>T</strong> 的枚举，它有两个成员：<strong>Some</strong>，它存放了一个类型 <strong>T</strong> 的值，和不存在任何值的<strong>None</strong>。
+通过 <strong>Option&lt;T></strong> 枚举可以表达有一个可能的值的抽象概念，同时因为 <strong>Option&lt;T></strong> 是泛型的，无论这个可能的值是什么类型都可以使用这个抽象。</p>
+<p>枚举也可以拥有多个泛型类型。第九章使用过的 <strong>Result</strong> 枚举定义就是一个这样的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">T</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Err</span><span class="p">(</span><span class="n">E</span><span class="p">),</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>Result 枚举有两个泛型类型，T 和 E。Result 有两个成员：Ok，它存放一个类型 T 的值，而 Err 则存放一个类型 E 的值。这个定义使得 Result 枚举能很方便的表达任何可能成功（返回 T 类型的值）也可能失败（返回 E 类型的值）的操作。实际上，这就是我们在示例 9-3 用来打开文件的方式：当成功打开文件的时候，T 对应的是 std::fs::File 类型；而当打开文件出现问题时，E 的值则是 std::io::Error 类型。</p>
+<p><ins class="critic">当你意识到代码中定义了多个结构体或枚举，它们不一样的地方只是其中的值的类型的时候，不妨通过泛型类型来避免重复。</ins></p>
+<h3 id="_6">方法中使用泛型</h3>
+<p>在为结构体和枚举实现方法时（像第五章那样），一样也可以用泛型。示例中定义的结构体 <strong>Point&lt;T></strong>，和在其上实现的名为 <code>x</code> 的方法。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 在 Point&lt;T&gt; 结构体上实现方法 x，它返回 T 类型的字段 x 的引用</span>
+
+<span class="k">struct</span> <span class="nc">Point</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">y</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// // 这里在 Point&lt;T&gt; 上定义了一个叫做 x 的方法来返回字段 x 中数据的引用：</span>
+<span class="k">impl</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Point</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">x</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="nc">T</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mi">10</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;p.x = {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">x</span><span class="p">());</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>注意必须在 <code>impl</code> 后面声明 <strong>T</strong>，这样就可以在 <strong>Point&lt;T></strong> 上实现的方法中使用它了。
+在 <code>impl</code> 之后声明泛型 <strong>T</strong> ，这样 <strong>Rust</strong> 就知道 <strong>Point</strong> 的尖括号中的类型是泛型而不是具体类型。
+因为再次声明了泛型，我们可以为泛型参数选择一个与结构体定义中声明的泛型参数所不同的名称，不过依照惯例使用了相同的名称。
+<ins class="critic"><code>impl</code> 中编写的方法声明了泛型类型可以定位为任何类型的实例，不管最终替换泛型类型的是何具体类型。 m</ins></p>
+<p>另一个选择是定义方法适用于某些有限制（constraint）的<strong>泛型类型</strong>。
+例如，可以选择为 <strong>Point&lt;f32></strong> 实例实现方法，而不是为泛型 <strong>Point</strong> 实例。
+示例展示了一个没有在 <code>impl</code> 之后（的尖括号）声明泛型的例子，这里使用了一个具体类型，<code>f32</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 这段代码意味着 Point&lt;f32&gt; 类型会有一个方法 distance_from_origin，</span>
+<span class="c1">// 而其他 T 不是 f32 类型的 Point&lt;T&gt; 实例则没有定义此方法。</span>
+<span class="c1">// 这个方法计算点实例与坐标 (0.0, 0.0) 之间的距离，并使用了只能用于浮点型的数学运算符。</span>
+<span class="k">impl</span><span class="w"> </span><span class="n">Point</span><span class="o">&lt;</span><span class="kt">f32</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">distance_from_origin</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">f32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">powi</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">powi</span><span class="p">(</span><span class="mi">2</span><span class="p">)).</span><span class="n">sqrt</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>结构体定义中的泛型类型参数并不总是与结构体方法签名中使用的泛型是同一类型。
+示例中为 <strong>Point</strong> 结构体使用了泛型类型 <strong>X1</strong> 和 <strong>Y1</strong>，为 <code>mixup</code> 方法签名使用了 <strong>X2</strong> 和 <strong>Y2</strong> 来使得示例更加清楚。
+这个方法用 <code>self</code> 的 <strong>Point</strong> 类型的 <code>x</code> 值（类型 <strong>X1</strong>）和参数的 <strong>Point</strong> 类型的 <code>y</code> 值（类型 <strong>Y2</strong>）来创建一个新 <strong>Point</strong> 类型的实例：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Point</span><span class="o">&lt;</span><span class="n">X1</span><span class="p">,</span><span class="w"> </span><span class="n">Y1</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span>: <span class="nc">X1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">y</span>: <span class="nc">Y1</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 方法使用了与结构体定义中不同类型的泛型</span>
+<span class="k">impl</span><span class="o">&lt;</span><span class="n">X1</span><span class="p">,</span><span class="w"> </span><span class="n">Y1</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Point</span><span class="o">&lt;</span><span class="n">X1</span><span class="p">,</span><span class="w"> </span><span class="n">Y1</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">mixup</span><span class="o">&lt;</span><span class="n">X2</span><span class="p">,</span><span class="w"> </span><span class="n">Y2</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">other</span>: <span class="nc">Point</span><span class="o">&lt;</span><span class="n">X2</span><span class="p">,</span><span class="w"> </span><span class="n">Y2</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Point</span><span class="o">&lt;</span><span class="n">X1</span><span class="p">,</span><span class="w"> </span><span class="n">Y2</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">x</span>: <span class="nc">self</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">y</span>: <span class="nc">other</span><span class="p">.</span><span class="n">y</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="mf">10.4</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Point</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">x</span>: <span class="s">&quot;Hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">y</span>: <span class="o">&#39;</span><span class="na">c</span><span class="o">&#39;</span> <span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">p3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p1</span><span class="p">.</span><span class="n">mixup</span><span class="p">(</span><span class="n">p2</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;p3.x = {}, p3.y = {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">p3</span><span class="p">.</span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在 <code>main</code> 函数中，定义了一个有 <code>i32</code> 类型的 x（其值为 5）和 f64 的 y（其值为 10.4）的 <strong>Point</strong>。
+p2 则是一个有着字符串 slice 类型的 x（其值为 "Hello"）和 char 类型的 y（其值为c）的 <strong>Point</strong>。
+在 p1 上以 p2 作为参数调用 <code>mixup</code> 会返回一个 p3，它会有一个 i32 类型的 x，因为 x 来自 p1，并拥有一个 char 类型的 y，因为 y 来自 p2。println! 会打印出 p3.x = 5, p3.y = c。</p>
+<p>这个例子的目的是展示一些泛型通过 <code>impl</code> 声明而另一些通过方法定义声明的情况。
+这里泛型参数 <strong>X1</strong> 和 <strong>Y1</strong> 声明于 <code>impl</code> 之后，因为他们与结构体定义相对应。
+而泛型参数 <strong>X2</strong> 和 <strong>Y2</strong> 声明于 <code>fn mixup</code> 之后，因为他们只是相对于方法本身的。</p>
+<h2 id="trait_1">Trait</h2>
+<p>在阅读本部分内容的同时，你可能会好奇使用泛型类型参数是否会有运行时消耗。好消息是：<ins class="critic">Rust 实现了泛型，使得使用泛型类型参数的代码相比使用具体类型并没有任何速度上的损失。</ins></p>
+<p>Rust 通过在编译时进行泛型代码的 <strong>单态化</strong>（monomorphization）来保证效率。<ins class="critic">单态化是一个通过填充编译时使用的具体类型，将通用代码转换为特定代码的过程。</ins></p>
+<p><strong>编译器所做的工作正好与上面示例中我们创建泛型函数的步骤相反。编译器寻找所有泛型代码被调用的位置并使用泛型代码针对具体类型生成代码。</strong></p>
+<p>让我们看看一个使用标准库中 <strong>Option</strong> 枚举的例子：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="mf">5.0</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>当 Rust 编译这些代码的时候，它会进行单态化。
+编译器会读取传递给 <strong>Option&lt;T></strong> 的值并发现有两种 <strong>Option&lt;T></strong>：一个对应 <code>i32</code> 另一个对应 <code>f64</code>。
+为此，它会将泛型定义 <strong>Option&lt;T></strong> 展开为 <strong>Option_i32</strong> 和 <strong>Option_f64</strong>，接着将泛型定义替换为这两个具体的定义。</p>
+<p>编译器生成的单态化版本的代码看起来像这样，并包含将泛型 <strong>Option&lt;T></strong> 替换为编译器创建的具体定义后的用例代码：</p>
+<div class="highlight"><pre><span></span><code><span class="k">enum</span> <span class="nc">Option_i32</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="kt">i32</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">enum</span> <span class="nc">Option_f64</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nb">Some</span><span class="p">(</span><span class="kt">f64</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="nb">None</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Option_i32</span>::<span class="nb">Some</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Option_f64</span>::<span class="nb">Some</span><span class="p">(</span><span class="mf">5.0</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>我们可以使用泛型来编写不重复的代码，<strong>而 Rust 将会为每一个实例编译其特定类型的代码</strong>。这意味着在使用泛型时没有运行时开销；
+<ins class="critic">当代码运行，它的执行效率就跟好像手写每个具体定义的重复代码一样。这个单态化过程正是 Rust 泛型在运行时极其高效的原因。</ins></p>
+<h3 id="trait_2">定义Trait</h3>
+<h3 id="trait_3">为类型实现Trait</h3>
+<h3 id="_7">默认实现</h3>
+<h3 id="trait_4">trait作为参数</h3>
+<h4 id="trait-bound">Trait Bound语法</h4>
+<h4 id="trait-bound_1">指定多个trait bound(+)</h4>
+<h4 id="wheretrait-bound">where简化trait bound</h4>
+<h4 id="trait_5">返回实现了 trait 的类型</h4>
+<h3 id="trait-bounds-largest">使用 trait bounds 来修复 largest 函数</h3>
+<h3 id="trait-bound_2">使用 trait bound 有条件地实现方法</h3>
+<h2 id="_8">生命周期</h2>
+<h3 id="_9">生命周期避免了悬垂引用</h3>
+<h4 id="_10">借用检查器</h4>
+<h3 id="_11">函数中的泛型生命周期</h3>
+<h3 id="_12">生命周期注解语法</h3>
+<h3 id="_13">函数签名中的生命周期注解</h3>
+<h3 id="_14">深入理解生命周期</h3>
+<h3 id="_15">结构体定义中的生命周期注解</h3>
+<h3 id="lifetime-elision">生命周期省略（Lifetime Elision）</h3>
+<h3 id="_16">方法定义中的生命周期注解</h3>
+<h3 id="_17">静态生命周期</h3>
+<h2 id="_18">总结</h2>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../error-handing/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 错误处理" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              错误处理
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
