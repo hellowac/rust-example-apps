@@ -20,3 +20,4 @@ nav:
   - 'common-collections.md'
   - 'error-handing.md'
   - 'generics.md'
+  - 'testing.md'
