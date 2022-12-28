@@ -1,6 +1,8 @@
 use std::env;
-use std::fs;
 use std::process;
+
+use minigrep::run;
+use minigrep::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -11,28 +13,11 @@ fn main() {
     });
 
     println!("{:?}", args);
-    println!("搜索的字符串为 {}", config.query);
-    println!("搜索的文件 {} ", config.filename);
+    println!("搜索的字符串为: {}", config.query);
+    println!("搜索的文件: {} ", config.filename);
 
-    let contents = fs::read_to_string(config.filename).expect("读取文件失败");
-
-    println!("文件内容: \n{}", contents)
-}
-
-struct Config {
-    query: String,
-    filename: String,
-}
-
-impl Config {
-    fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("参数不够");
-        }
-
-        let query = args[1].clone();
-        let filename = args[2].clone();
-
-        Ok(Config { query, filename })
+    if let Err(e) = run(config) {
+        println!("程序错误: {}", e);
+        process::exit(1);
     }
 }
