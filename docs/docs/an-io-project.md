@@ -23,12 +23,550 @@ Rust 的**运行速度**、**安全性**、**单二进制文件输出**和**跨�
 
 ## 接受命令行参数
 
+**版本1**:
+
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let query = &args[1];
+    let filename = &args[2];
+
+    println!("{:?}", args);
+    println!("搜索的字符串为 {}", query);
+    println!("搜索的文件 {} ", filename);
+
+    let contents = fs::read_to_string(filename).expect("读取文件失败");
+
+    println!("文件内容: \n{}", contents)
+}
+```
+
+**版本2**:
+
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let (query, filename) = parse_config(&args);
+
+    println!("{:?}", args);
+    println!("搜索的字符串为 {}", query);
+    println!("搜索的文件 {} ", filename);
+
+    let contents = fs::read_to_string(filename).expect("读取文件失败");
+
+    println!("文件内容: \n{}", contents)
+}
+
+fn parse_config(args: &[String]) -> (&str, &str) {
+    let query = &args[1];
+    let filename = &args[2];
+
+    (query, filename)
+}
+```
+
+**版本3**:
+
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = parse_config(&args);
+
+    println!("{:?}", args);
+    println!("搜索的字符串为 {}", config.query);
+    println!("搜索的文件 {} ", config.filename);
+
+    let contents = fs::read_to_string(config.filename).expect("读取文件失败");
+
+    println!("文件内容: \n{}", contents)
+}
+
+struct Config {
+    query: String,
+    filename: String,
+}
+
+fn parse_config(args: &[String]) -> Config {
+    let query = args[1].clone();
+    let filename = args[2].clone();
+
+    Config { query, filename }
+}
+```
+
 ## 读取文件
+
+```rust
+use std::env;
+use std::fs;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args);
+
+    println!("{:?}", args);
+    println!("搜索的字符串为 {}", config.query);
+    println!("搜索的文件 {} ", config.filename);
+
+    let contents = fs::read_to_string(config.filename).expect("读取文件失败");
+
+    println!("文件内容: \n{}", contents)
+}
+
+struct Config {
+    query: String,
+    filename: String,
+}
+
+impl Config {
+    fn new(args: &[String]) -> Config {
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        Config { query, filename }
+    }
+}
+```
+
+**版本5**:
+
+```rust
+use std::env;
+use std::fs;
+use std::process;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("解析参数错误: {}", err);
+        process::exit(1);
+    });
+
+    println!("{:?}", args);
+    println!("搜索的字符串为 {}", config.query);
+    println!("搜索的文件 {} ", config.filename);
+
+    let contents = fs::read_to_string(config.filename).expect("读取文件失败");
+
+    println!("文件内容: \n{}", contents)
+}
+
+struct Config {
+    query: String,
+    filename: String,
+}
+
+impl Config {
+    fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("参数不够");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        Ok(Config { query, filename })
+    }
+}
+```
 
 ## 重构改进模块性和错误处理
 
+**版本6**:
+
+```rust
+use std::env;
+use std::fs;
+use std::process;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("解析参数错误: {}", err);
+        process::exit(1);
+    });
+
+    println!("{:?}", args);
+    println!("搜索的字符串为: {}", config.query);
+    println!("搜索的文件: {} ", config.filename);
+
+    run(config);
+}
+
+fn run(config: Config) {
+    let contents = fs::read_to_string(config.filename).expect("读取文件失败");
+
+    println!("文件内容: \n{}", contents)
+}
+
+struct Config {
+    query: String,
+    filename: String,
+}
+
+impl Config {
+    fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("参数不够");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        Ok(Config { query, filename })
+    }
+}
+```
+
+**版本7**:
+
+```rust
+use std::env;
+use std::error::Error;
+use std::fs;
+use std::process;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("解析参数错误: {}", err);
+        process::exit(1);
+    });
+
+    println!("{:?}", args);
+    println!("搜索的字符串为: {}", config.query);
+    println!("搜索的文件: {} ", config.filename);
+
+    if let Err(e) = run(config) {
+        println!("程序错误: {}", e);
+        process::exit(1);
+    }
+}
+
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.filename)?;
+
+    println!("文件内容: \n{}", contents);
+
+    Ok(())
+}
+
+struct Config {
+    query: String,
+    filename: String,
+}
+
+impl Config {
+    fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("参数不够");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        Ok(Config { query, filename })
+    }
+}
+```
+
 ## 采用测试驱动开发完善库的功能
+
+**版本8**:
+
+```rust
+// src/lib.rs 文件
+
+use std::error::Error;
+use std::fs;
+
+pub struct Config {
+    pub query: String,
+    pub filename: String,
+}
+
+impl Config {
+    pub fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("参数不够");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        Ok(Config { query, filename })
+    }
+}
+
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.filename)?;
+
+    // println!("文件内容: \n{}", contents);
+
+    for line in search(&config.query, &contents) {
+        println!("{}", line);
+    }
+
+    Ok(())
+}
+
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        // 这告诉 Rust 不要在字符串字面值内容的开头加入换行符
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+}
+```
+
+```rust
+// src/main.rs
+
+use std::env;
+use std::process;
+
+use minigrep::run;
+use minigrep::Config;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("解析参数错误: {}", err);
+        process::exit(1);
+    });
+
+    println!("{:?}", args);
+    println!("搜索的字符串为: {}", config.query);
+    println!("搜索的文件: {} ", config.filename);
+
+    if let Err(e) = run(config) {
+        println!("程序错误: {}", e);
+        process::exit(1);
+    }
+}
+
+```
 
 ## 处理环境变量
 
-## 输出重定向
+**版本9:**
+
+```rust
+// src/lib.rs
+
+use std::env;
+use std::error::Error;
+use std::fs;
+
+pub struct Config {
+    pub query: String,
+    pub filename: String,
+    pub case_sensitive: bool,
+}
+
+impl Config {
+    pub fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("参数不够");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+
+        Ok(Config {
+            query,
+            filename,
+            case_sensitive,
+        })
+    }
+}
+
+pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
+    let contents = fs::read_to_string(config.filename)?;
+
+    // println!("文件内容: \n{}", contents);
+
+    let results = if config.case_sensitive {
+        search(&config.query, &contents)
+    } else {
+        search_case_insensitive(&config.query, &contents)
+    };
+
+    for line in results {
+        println!("{}", line);
+    }
+
+    Ok(())
+}
+
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+    let query = query.to_lowercase();
+
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        // 这告诉 Rust 不要在字符串字面值内容的开头加入换行符
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+
+    #[test]
+    fn case_sensitive() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Duct tape.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+
+    #[test]
+    fn case_insensitive() {
+        let query = "rUsT";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Trust me.";
+
+        assert_eq!(
+            vec!["Rust:", "Trust me."],
+            search_case_insensitive(query, contents)
+        );
+    }
+}
+
+```
+
+```rust
+// src/main.rs
+
+use std::env;
+use std::process;
+
+use minigrep::run;
+use minigrep::Config;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("解析参数错误: {}", err);
+        process::exit(1);
+    });
+
+    println!("{:?}", args);
+    println!("搜索的字符串为: {}", config.query);
+    println!("搜索的文件: {} ", config.filename);
+
+    if let Err(e) = run(config) {
+        println!("程序错误: {}", e);
+        process::exit(1);
+    }
+}
+
+```
+
+## 输出重定向到标准错误
+
+**版本10:**
+
+```rust
+// src/main.rs
+
+use std::env;
+use std::process;
+
+use minigrep::run;
+use minigrep::Config;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        eprintln!("解析参数错误: {}", err);
+        process::exit(1);
+    });
+
+    // println!("{:?}", args);
+    // println!("搜索的字符串为: {}", config.query);
+    // println!("搜索的文件: {} ", config.filename);
+
+    if let Err(e) = run(config) {
+        eprintln!("程序错误: {}", e);
+        process::exit(1);
+    }
+}
+```
