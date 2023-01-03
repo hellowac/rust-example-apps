@@ -1,0 +1,958 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>迭代器与闭包 - 我的rust学习示例APPS</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="我的rust学习示例APPS" class="md-header__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            我的rust学习示例APPS
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              迭代器与闭包
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="我的rust学习示例APPS" class="md-nav__button md-logo" aria-label="我的rust学习示例APPS" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    我的rust学习示例APPS
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        简介
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-world/" class="md-nav__link">
+        hello world
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hello-cargo/" class="md-nav__link">
+        Hello Cargo
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guessing-game/" class="md-nav__link">
+        猜数游戏
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-programing-concepts/" class="md-nav__link">
+        常见编程概念
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ownership/" class="md-nav__link">
+        所有权
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../struct/" class="md-nav__link">
+        结构体
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../enumerations/" class="md-nav__link">
+        枚举
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packages/" class="md-nav__link">
+        包、crate、模块
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common-collections/" class="md-nav__link">
+        常见集合
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../error-handing/" class="md-nav__link">
+        错误处理
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generics/" class="md-nav__link">
+        泛型/Trait/生命周期
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        编写测试
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../an-io-project/" class="md-nav__link">
+        构建一个命令行程序
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          迭代器与闭包
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        迭代器与闭包
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    闭包
+  </a>
+  
+    <nav class="md-nav" aria-label="闭包">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    使用闭包创建行为的抽象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    使用函数重构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    重构 - 使用闭包储存代码
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    闭包 - 类型推断和注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fn-trait" class="md-nav__link">
+    使用带有泛型和 Fn trait 的闭包
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cacher" class="md-nav__link">
+    Cacher 实现的限制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    针对问题2的完善
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    闭包
+  </a>
+  
+    <nav class="md-nav" aria-label="闭包">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    使用闭包创建行为的抽象
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    使用函数重构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    重构 - 使用闭包储存代码
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-_1" class="md-nav__link">
+    闭包 - 类型推断和注解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fn-trait" class="md-nav__link">
+    使用带有泛型和 Fn trait 的闭包
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cacher" class="md-nav__link">
+    Cacher 实现的限制
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    针对问题2的完善
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">迭代器与闭包</h1>
+<h2 id="_2">闭包</h2>
+<h3 id="_3">使用闭包创建行为的抽象</h3>
+<p>版本1:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/main.rs</span>
+
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">thread</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">time</span>::<span class="n">Duration</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">simulated_expensive_calculation</span><span class="p">(</span><span class="n">intensity</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;慢慢计算...&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">thread</span>::<span class="n">sleep</span><span class="p">(</span><span class="n">Duration</span>::<span class="n">from_secs</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="n">intensity</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">simulated_user_specified_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">simulated_random_number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">generate_workout</span><span class="p">(</span><span class="n">simulated_user_specified_value</span><span class="p">,</span><span class="w"> </span><span class="n">simulated_random_number</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">generate_workout</span><span class="p">(</span><span class="n">intensity</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">intensity</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="s">&quot;今天, 做 {} 个俯卧撑!&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">simulated_expensive_calculation</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="s">&quot;下一步，做 {} 个仰卧起坐！&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">simulated_expensive_calculation</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">random_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天休息一下！ 记得保持水分！&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="w"></span>
+<span class="w">                </span><span class="s">&quot;今天，跑 {} 分钟！&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">                </span><span class="n">simulated_expensive_calculation</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="_4">使用函数重构</h3>
+<p>将重复的 <strong>simulated_expensive_calculation</strong> 函数调用提取到一个变量中</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/main.rs</span>
+
+<span class="c1">// snap....</span>
+<span class="k">fn</span> <span class="nf">generate_workout</span><span class="p">(</span><span class="n">intensity</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">expensive_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">simulated_expensive_calculation</span><span class="p">(</span><span class="n">intensity</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">intensity</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天, 做 {} 个俯卧撑!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_result</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;下一步，做 {} 个仰卧起坐！&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_result</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">random_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天休息一下！ 记得保持水分！&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天，跑 {} 分钟！&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_result</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="-">重构 - 使用闭包储存代码</h3>
+<p><strong>闭包不要求像 <code>fn</code> 函数那样在参数和返回值上注明类型。</strong>
+函数中需要类型注解是因为他们是暴露给用户的显式接口的一部分。
+严格的定义这些接口对于保证所有人都认同函数使用和返回值的类型来说是很重要的。
+但是闭包并不用于这样暴露在外的接口：他们储存在变量中并被使用，不用命名他们或暴露给库的用户调用。</p>
+<p>闭包通常很短，并只关联于小范围的上下文而非任意情境。
+在这些有限制的上下文中，编译器能可靠的推断参数和返回值的类型，类似于它是如何能够推断大部分变量的类型一样。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// src/main.rs</span>
+
+<span class="c1">// snap....</span>
+<span class="k">fn</span> <span class="nf">generate_workout</span><span class="p">(</span><span class="n">intensity</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// 闭包重构代码</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">expensive_closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">num</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;慢慢计算...&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">thread</span>::<span class="n">sleep</span><span class="p">(</span><span class="n">Duration</span>::<span class="n">from_secs</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">num</span><span class="w"></span>
+<span class="w">    </span><span class="p">};</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">intensity</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天, 做 {} 个俯卧撑!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_closure</span><span class="p">(</span><span class="n">intensity</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;下一步，做 {} 个仰卧起坐！&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_closure</span><span class="p">(</span><span class="n">intensity</span><span class="p">));</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">random_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天休息一下！ 记得保持水分！&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天，跑 {} 分钟！&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_closure</span><span class="p">(</span><span class="n">intensity</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="-_1">闭包 - 类型推断和注解</h3>
+<p><strong>有了类型注解闭包的语法就更类似函数了。</strong>
+如下是一个对其参数加一的函数的定义与拥有相同行为闭包语法的纵向对比。
+这里增加了一些空格来对齐相应部分。
+这展示了闭包语法如何类似于函数语法，除了使用竖线而不是括号以及几个可选的语法之外：</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span>  <span class="nf">add_one_v1</span><span class="w">   </span><span class="p">(</span><span class="n">x</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">}</span><span class="w">      </span><span class="c1">// 展示了一个函数定义</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">add_one_v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">x</span>: <span class="kt">u32</span><span class="o">|</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">};</span><span class="w">     </span><span class="c1">// 展示了一个完整标注的闭包定义</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">add_one_v3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">x</span><span class="o">|</span><span class="w">             </span><span class="p">{</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">};</span><span class="w">     </span><span class="c1">// 定义中省略了类型注解</span>
+<span class="kd">let</span><span class="w"> </span><span class="n">add_one_v4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">x</span><span class="o">|</span><span class="w">               </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w">  </span><span class="p">;</span><span class="w">     </span><span class="c1">// 去掉了可选的大括号，因为闭包体只有一行</span>
+</code></pre></div>
+<p>调用闭包是 <code>add_one_v3</code> 和 <code>add_one_v4</code> 能够编译的必要条件，因为类型将从其用法中推断出来。</p>
+<p><strong>闭包定义会为每个参数和返回值推断一个具体类型。</strong> <ins class="critic">如果尝试调用闭包两次，第一次使用 <code>String</code> 类型作为参数而第二次使用 <code>u32</code>，则会得到一个错误：</ins></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 尝试调用一个被推断为两个不同类型的闭包</span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">example_closure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">x</span><span class="o">|</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">example_closure</span><span class="p">(</span><span class="nb">String</span>::<span class="n">from</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// 用法为String</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">example_closure</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w">                     </span><span class="c1">// 用法为u32</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="fn-trait">使用带有泛型和 Fn trait 的闭包</h3>
+<p>可以创建一个存放闭包和调用闭包结果的结构体。该结构体只会在需要结果时执行闭包，并会缓存结果值，这样余下的代码就不必再负责保存结果并可以复用该值。你可能见过这种模式被称 <em>memoization</em> 或 <em>lazy evaluation</em> （惰性求值）。</p>
+<p>为了让结构体存放闭包，我们需要指定闭包的类型，因为结构体定义需要知道其每一个字段的类型。每一个闭包实例有其自己独有的匿名类型：也就是说，即便两个闭包有着相同的签名，他们的类型仍然可以被认为是不同。为了定义使用闭包的结构体、枚举或函数参数，需要像第十章讨论的那样使用泛型和 <strong>trait bound</strong>。</p>
+<p><strong>Fn</strong> 系列 <strong>trait</strong> 由标准库提供。所有的闭包都实现了 <strong>trait Fn</strong>、<strong>FnMut</strong> 或 <strong>FnOnce</strong> 中的一个。在 “闭包会捕获其环境” 部分我们会讨论这些 <strong>trait</strong> 的区别；在这个例子中可以使用 <strong>Fn trait</strong>。</p>
+<p>为了满足 <strong>Fn trait bound</strong> 我们增加了代表闭包所必须的参数和返回值类型的类型。在这个例子中，闭包有一个 <code>u32</code> 的参数并返回一个 <code>u32</code>，这样所指定的 <strong>trait bound</strong> 就是 <code>Fn(u32) -&gt; u32</code>。</p>
+<p>示例展示了存放了闭包和一个 <strong>Option</strong> 结果值的 <strong>Cacher</strong> 结构体的定义：</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 定义一个 Cacher 结构体来在 calculation 中存放闭包并在 value 中存放 Option 值</span>
+<span class="k">struct</span> <span class="nc">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">where</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span>: <span class="nb">Fn</span><span class="p">(</span><span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">calculation</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">value</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>结构体 <strong>Cacher</strong> 有一个泛型 <code>T</code> 的字段 <strong>calculation</strong>。
+<code>T</code> 的 <strong>trait bound</strong> 指定了 <code>T</code> 是一个使用 <strong>Fn</strong> 的闭包。
+任何我们希望储存到 <strong>Cacher</strong> 实例的 <strong>calculation</strong> 字段的闭包必须有一个 <code>u32</code> 参数（由 <strong>Fn</strong> 之后的括号的内容指定）并必须返回一个 <strong>u32</strong>（由 <code>-&gt;</code> 之后的内容）。</p>
+<blockquote>
+<p><strong>注意</strong>：</p>
+<p>函数也都实现了这三个 <strong>Fn trait</strong>。如果不需要捕获环境中的值，则可以使用实现了 <strong>Fn trait</strong> 的函数而不是闭包。</p>
+</blockquote>
+<p>字段 <strong>value</strong> 是 <strong>Option&lt;u32></strong> 类型的。在执行闭包之前，<strong>value</strong> 将是 <strong>None</strong>。如果使用 <strong>Cacher</strong> 的代码请求闭包的结果，这时会执行闭包并将结果储存在 <strong>value</strong> 字段的 <strong>Some</strong> 成员中。接着如果代码再次请求闭包的结果，这时不再执行闭包，而是会返回存放在 <strong>Some</strong> 成员中的结果。</p>
+<p>刚才讨论的有关 value 字段逻辑定义于示例：</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">where</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span>: <span class="nb">Fn</span><span class="p">(</span><span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">calculation</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">value</span>: <span class="nb">Option</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">,</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">impl</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">where</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span>: <span class="nb">Fn</span><span class="p">(</span><span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">calculation</span>: <span class="nc">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Cacher</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">calculation</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">value</span>: <span class="nb">None</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">value</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">match</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nb">Some</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nb">None</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">calculation</span><span class="p">)(</span><span class="n">arg</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="bp">self</span><span class="p">.</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">v</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">v</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p><strong>Cacher</strong> 结构体的字段是私有的，因为我们希望 <strong>Cacher</strong> 管理这些值而不是任由调用代码潜在的直接改变他们。</p>
+<p>当调用代码需要闭包的执行结果时，不同于直接调用闭包，它会调用 <strong>value</strong> 方法。
+这个方法会检查 <strong>self.value</strong> 是否已经有了一个 <strong>Some</strong> 的结果值；
+如果有，它返回 <strong>Some</strong> 中的值并不会再次执行闭包。</p>
+<p>如果 <strong>self.value</strong> 是 <strong>None</strong>，则会调用 <strong>self.calculation</strong> 中储存的闭包，将结果保存到 <strong>self.value</strong> 以便将来使用，并同时返回结果值。</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// snap...</span>
+<span class="k">fn</span> <span class="nf">generate_workout</span><span class="p">(</span><span class="n">intensity</span>: <span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="n">random_number</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">expensive_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cacher</span>::<span class="n">new</span><span class="p">(</span><span class="o">|</span><span class="n">num</span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;慢慢计算...&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">thread</span>::<span class="n">sleep</span><span class="p">(</span><span class="n">Duration</span>::<span class="n">from_secs</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">num</span><span class="w"></span>
+<span class="w">    </span><span class="p">});</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">intensity</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">25</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天, 做 {} 个俯卧撑!&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_result</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="n">intensity</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="s">&quot;下一步，做 {} 个仰卧起坐！&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">expensive_result</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="n">intensity</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">random_number</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天休息一下！ 记得保持水分！&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;今天，跑 {} 分钟！&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expensive_result</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="n">intensity</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>不同于直接将闭包保存进一个变量，我们保存一个新的 <strong>Cacher</strong> 实例来存放闭包。接着，在每一个需要结果的地方，调用 <strong>Cacher</strong> 实例的 <strong>value</strong> 方法。可以调用 <strong>value</strong> 方法任意多次，或者一次也不调用，而慢计算最多只会运行一次。</p>
+<h3 id="cacher">Cacher 实现的限制</h3>
+<p>值缓存是一种更加广泛的实用行为，我们可能希望在代码中的其他闭包中也使用他们。然而，目前 <strong>Cacher</strong> 的实现存在两个小问题，这使得在不同上下文中复用变得很困难。</p>
+<p>第一个问题是 <strong>Cacher</strong> 实例假设对于 <strong>value</strong> 方法的任何 <strong>arg</strong> 参数值总是会返回相同的值。也就是说，这个 <strong>Cacher</strong> 的测试会失败：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[cfg(test)]</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">tests</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">use</span><span class="w"> </span><span class="k">super</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">    </span><span class="cp">#[test]</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">call_with_different_values</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cacher</span>::<span class="n">new</span><span class="p">(</span><span class="o">|</span><span class="n">a</span><span class="o">|</span><span class="w"> </span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>这个测试使用返回传递给它的值的闭包创建了一个新的 <strong>Cacher</strong> 实例。使用为 <code>1</code> 的 <strong>arg</strong> 和为 <code>2</code> 的 <strong>arg</strong> 调用 <strong>Cacher</strong> 实例的 <strong>value</strong> 方法，同时我们期望使用为 <code>2</code> 的 <strong>arg</strong> 调用 <strong>value</strong> 会返回 <code>2</code>。</p>
+<p>使用示例的 <strong>Cacher</strong> 实现运行测试，它会在 <strong>assert_eq!</strong> 失败并显示如下信息：</p>
+<div class="highlight"><pre><span></span><code>$ cargo <span class="nb">test</span>
+   Compiling cacher v0.1.0 <span class="o">(</span>file:///projects/cacher<span class="o">)</span>
+    Finished <span class="nb">test</span> <span class="o">[</span>unoptimized + debuginfo<span class="o">]</span> target<span class="o">(</span>s<span class="o">)</span> <span class="k">in</span> <span class="m">0</span>.72s
+     Running unittests <span class="o">(</span>target/debug/deps/cacher-074d7c200c000afa<span class="o">)</span>
+
+running <span class="m">1</span> <span class="nb">test</span>
+<span class="nb">test</span> tests::call_with_different_values ... FAILED
+
+failures:
+
+---- tests::call_with_different_values stdout ----
+thread <span class="s1">&#39;main&#39;</span> panicked at <span class="s1">&#39;assertion failed: `(left == right)`</span>
+<span class="s1">  left: `1`,</span>
+<span class="s1"> right: `2`&#39;</span>, src/lib.rs:43:9
+note: run with <span class="sb">`</span><span class="nv">RUST_BACKTRACE</span><span class="o">=</span><span class="m">1</span><span class="sb">`</span> environment variable to display a backtrace
+
+
+failures:
+    tests::call_with_different_values
+
+<span class="nb">test</span> result: FAILED. <span class="m">0</span> passed<span class="p">;</span> <span class="m">1</span> failed<span class="p">;</span> <span class="m">0</span> ignored<span class="p">;</span> <span class="m">0</span> measured<span class="p">;</span> <span class="m">0</span> filtered out<span class="p">;</span> finished <span class="k">in</span> <span class="m">0</span>.00s
+
+error: <span class="nb">test</span> failed, to rerun pass <span class="s1">&#39;--lib&#39;</span>
+</code></pre></div>
+<p>这里的问题是第一次使用 <code>1</code> 调用 <code>c.value</code>，<strong>Cacher</strong> 实例将 <strong>Some(1)</strong> 保存进 <strong>self.value</strong>。在这之后，无论传递什么值调用 <strong>value</strong>，它总是会返回 <strong>1</strong>。</p>
+<p>尝试修改 <strong>Cacher</strong> 存放一个哈希 <strong>map</strong> 而不是单独一个值。哈希 <strong>map</strong> 的 <strong>key</strong> 将是传递进来的 <strong>arg</strong> 值，而 <strong>value</strong> 则是对应 <strong>key</strong> 调用闭包的结果值。相比之前检查 <strong>self.value</strong> 直接是 <strong>Some</strong> 还是 <strong>None</strong> 值，现在 <strong>value</strong> 函数会在哈希 <strong>map</strong> 中寻找 <strong>arg</strong>，如果找到的话就返回其对应的值。如果不存在，<strong>Cacher</strong> 会调用闭包并将结果值保存在哈希 <strong>map</strong> 对应 <strong>arg</strong> 值的位置。</p>
+<p>当前 <strong>Cacher</strong> 实现的第二个问题是它的应用被限制为只接受获取一个 <strong>u32</strong> 值并返回一个 <strong>u32</strong> 值的闭包。比如说，我们可能需要能够缓存一个获取字符串 <strong>slice</strong> 并返回 <strong>usize</strong> 值的闭包的结果。请尝试引入更多泛型参数来增加 <strong>Cacher</strong> 功能的灵活性。</p>
+<h3 id="2">针对问题2的完善</h3>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">collections</span>::<span class="n">HashMap</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">struct</span> <span class="nc">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">where</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span>: <span class="nb">Fn</span><span class="p">(</span><span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">calculation</span>: <span class="nc">T</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">map</span>: <span class="nc">HashMap</span><span class="o">&lt;</span><span class="kt">u32</span><span class="p">,</span><span class="w"> </span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">,</span><span class="w">  </span><span class="c1">// 使用hash map 存储</span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="k">impl</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">where</span><span class="w"></span>
+<span class="w">    </span><span class="n">T</span>: <span class="nb">Fn</span><span class="p">(</span><span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span><span class="p">,</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">calculation</span>: <span class="nc">T</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Cacher</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Cacher</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">calculation</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="n">map</span>: <span class="nc">HashMap</span>::<span class="n">new</span><span class="p">(),</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">fn</span> <span class="nf">value</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">arg</span>: <span class="kt">u32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u32</span> <span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">arg</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="o">*</span><span class="n">v</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">calculation</span><span class="p">)(</span><span class="n">arg</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="bp">self</span><span class="p">.</span><span class="n">map</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="n">v</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// 测试可以通过</span>
+<span class="cp">#[test]</span><span class="w"></span>
+<span class="k">fn</span> <span class="nf">call_with_different_values</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cacher</span>::<span class="n">new</span><span class="p">(</span><span class="o">|</span><span class="n">a</span><span class="o">|</span><span class="w"> </span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="n">value</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="fm">assert_eq!</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="页脚" >
+      
+        
+        <a href="../an-io-project/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 构建一个命令行程序" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              构建一个命令行程序
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\uff0c\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version.title": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
