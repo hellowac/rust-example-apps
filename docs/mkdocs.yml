@@ -22,3 +22,4 @@ nav:
   - 'generics.md'
   - 'testing.md'
   - 'an-io-project.md'
+  - 'closures.md'
