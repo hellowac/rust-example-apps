@@ -1,5 +1,4 @@
 use std::env;
-use std::env::Args;
 use std::error::Error;
 use std::fs;
 
@@ -10,17 +9,13 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(mut args: Args) -> Result<Config, &'static str> {
-        args.next(); // 第一个迭代的为程序的名字
+    pub fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("参数不够");
+        }
 
-        let query = match args.next() {
-            Some(v) => v,
-            None => return Err("未获取到需要搜索的字符串"),
-        };
-        let filename = match args.next() {
-            Some(v) => v,
-            None => return Err("未获取到需要搜索的文件名"),
-        };
+        let query = args[1].clone();
+        let filename = args[2].clone();
 
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
 
@@ -40,7 +35,6 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let results = if config.case_sensitive {
         search(&config.query, &contents)
     } else {
-        // 忽略大小写搜索
         search_case_insensitive(&config.query, &contents)
     };
 
@@ -52,21 +46,28 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    // 使用迭代器版本
-    contents
-        .lines()
-        .filter(|line| line.contains(query))
-        .collect()
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
     let query = query.to_lowercase();
-    // 使用迭代器版本
 
-    contents
-        .lines()
-        .filter(|line| line.to_lowercase().contains(&query))
-        .collect()
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            results.push(line);
+        }
+    }
+
+    results
 }
 
 #[cfg(test)]
