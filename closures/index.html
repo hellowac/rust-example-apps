@@ -629,10 +629,32 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    总结
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more-about-cargo/" class="md-nav__link">
+        Cargo 和 Cargo.io
+      </a>
     </li>
   
 
@@ -864,6 +886,13 @@
         <li class="md-nav__item">
   <a href="#-_2" class="md-nav__link">
     性能比较-循环和迭代器
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    总结
   </a>
   
 </li>
@@ -1677,6 +1706,39 @@ warning: <span class="sb">`</span>iterators<span class="sb">`</span> <span class
 <span class="p">}</span><span class="w"></span>
 </code></pre></div>
 <h2 id="-_2">性能比较-循环和迭代器</h2>
+<p>为了决定使用哪个实现，我们需要知道哪个版本的 <code>search</code> 函数更快一些：是直接使用 <strong>for</strong> 循环的版本还是使用迭代器的版本。</p>
+<p>我们运行了一个性能测试，通过将阿瑟·柯南·道尔的“福尔摩斯探案集”的全部内容加载进 <strong>String</strong> 并寻找其中的单词 “the”。如下是 <strong>for</strong> 循环版本和迭代器版本的 <strong>search</strong> 函数的性能测试结果：</p>
+<div class="highlight"><pre><span></span><code><span class="n">test</span><span class="w"> </span><span class="n">bench_search_for</span><span class="w">  </span><span class="o">..</span><span class="p">.</span><span class="w"> </span><span class="n">bench</span>:  <span class="mi">19</span><span class="p">,</span><span class="mi">620</span><span class="p">,</span><span class="mi">300</span><span class="w"> </span><span class="n">ns</span><span class="o">/</span><span class="n">iter</span><span class="w"> </span><span class="p">(</span><span class="o">+/-</span><span class="w"> </span><span class="mi">915</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span><span class="w"></span>
+<span class="n">test</span><span class="w"> </span><span class="n">bench_search_iter</span><span class="w"> </span><span class="o">..</span><span class="p">.</span><span class="w"> </span><span class="n">bench</span>:  <span class="mi">19</span><span class="p">,</span><span class="mi">234</span><span class="p">,</span><span class="mi">900</span><span class="w"> </span><span class="n">ns</span><span class="o">/</span><span class="n">iter</span><span class="w"> </span><span class="p">(</span><span class="o">+/-</span><span class="w"> </span><span class="mi">657</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span><span class="w"></span>
+</code></pre></div>
+<p>结果迭代器版本还要稍微快一点！这里我们将不会查看性能测试的代码，我们的目的并不是为了证明他们是完全等同的，而是得出一个怎样比较这两种实现方式性能的基本思路。</p>
+<p>对于一个更全面的性能测试，将会检查不同长度的文本、不同的搜索单词、不同长度的单词和所有其他的可变情况。这里所要表达的是：<strong>迭代器，作为一个高级的抽象，被编译成了与手写的底层代码大体一致性能代码。</strong>迭代器是 Rust 的 <strong>零成本抽象</strong>（zero-cost abstractions）之一，它<strong>意味着抽象并不会引入运行时开销</strong>，它与本贾尼·斯特劳斯特卢普（C++ 的设计和实现者）在 “Foundations of C++”（2012） 中所定义的 <strong>零开销</strong>（zero-overhead）如出一辙：</p>
+<blockquote>
+<p>In general, C++ implementations obey the zero-overhead principle: What you don’t use, you don’t pay for. And further: What you do use, you couldn’t hand code any better.</p>
+<p>- Bjarne Stroustrup "Foundations of C++"</p>
+<p>从整体来说，C++ 的实现遵循了零开销原则：你不需要的，无需为他们买单。更有甚者的是：你需要的时候，也不可能找到其他更好的代码了。</p>
+<p>- 本贾尼·斯特劳斯特卢普 "Foundations of C++"</p>
+</blockquote>
+<p>作为另一个例子，这里有一些取自于音频解码器的代码。解码算法使用<strong>线性预测数学运算</strong>（linear prediction mathematical operation）来根据之前样本的线性函数预测将来的值。这些代码使用迭代器链来对作用域中的三个变量进行了某种数学计算：一个叫 <strong>buffer</strong> 的数据 <strong>slice</strong>、一个有 <strong>12</strong> 个元素的数组 <strong>coefficients</strong>、和一个代表位移位数的 <strong>qlp_shift</strong>。例子中声明了这些变量但并没有提供任何值；虽然这些代码在其上下文之外没有什么意义，不过仍是一个简明的现实中的例子，来展示 Rust 如何将高级概念转换为底层代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="n">buffer</span>: <span class="kp">&amp;</span><span class="nc">mut</span><span class="w"> </span><span class="p">[</span><span class="kt">i32</span><span class="p">];</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">coefficients</span>: <span class="p">[</span><span class="kt">i64</span><span class="p">;</span><span class="w"> </span><span class="mi">12</span><span class="p">];</span><span class="w"></span>
+<span class="kd">let</span><span class="w"> </span><span class="n">qlp_shift</span>: <span class="kt">i16</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">12</span><span class="o">..</span><span class="n">buffer</span><span class="p">.</span><span class="n">len</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">prediction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">coefficients</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span><span class="w"></span>
+<span class="w">                                 </span><span class="p">.</span><span class="n">zip</span><span class="p">(</span><span class="o">&amp;</span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">12</span><span class="o">..</span><span class="n">i</span><span class="p">])</span><span class="w"></span>
+<span class="w">                                 </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="p">(</span><span class="o">&amp;</span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">)</span><span class="o">|</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i64</span><span class="p">)</span><span class="w"></span>
+<span class="w">                                 </span><span class="p">.</span><span class="n">sum</span>::<span class="o">&lt;</span><span class="kt">i64</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">qlp_shift</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
+<span class="w">    </span><span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prediction</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="kt">i32</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delta</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>为了计算 <strong>prediction</strong> 的值，这些代码遍历了 <strong>coefficients</strong> 中的 12 个值，使用 <strong>zip</strong> 方法将系数与 <strong>buffer</strong> 的前 12 个值组合在一起。接着将每一对值相乘，再将所有结果相加，然后将总和右移 <strong>qlp_shift</strong> 位。</p>
+<p>像音频解码器这样的程序通常最看重<strong>计算的性能</strong>。这里，我们创建了一个迭代器，使用了两个适配器，接着消费了其值。Rust 代码将会被编译为什么样的汇编代码呢？好吧，在编写本书的这个时候，<strong>它被编译成与手写的相同的汇编代码</strong>。遍历 <strong>coefficients</strong> 的值完全用不到循环：Rust 知道这里会迭代 <strong>12</strong> 次，所以它“<strong>展开</strong>”（unroll）了循环。展开是一种移除循环控制代码的开销并替换为每个迭代中的重复代码的优化。</p>
+<p><ins class="critic">所有的系数都被储存在了寄存器中，这意味着访问他们非常快。这里也没有运行时数组访问边界检查。</ins>所有这些 Rust 能够提供的优化使得结果代码极为高效。现在知道这些了，请放心大胆的使用迭代器和闭包吧！他们使得代码看起来更高级，但并不为此引入运行时性能损失。</p>
+<h2 id="_13">总结</h2>
+<p><strong>闭包和迭代器是 Rust 受函数式编程语言观念所启发的功能。</strong>他们对 Rust 以底层的性能来明确的表达高级概念的能力有很大贡献。闭包和迭代器的实现达到了不影响运行时性能的程度。这正是 Rust 竭力提供零成本抽象的目标的一部分。</p>
+<p>现在我们改进了我们 I/O 项目的（代码）表现力，让我们看一看更多 <strong>cargo</strong> 的功能，他们将帮助我们准备好将项目分享给世界。</p>
 
 
 
@@ -1711,6 +1773,21 @@ warning: <span class="sb">`</span>iterators<span class="sb">`</span> <span class
           </div>
         </a>
       
+      
+        
+        <a href="../more-about-cargo/" class="md-footer__link md-footer__link--next" aria-label="下一页: Cargo 和 Cargo.io" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              Cargo 和 Cargo.io
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
