@@ -24,3 +24,4 @@ nav:
   - 'an-io-project.md'
   - 'closures.md'
   - 'more-about-cargo.md'
+  - 'smart-pointers.md'
